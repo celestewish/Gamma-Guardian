@@ -72,7 +72,7 @@ public class BacteriaAI : MonoBehaviour
         else if (collision.gameObject.CompareTag("Body"))
         {
             // System for when attacking the body goes here
-            Destroy(gameObject);
+            BacteriaManager.Instance.ReleaseTarget(currentBodyTarget);
         }
     }
 }
