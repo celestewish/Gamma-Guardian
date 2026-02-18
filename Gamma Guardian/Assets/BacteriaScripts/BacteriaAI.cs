@@ -2,35 +2,75 @@ using UnityEngine;
 
 public class BacteriaAI : MonoBehaviour
 {
+    [Header("Chase Settings")]
     public float moveSpeed = 2f;
-    public float attackDamage = 10f;
     public float detectionRange = 10f;
-    public float retargetTime = 5f;
+    public float retargetTime = 3f;
+    public float attackDamage = 10f;
+
+    [Header("Wander Settings")]
+    public float wanderSpeed = 1.5f;
+    public float wanderChangeInterval = 2f;
 
     private Transform target;
     private Rigidbody2D rb;
     private float targetTimer;
     private GameObject currentBodyTarget;
+    private Vector2 wanderDirection;
+    private float wanderTimer;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        FindLeastTargetedBody();
+        PickNewWanderDirection();
+        wanderTimer = wanderChangeInterval;
     }
 
     void Update()
     {
+        DetectAndAssignBodyTarget();
+
         if (target == null)
         {
-            FindLeastTargetedBody();
-            return;
+            Wander();
         }
+        else
+        {
+            ChaseTarget();
+        }
+    }
+
+    // Picks a new random direction for wandering movement
+    void Wander()
+    {
+        wanderTimer -= Time.deltaTime;
+        if (wanderTimer <= 0f)
+        {
+            PickNewWanderDirection();
+            wanderTimer = wanderChangeInterval;
+        }
+
+        rb.linearVelocity = wanderDirection * wanderSpeed;
+    }
+
+    // Generates a random normalized direction vector for wandering
+    void PickNewWanderDirection()
+    {
+        float angle = Random.Range(0f, 360f);
+        float rad = angle * Mathf.Deg2Rad;
+        wanderDirection = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)).normalized;
+    }
+
+    // Moves toward assigned body target, releases if timer expires or lost
+    void ChaseTarget()
+    {
+        if (target == null) return;
 
         targetTimer -= Time.deltaTime;
         if (targetTimer <= 0f)
         {
-            BacteriaManager.Instance.ReleaseTarget(currentBodyTarget);
-            FindLeastTargetedBody();
+            ReleaseCurrentTarget();
+            return;
         }
 
         float distance = Vector2.Distance(transform.position, target.position);
@@ -41,18 +81,49 @@ public class BacteriaAI : MonoBehaviour
         }
         else
         {
-            rb.linearVelocity = Vector2.zero;
+            ReleaseCurrentTarget();
         }
     }
 
-    void FindLeastTargetedBody()
+    // Scans scene for nearby bodies and assigns least-targeted one via manager
+    void DetectAndAssignBodyTarget()
     {
-        currentBodyTarget = BacteriaManager.Instance.GetLeastTargetedBody();
+        if (target != null) return;
+
+        GameObject[] bodies = GameObject.FindGameObjectsWithTag("Body");
+        GameObject closest = null;
+        float closestDist = detectionRange;
+
+        foreach (GameObject body in bodies)
+        {
+            float d = Vector2.Distance(transform.position, body.transform.position);
+            if (d < closestDist)
+            {
+                closestDist = d;
+                closest = body;
+            }
+        }
+
+        if (closest != null)
+        {
+            currentBodyTarget = BacteriaManager.Instance.GetLeastTargetedBody();
+            if (currentBodyTarget != null)
+            {
+                target = currentBodyTarget.transform;
+                targetTimer = retargetTime;
+            }
+        }
+    }
+
+    // Releases current target from manager tracking
+    void ReleaseCurrentTarget()
+    {
         if (currentBodyTarget != null)
         {
-            target = currentBodyTarget.transform;
-            targetTimer = retargetTime;
+            BacteriaManager.Instance.ReleaseTarget(currentBodyTarget);
+            currentBodyTarget = null;
         }
+        target = null;
     }
 
     void OnDestroy()
@@ -71,9 +142,7 @@ public class BacteriaAI : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Body"))
         {
-            // System for when attacking the body goes here
-            BacteriaManager.Instance.ReleaseTarget(currentBodyTarget);
+            // Attack logic here
         }
     }
 }
-

@@ -19,7 +19,7 @@ public class BacteriaManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+    // Looks for body part that has the least bacteria on it
     public GameObject GetLeastTargetedBody()
     {
         GameObject[] bodies = GameObject.FindGameObjectsWithTag("Body");
@@ -43,7 +43,7 @@ public class BacteriaManager : MonoBehaviour
 
         return bestTarget;
     }
-
+    //Removes the body part from the targeted dict
     public void ReleaseTarget(GameObject body)
     {
         if (targetCounts.ContainsKey(body))
