@@ -230,6 +230,9 @@ MonoBehaviour:
   attackDamage: 10
   wanderSpeed: 1.5
   wanderChangeInterval: 2
+  bodyLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!212 &133989752
 SpriteRenderer:
   serializedVersion: 2
@@ -315,7 +318,7 @@ GameObject:
   - component: {fileID: 212131666}
   - component: {fileID: 212131665}
   - component: {fileID: 212131664}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Body (3)
   m_TagString: Body
   m_Icon: {fileID: 0}
@@ -597,6 +600,9 @@ MonoBehaviour:
   attackDamage: 10
   wanderSpeed: 1.5
   wanderChangeInterval: 2
+  bodyLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!212 &466978345
 SpriteRenderer:
   serializedVersion: 2
@@ -1003,6 +1009,9 @@ MonoBehaviour:
   attackDamage: 10
   wanderSpeed: 1.5
   wanderChangeInterval: 2
+  bodyLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!212 &763914545
 SpriteRenderer:
   serializedVersion: 2
@@ -1088,7 +1097,7 @@ GameObject:
   - component: {fileID: 925773634}
   - component: {fileID: 925773633}
   - component: {fileID: 925773632}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Body (1)
   m_TagString: Body
   m_Icon: {fileID: 0}
@@ -1226,7 +1235,7 @@ GameObject:
   - component: {fileID: 1077083769}
   - component: {fileID: 1077083768}
   - component: {fileID: 1077083770}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Body
   m_TagString: Body
   m_Icon: {fileID: 0}
@@ -1502,6 +1511,9 @@ MonoBehaviour:
   attackDamage: 10
   wanderSpeed: 1.5
   wanderChangeInterval: 2
+  bodyLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!50 &1462927681
 Rigidbody2D:
   serializedVersion: 5
@@ -1686,6 +1698,9 @@ MonoBehaviour:
   attackDamage: 10
   wanderSpeed: 1.5
   wanderChangeInterval: 2
+  bodyLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!212 &1564745065
 SpriteRenderer:
   serializedVersion: 2
@@ -1806,7 +1821,7 @@ GameObject:
   - component: {fileID: 1756777095}
   - component: {fileID: 1756777094}
   - component: {fileID: 1756777093}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Body (2)
   m_TagString: Body
   m_Icon: {fileID: 0}
@@ -2044,6 +2059,9 @@ MonoBehaviour:
   attackDamage: 10
   wanderSpeed: 1.5
   wanderChangeInterval: 2
+  bodyLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!212 &1979336055
 SpriteRenderer:
   serializedVersion: 2

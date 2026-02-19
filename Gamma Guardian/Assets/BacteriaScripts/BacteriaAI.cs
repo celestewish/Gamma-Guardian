@@ -12,12 +12,16 @@ public class BacteriaAI : MonoBehaviour
     public float wanderSpeed = 1.5f;
     public float wanderChangeInterval = 2f;
 
+    [Header("Layer Masks")]
+    [SerializeField] private LayerMask bodyLayerMask = 3;
+
     private Transform target;
     private Rigidbody2D rb;
     private float targetTimer;
     private GameObject currentBodyTarget;
     private Vector2 wanderDirection;
     private float wanderTimer;
+    private readonly Collider2D[] nearbyResults = new Collider2D[16];
 
     void Start()
     {
@@ -85,26 +89,36 @@ public class BacteriaAI : MonoBehaviour
         }
     }
 
-    // Scans scene for nearby bodies and assigns least-targeted one via manager
+    // Looks for body parts in range to attack
     void DetectAndAssignBodyTarget()
     {
         if (target != null) return;
 
-        GameObject[] bodies = GameObject.FindGameObjectsWithTag("Body");
-        GameObject closest = null;
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.useLayerMask = true;
+        filter.layerMask = bodyLayerMask;
+
+        int hitCount = Physics2D.OverlapCircle(transform.position, detectionRange,
+            filter, nearbyResults);
+
+        GameObject closestBody = null;
         float closestDist = detectionRange;
 
-        foreach (GameObject body in bodies)
+        for (int i = 0; i < hitCount; i++)
         {
-            float d = Vector2.Distance(transform.position, body.transform.position);
-            if (d < closestDist)
+            Collider2D col = nearbyResults[i];
+            if (col != null && col.CompareTag("Body"))
             {
-                closestDist = d;
-                closest = body;
+                float d = Vector2.Distance(transform.position, col.transform.position);
+                if (d < closestDist)
+                {
+                    closestDist = d;
+                    closestBody = col.gameObject;
+                }
             }
         }
 
-        if (closest != null)
+        if (closestBody != null)
         {
             currentBodyTarget = BacteriaManager.Instance.GetLeastTargetedBody();
             if (currentBodyTarget != null)
@@ -144,5 +158,12 @@ public class BacteriaAI : MonoBehaviour
         {
             // Attack logic here
         }
+    }
+
+    // Visualize detection range in Scene view
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, detectionRange);
     }
 }

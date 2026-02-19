@@ -5,6 +5,8 @@ public class BacteriaManager : MonoBehaviour
 {
     public static BacteriaManager Instance;
 
+    private GameObject[] bodies;
+
     private Dictionary<GameObject, int> targetCounts = new Dictionary<GameObject, int>();
 
     void Awake()
@@ -13,6 +15,7 @@ public class BacteriaManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            bodies = GameObject.FindGameObjectsWithTag("Body");
         }
         else
         {
@@ -22,7 +25,6 @@ public class BacteriaManager : MonoBehaviour
     // Looks for body part that has the least bacteria on it
     public GameObject GetLeastTargetedBody()
     {
-        GameObject[] bodies = GameObject.FindGameObjectsWithTag("Body");
         GameObject bestTarget = null;
         int minCount = int.MaxValue;
 
