@@ -3,26 +3,19 @@ using UnityEngine;
 public class PlayerAudioScript : MonoBehaviour
 {
     [SerializeField]
-    AudioSource audio;
+    AudioSource audioSource;
 
-    private float cooldown;
-    int dir;
+    float pitchVal;
 
-    void Start()
-    {
-        cooldown = 1f;
-        dir=1;
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        if(cooldown <= 0)
-        {
-            dir = -dir;
-            cooldown = 1;
-        }
-        cooldown-=Time.deltaTime;
-        audio.pitch = audio.pitch + dir*Time.deltaTime;
+        audioSource.pitch = pitchVal;
+        //Debug.Log("thruster sound level: "+audioSource.pitch);
+    }
+
+    public void SetPitch(float val)
+    {
+        if (val > 2) val = 2;
+        pitchVal = val + .1f; //makes it audible even when player is idle
     }
 }
