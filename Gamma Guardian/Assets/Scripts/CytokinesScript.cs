@@ -9,7 +9,7 @@ public class CytokinesScript : MonoBehaviour
 
     private Transform target;
     public GameObject immuneCell;
-    private bool activated = false;
+    public bool deactivated = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -25,9 +25,16 @@ public class CytokinesScript : MonoBehaviour
         transform.position = Vector2.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
         if (Vector2.Distance(transform.position, target.position) < nearRadius)
         {
-            if (!activated)
+            if (!deactivated)
                 Instantiate(immuneCell, transform.position, Quaternion.identity);
             Destroy(gameObject);
+        }
+    }
+    public void Deactivate()
+    {
+        if (transform.Find("Neutral") != null)
+        {
+            transform.Find("Neutral").gameObject.SetActive(true);
         }
     }
 }

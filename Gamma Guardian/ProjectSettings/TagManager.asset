@@ -9,6 +9,7 @@ TagManager:
   - Bacteria
   - ImmuneCell
   - Spawn
+  - Cytokines
   layers:
   - Default
   - TransparentFX
