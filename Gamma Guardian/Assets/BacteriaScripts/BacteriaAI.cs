@@ -22,6 +22,7 @@ public class BacteriaAI : MonoBehaviour
     private Vector2 wanderDirection;
     private float wanderTimer;
     private readonly Collider2D[] nearbyResults = new Collider2D[16];
+    private bool isDead = false;
 
     void Start()
     {
@@ -140,6 +141,19 @@ public class BacteriaAI : MonoBehaviour
         target = null;
     }
 
+    public void Die()
+    {
+        if (isDead) return;
+        isDead = true;
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnBacteriaDestroyed();
+        }
+
+        Destroy(gameObject);
+    }
+
     void OnDestroy()
     {
         if (currentBodyTarget != null)
@@ -152,7 +166,7 @@ public class BacteriaAI : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Antibacterial"))
         {
-            Destroy(gameObject);
+            Die();
         }
         else if (collision.gameObject.CompareTag("Body"))
         {
