@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Body
   - Antibacterial
+  - Bacteria
+  - ImmuneCell
+  - Spawn
+  - Cytokines
   layers:
   - Default
   - TransparentFX
@@ -13,7 +17,7 @@ TagManager:
   - Body
   - Water
   - UI
-  - 
+  - Bacteria
   - 
   - 
   - 
