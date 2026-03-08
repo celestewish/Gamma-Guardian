@@ -7,6 +7,7 @@ public class MinimapRadar : MonoBehaviour
     public Image playerDot;
     public GameObject bacteriaDotPrefab;
     public Transform player;
+    private int lastActiveDotCount = 0;
 
     [Header("Radar")]
     public float radarRadius = 100f;
@@ -44,8 +45,6 @@ public class MinimapRadar : MonoBehaviour
 
     void Update()
     {
-        if (!GameManager.Instance.levelRunning) return;
-
         UpdateBacteriaDots();
     }
 
@@ -58,6 +57,8 @@ public class MinimapRadar : MonoBehaviour
         {
             if (activeDotCount >= bacteriaDots.Length) break;
 
+            if (bacteriaAI == null) continue; // in case something was destroyed mid?frame
+
             Vector2 relativePos2D = bacteriaAI.transform.position - player.position;
             if (relativePos2D.magnitude > radarRadius) continue;
 
@@ -65,6 +66,13 @@ public class MinimapRadar : MonoBehaviour
             bacteriaDots[activeDotCount].SetPosition(uiPos);
             bacteriaDots[activeDotCount].gameObject.SetActive(true);
             activeDotCount++;
+        }
+
+        // Turn off any extra dots that are no longer used this frame
+        for (int i = activeDotCount; i < bacteriaDots.Length; i++)
+        {
+            if (bacteriaDots[i].gameObject.activeSelf)
+                bacteriaDots[i].gameObject.SetActive(false);
         }
     }
 

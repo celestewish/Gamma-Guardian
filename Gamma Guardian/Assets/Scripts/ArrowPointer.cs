@@ -74,8 +74,6 @@ public class ArrowPointer : MonoBehaviour
 
         float angle = Mathf.Atan2(dirToTarget.y, dirToTarget.x) * Mathf.Rad2Deg - 90f;
         circleImage.rectTransform.localEulerAngles = new Vector3(0, 0, angle);
-
-        Debug.Log($"Circle rotated {angle}°, edge pos: {edgeOffset}");
     }
 
 
@@ -86,6 +84,7 @@ public class ArrowPointer : MonoBehaviour
 
         foreach (var bacteria in bacteriaAI)
         {
+            if (bacteria == null) continue;
             if (!bacteria.gameObject.activeInHierarchy) continue;
             float dist = Vector3.Distance(player.position, bacteria.transform.position);
             if (dist < closestDist)

@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: a593654a343828f4db55ca447875bd65
+guid: 217e4d3837569f447a73f61da185a57b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6505870424504109068
-    second: INFY_0
-  - first:
-      213: 2065401704342800025
-    second: INFY_1
-  - first:
-      213: 4511775660548039680
-    second: INFY_2
-  - first:
-      213: -1075548122161752913
-    second: INFY_3
+      213: -1490880166410499960
+    second: Immune_Cell_Normal_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -81,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 512
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -120,7 +111,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
     buildTarget: iOS
-    maxTextureSize: 512
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -135,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: INFY_0
+      name: Immune_Cell_Normal_0
       rect:
         serializedVersion: 2
-        x: 27
-        y: 44
-        width: 405
-        height: 401
+        x: 19
+        y: 81
+        width: 443
+        height: 337
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,74 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c0889477eae794a50800000000000000
-      internalID: 6505870424504109068
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: INFY_1
-      rect:
-        serializedVersion: 2
-        x: 221
-        y: 383
-        width: 72
-        height: 86
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 996c6d938e7c9ac10800000000000000
-      internalID: 2065401704342800025
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: INFY_2
-      rect:
-        serializedVersion: 2
-        x: 300
-        y: 362
-        width: 80
-        height: 88
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 00428311f0c0d9e30800000000000000
-      internalID: 4511775660548039680
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: INFY_3
-      rect:
-        serializedVersion: 2
-        x: 348
-        y: 332
-        width: 92
-        height: 71
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: fa4d5bf6ea2e211f0800000000000000
-      internalID: -1075548122161752913
+      spriteID: 8884d6e33645f4be0800000000000000
+      internalID: -1490880166410499960
       vertices: []
       indices: 
       edges: []
@@ -236,10 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      INFY_0: 6505870424504109068
-      INFY_1: 2065401704342800025
-      INFY_2: 4511775660548039680
-      INFY_3: -1075548122161752913
+      Immune_Cell_Normal_0: -1490880166410499960
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

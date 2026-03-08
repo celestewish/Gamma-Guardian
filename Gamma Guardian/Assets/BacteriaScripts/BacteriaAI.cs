@@ -164,7 +164,7 @@ public class BacteriaAI : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Antibacterial"))
+        if (collision.gameObject.CompareTag("ImmuneCell"))
         {
             Die();
         }

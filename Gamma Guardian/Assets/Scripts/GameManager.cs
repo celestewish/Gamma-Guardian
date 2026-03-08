@@ -8,11 +8,12 @@ public class GameManager : MonoBehaviour
 
     [Header("Level State")]
     public bool levelRunning = false;
-    private int bacteriaCount = 0;
+    public int bacteriaCount = 0;
 
     [Header("UI")]
     public UnityEngine.UI.Image completionBar;
     private int initialBacteriaCount;
+    private float progress;
 
     [Header("Pause")]
     public bool isPaused = false;
@@ -37,6 +38,14 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         StartLevel();
+    }
+    void Update()
+    {
+        if (completionBar != null)
+        {
+            completionBar.fillAmount =
+                Mathf.Lerp(completionBar.fillAmount, progress, Time.deltaTime * 5f);
+        }
     }
 
     public void StartLevel()
@@ -72,9 +81,8 @@ public class GameManager : MonoBehaviour
     {
         if (completionBar != null && initialBacteriaCount > 0)
         {
-            float progress = 1f - (float)bacteriaCount / initialBacteriaCount;
+            progress = 1f - (float)bacteriaCount / initialBacteriaCount;
             Debug.Log(progress);
-            completionBar.fillAmount = Mathf.Lerp(completionBar.fillAmount, progress, Time.deltaTime * 5f);
         }
     }
 
