@@ -12,8 +12,8 @@ public class GameManager : MonoBehaviour
 
     [Header("UI")]
     public UnityEngine.UI.Image completionBar;
-    private int initialBacteriaCount;
-    private float progress;
+    private InflammationManager inflammationManager;
+    public float progress = 0f;
 
     [Header("Pause")]
     public bool isPaused = false;
@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
     {
         if (completionBar != null)
         {
+            progress = inflammationManager.currentInflammation / 100f;
             completionBar.fillAmount =
                 Mathf.Lerp(completionBar.fillAmount, progress, Time.deltaTime * 5f);
         }
@@ -52,8 +53,7 @@ public class GameManager : MonoBehaviour
     {
         BacteriaAI[] bacteria = Object.FindObjectsByType<BacteriaAI>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
         bacteriaCount = bacteria.Length;
-        initialBacteriaCount = bacteriaCount = bacteria.Length;
-        UpdateCompletionBar();
+        inflammationManager = InflammationManager.Instance;
         levelRunning = true;
 
         timeRemaining = levelTimeLimit;
@@ -68,21 +68,11 @@ public class GameManager : MonoBehaviour
         if (!levelRunning) return;
 
         bacteriaCount = Mathf.Max(0, bacteriaCount - 1);
-        UpdateCompletionBar();
         Debug.Log($"Bacteria destroyed, remaining: {bacteriaCount}");
 
         if (bacteriaCount == 0)
         {
             EndLevel();
-        }
-    }
-
-    private void UpdateCompletionBar()
-    {
-        if (completionBar != null && initialBacteriaCount > 0)
-        {
-            progress = 1f - (float)bacteriaCount / initialBacteriaCount;
-            Debug.Log(progress);
         }
     }
 
