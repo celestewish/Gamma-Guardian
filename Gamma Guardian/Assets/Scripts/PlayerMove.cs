@@ -51,7 +51,7 @@ public class PlayerMove : MonoBehaviour
         }
 
         playerAudio.SetPitch(1.4f * rb.linearVelocity.magnitude / maxSpeed); //calls SetPitch with values from 0 - 1.4
-        Debug.Log("dir: " + rb.linearVelocity.magnitude);
+        //Debug.Log("dir: " + rb.linearVelocity.magnitude);
     }
 
     //enum FalloffLevel
