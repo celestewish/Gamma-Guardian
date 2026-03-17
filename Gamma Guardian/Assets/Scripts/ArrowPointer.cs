@@ -66,15 +66,23 @@ public class ArrowPointer : MonoBehaviour
 
         canvasGroup.alpha = 1f;
 
+        // MOVE the whole locator (parent) toward the edge in the target direction
         Vector2 viewportDir = new Vector2(screenPos.x - 0.5f, screenPos.y - 0.5f).normalized;
         RectTransform parentRect = (RectTransform)transform.parent;
         float screenRadius = Mathf.Min(parentRect.rect.width, parentRect.rect.height) * 0.45f;
         Vector2 edgeOffset = viewportDir * (screenRadius - edgePadding);
-        rectTransform.anchoredPosition = edgeOffset;
+        rectTransform.anchoredPosition = edgeOffset;   // parent moves; circle + arrow move with it
 
+        // ROTATE circle so that arrow child (anchored on circle edge) points toward bacteria
         float angle = Mathf.Atan2(dirToTarget.y, dirToTarget.x) * Mathf.Rad2Deg - 90f;
         circleImage.rectTransform.localEulerAngles = new Vector3(0, 0, angle);
+
+        // IMPORTANT (done in Inspector, not code):
+        // - Arrow is child of circleImage
+        // - Arrow RectTransform anchoredPosition = (radius, 0)
+        // - Arrow localEulerAngles = (0,0,0)
     }
+
 
 
     Transform GetNearestBacteria()
