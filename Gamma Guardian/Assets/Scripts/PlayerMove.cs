@@ -53,7 +53,33 @@ public class PlayerMove : MonoBehaviour
         playerAudio.SetPitch(1.4f * rb.linearVelocity.magnitude / maxSpeed); //calls SetPitch with values from 0 - 1.4
         //Debug.Log("player speed: " + rb.linearVelocity.magnitude);
     }
-    
+
+    public void DeactivateCytokine()
+    {
+        GameObject[] cytokines = GameObject.FindGameObjectsWithTag("Cytokines");
+        GameObject closestCytokine = null;
+        float closestDistance = Mathf.Infinity;
+        Vector3 currentPosition = transform.position;
+        foreach (GameObject cytokine in cytokines)
+        {
+            float distance = Vector3.Distance(currentPosition, cytokine.transform.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestCytokine = cytokine;
+            }
+        }
+        if (closestCytokine != null && closestDistance < 2f)
+        {
+            CytokinesScript cytokineScript = closestCytokine.GetComponent<CytokinesScript>();
+            if (cytokineScript != null)
+            {
+                cytokineScript.deactivated = true;
+                cytokineScript.Deactivate();
+            }
+        }
+    }
+
     //enum FalloffLevel
     //{
     //    _0 = 0,
