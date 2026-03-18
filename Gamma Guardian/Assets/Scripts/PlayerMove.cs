@@ -33,17 +33,17 @@ public class PlayerMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (move.magnitude > 0)
+        if(move.magnitude > 0)
         {
             rb.AddForce(move.normalized * speedMult);
             if (rb.linearVelocity.magnitude > maxSpeed)
                 rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
         }
-        else if (rb.linearVelocity.magnitude > 0)
+        else if(rb.linearVelocity.magnitude > 0)
         {
             if (rb.linearVelocity.magnitude > 1f)
             {
-                if ((int)foType == 0) rb.linearVelocity = rb.linearVelocity * (1 - foVal); //exponential fall-off
+                if((int)foType == 0) rb.linearVelocity = rb.linearVelocity * (1-foVal); //exponential fall-off
                 else rb.linearVelocity = rb.linearVelocity - (foVal * maxSpeed * rb.linearVelocity.normalized); //linear fall-off
             }
             else
@@ -51,23 +51,8 @@ public class PlayerMove : MonoBehaviour
         }
 
         playerAudio.SetPitch(1.4f * rb.linearVelocity.magnitude / maxSpeed); //calls SetPitch with values from 0 - 1.4
-        //Debug.Log("dir: " + rb.linearVelocity.magnitude);
+        //Debug.Log("player speed: " + rb.linearVelocity.magnitude);
     }
-
-    //enum FalloffLevel
-    //{
-    //    _0 = 0,
-    //    _1 = 1,
-    //    _2 = 2,
-    //    _3 = 3,
-    //    _4 = 4
-    //};
-
-    enum FalloffType
-    {
-        Exponential, //speed fall-off exponentially decreases
-        Linear //speed fall-off decreases linearly (portion of maxspeed / time)
-    };
 
     public void DeactivateCytokine()
     {
@@ -94,4 +79,19 @@ public class PlayerMove : MonoBehaviour
             }
         }
     }
+
+    //enum FalloffLevel
+    //{
+    //    _0 = 0,
+    //    _1 = 1,
+    //    _2 = 2,
+    //    _3 = 3,
+    //    _4 = 4
+    //};
+
+    enum FalloffType
+    {
+        Exponential, //speed fall-off exponentially decreases
+        Linear //speed fall-off decreases linearly (portion of maxspeed / time)
+    };
 }
