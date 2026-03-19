@@ -136,5 +136,11 @@ public class GameManager : MonoBehaviour
         if (isPaused) UnpauseGame();
         else PauseGame();
     }
+
+    public void GoHome()
+    {
+        SceneManager.LoadScene(0);
+        Time.timeScale = 1f;
+    }
 }
 
