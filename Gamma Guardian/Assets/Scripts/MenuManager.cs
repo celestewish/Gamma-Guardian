@@ -50,23 +50,25 @@ public class MenuManager : MonoBehaviour
         if (settingsCloseButton != null) settingsCloseButton.onClick.AddListener(OnSettingsClosePressed);
 
         if (brightnessSlider != null)
+        {
             brightnessSlider.value = PlayerPrefs.GetFloat("Brightness", 1f);
-        brightnessSlider.onValueChanged.AddListener(SettingsManager.Instance.SetBrightness);
+            brightnessSlider.onValueChanged.AddListener(value => SettingsManager.Instance.SetBrightness(value));
+        }
 
         if (sfxVolumeSlider != null)
         {
             sfxVolumeSlider.value = PlayerPrefs.GetFloat("SfxVolume", 1f);
-            sfxVolumeSlider.onValueChanged.AddListener(SettingsManager.Instance.SetSfxVolume);
+            sfxVolumeSlider.onValueChanged.AddListener(value => SettingsManager.Instance.SetSfxVolume(value));
         }
         if (qualityDropdown != null)
         {
             qualityDropdown.value = PlayerPrefs.GetInt("Quality", QualitySettings.names.Length - 1);
-            qualityDropdown.onValueChanged.AddListener((int index) => SettingsManager.Instance.SetQuality(index));
+            qualityDropdown.onValueChanged.AddListener(index => SettingsManager.Instance.SetQuality(index));
         }
         if (musicVolumeSlider != null)
         {
             musicVolumeSlider.value = PlayerPrefs.GetFloat("MusicVolume", 1f);
-            musicVolumeSlider.onValueChanged.AddListener(SettingsManager.Instance.SetMusicVolume);
+            musicVolumeSlider.onValueChanged.AddListener(value => SettingsManager.Instance.SetMusicVolume(value));
         }
 
         if (settingsCanvas != null) settingsCanvas.SetActive(false);

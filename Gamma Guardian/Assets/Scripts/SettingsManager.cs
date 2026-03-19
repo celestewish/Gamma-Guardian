@@ -96,14 +96,24 @@ public class SettingsManager : MonoBehaviour
     void ApplyBrightness()
     {
         float brightness = PlayerPrefs.GetFloat(BRIGHTNESS_KEY, 1f);
-        if (brightnessOverlay != null)
+
+        CanvasGroup overlay = brightnessOverlay ??
+            (brightnessOverlay = GameObject.Find("BrightnessOverlay")?.GetComponent<CanvasGroup>());
+
+        if (overlay != null)
         {
-            brightnessOverlay.alpha = 1f - brightness;
+            overlay.alpha = 1f - brightness;
+            overlay.blocksRaycasts = false;
         }
+
+        if (dimmableSprites == null || dimmableSprites.Length == 0)
+            dimmableSprites = Object.FindObjectsByType<SpriteRenderer>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+
         Color tint = Color.white * brightness;
         foreach (var sprite in dimmableSprites)
         {
-            sprite.color = tint;
+            if (sprite != null) sprite.color = tint;
         }
     }
+
 }
