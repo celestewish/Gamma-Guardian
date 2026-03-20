@@ -1,8 +1,10 @@
+using System; // For Action
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -16,6 +18,9 @@ public class DialogueManager : MonoBehaviour
     public float charInterval = 0.05f;
     public List<string> dialogueLines = new List<string>();
 
+    [Header("Events")]
+    public UnityEvent onDialogueEnd = new UnityEvent(); // Added UnityEvent
+
     private int currentLineIndex = 0;
     private Coroutine typeCoroutine;
     private bool isTyping = false;
@@ -28,7 +33,18 @@ public class DialogueManager : MonoBehaviour
         if (dialogueLines.Count > 0) StartDialogue();
     }
 
-    void StartDialogue()
+    // Added public method for setting lines externally
+    public void SetDialogueLines(string[] lines)
+    {
+        dialogueLines.Clear();
+        dialogueLines.AddRange(lines);
+        currentLineIndex = 0;
+        dialoguebox.gameObject.SetActive(true); // Show box for new dialogue
+        dialogueText.maxVisibleCharacters = 0;
+    }
+
+    // Added public method to start dialogue externally
+    public void StartDialogue()
     {
         if (currentLineIndex < dialogueLines.Count)
         {
@@ -63,7 +79,7 @@ public class DialogueManager : MonoBehaviour
         if (isTyping)
         {
             // Show full text instantly
-            StopCoroutine(typeCoroutine);
+            if (typeCoroutine != null) StopCoroutine(typeCoroutine);
             dialogueText.maxVisibleCharacters = dialogueText.textInfo.characterCount;
             isTyping = false;
         }
@@ -82,5 +98,6 @@ public class DialogueManager : MonoBehaviour
     void EndDialogue()
     {
         dialoguebox.gameObject.SetActive(false);
+        onDialogueEnd?.Invoke(); // Notify listeners like TutorialManager
     }
 }
