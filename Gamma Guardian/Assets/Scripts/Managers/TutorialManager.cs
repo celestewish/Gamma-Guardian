@@ -1,14 +1,23 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+using Sequence = DG.Tweening.Sequence;
 
 public class TutorialManager : MonoBehaviour
 {
     [Header("UI References")]
     public DialogueManager dialogueManager;
-    public GameObject inflammationMeter; // Set active when needed
+    public GameObject inflammationMeter;
+    public GameObject medicineButton;
+
+    [Header("Flash Effect")]
+    public Color flashColor = Color.red;
+    public float flashDuration = 0.5f;
+    public int flashLoops = 3;
 
     [Header("Tutorial Settings")]
     public Transform player;
@@ -42,13 +51,22 @@ public class TutorialManager : MonoBehaviour
         "Use the medicine button on immune cells to calm them."
     };
 
+    private string[] endingDialogue =
+    {
+        "Perfect, now that the immune cell is calm. It will no longer attack the body.",
+        "This was just one cell though, now we need to take on the center of the infection!",
+        "I believe the infection is attacking the intestines, fly forwards to make it there!"
+    };
+
     void Start()
     {
         inflammationMeter.SetActive(false);
+        medicineButton.SetActive(false);
         initialPlayerPos = player.position;
         dialogueManager.SetDialogueLines(welcomeDialogue);
         dialogueManager.StartDialogue();
         dialogueManager.onDialogueEnd.AddListener(OnWelcomeEnd);
+        player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
     }
 
     void Update()
@@ -73,6 +91,7 @@ public class TutorialManager : MonoBehaviour
 
     void CheckMovement()
     {
+        player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         Vector3 currentPos = player.position;
         if (Vector3.Distance(initialPlayerPos, currentPos) > detectionDistance)
         {
@@ -93,11 +112,52 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    void FlashUI(GameObject uiElement)
+    {
+        CanvasGroup canvasGroup = uiElement.GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
+        {
+            canvasGroup = uiElement.AddComponent<CanvasGroup>();
+        }
+
+        Graphic[] graphics = uiElement.GetComponentsInChildren<Graphic>();
+
+        // Reset colors first
+        foreach (Graphic g in graphics)
+        {
+            g.color = Color.white;
+        }
+
+        // Flash alpha
+        Sequence flashSeq = DOTween.Sequence();
+        flashSeq.Append(canvasGroup.DOFade(0.3f, flashDuration / 2));
+        flashSeq.Append(canvasGroup.DOFade(1f, flashDuration / 2));
+        flashSeq.SetLoops(flashLoops, LoopType.Yoyo);
+        flashSeq.Play();
+    }
+
+    void FlashUIColor(GameObject uiElement)
+    {
+        Graphic[] graphics = uiElement.GetComponentsInChildren<Graphic>();
+        Sequence flashSeq = DOTween.Sequence();
+
+        foreach (Graphic g in graphics)
+        {
+            Color originalColor = g.color;
+            flashSeq.Join(DOTween.To(() => g.color, x => g.color = x, flashColor, flashDuration / 2)
+                .SetLoops(flashLoops * 2, LoopType.Yoyo)
+                .SetEase(Ease.InOutSine));
+        }
+        flashSeq.Play();
+    }
+
     void OnMovementComplete()
     {
         tutorialStep = 2;
         dialogueManager.SetDialogueLines(calmGammaDialogue);
         dialogueManager.StartDialogue();
+        medicineButton.SetActive(true);
+        FlashUIColor(medicineButton);
     }
 
     public void OnGammaCalmed() // Call this from CytokinesScript.Deactivate or wherever calming happens
@@ -120,6 +180,7 @@ public class TutorialManager : MonoBehaviour
     {
         tutorialStep = 3;
         inflammationMeter.SetActive(true);
+        FlashUI(inflammationMeter);
         dialogueManager.SetDialogueLines(inflammationDialogue);
         dialogueManager.StartDialogue();
         // Note: Immune calming mechanic not implemented yet

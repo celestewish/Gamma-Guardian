@@ -540,6 +540,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TutorialManager
   dialogueManager: {fileID: 1800175208}
   inflammationMeter: {fileID: 1629349001}
+  medicineButton: {fileID: 1916271670}
   player: {fileID: 1850834421}
   detectionDistance: 0.1
 --- !u!4 &1759613852
@@ -863,6 +864,11 @@ PrefabInstance:
 --- !u!224 &1865965054 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3139667888125302549, guid: cac822d61abf9344f9842f00d3550579, type: 3}
+  m_PrefabInstance: {fileID: 1865965053}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1916271670 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4848495885173331250, guid: cac822d61abf9344f9842f00d3550579, type: 3}
   m_PrefabInstance: {fileID: 1865965053}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2004449881 stripped
