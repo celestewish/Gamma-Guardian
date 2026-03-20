@@ -112,30 +112,6 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    void FlashUI(GameObject uiElement)
-    {
-        CanvasGroup canvasGroup = uiElement.GetComponent<CanvasGroup>();
-        if (canvasGroup == null)
-        {
-            canvasGroup = uiElement.AddComponent<CanvasGroup>();
-        }
-
-        Graphic[] graphics = uiElement.GetComponentsInChildren<Graphic>();
-
-        // Reset colors first
-        foreach (Graphic g in graphics)
-        {
-            g.color = Color.white;
-        }
-
-        // Flash alpha
-        Sequence flashSeq = DOTween.Sequence();
-        flashSeq.Append(canvasGroup.DOFade(0.3f, flashDuration / 2));
-        flashSeq.Append(canvasGroup.DOFade(1f, flashDuration / 2));
-        flashSeq.SetLoops(flashLoops, LoopType.Yoyo);
-        flashSeq.Play();
-    }
-
     void FlashUIColor(GameObject uiElement)
     {
         Graphic[] graphics = uiElement.GetComponentsInChildren<Graphic>();
@@ -180,7 +156,7 @@ public class TutorialManager : MonoBehaviour
     {
         tutorialStep = 3;
         inflammationMeter.SetActive(true);
-        FlashUI(inflammationMeter);
+        FlashUIColor(inflammationMeter);
         dialogueManager.SetDialogueLines(inflammationDialogue);
         dialogueManager.StartDialogue();
         // Note: Immune calming mechanic not implemented yet
