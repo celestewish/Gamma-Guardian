@@ -21,7 +21,7 @@ public class DialogueManager : MonoBehaviour
     [Header("Events")]
     public UnityEvent onDialogueEnd = new UnityEvent(); // Added UnityEvent
 
-    private int currentLineIndex = 0;
+    public int currentLineIndex = 0;
     private Coroutine typeCoroutine;
     private bool isTyping = false;
 
