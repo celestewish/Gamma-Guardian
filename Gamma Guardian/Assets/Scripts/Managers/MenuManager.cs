@@ -22,7 +22,8 @@ public class MenuManager : MonoBehaviour
 
     [Header("Audio")]
     public AudioSource uiAudioSource;
-    public AudioClip clickSfx;
+    public AudioClip openSfx;
+    public AudioClip closeSfx;
 
     [Header("Settings Controls")]
     public Slider brightnessSlider;
@@ -88,13 +89,16 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    void PlayClickFeedback(Transform buttonTransform)
+    void PlayClickFeedback(Transform buttonTransform, bool open)
     {
         if (buttonTransform != null)
         {
             StopAllCoroutines();
             StartCoroutine(SquashAndStretch(buttonTransform));
         }
+
+
+        AudioClip clickSfx = (open) ? openSfx : closeSfx;
 
         if (uiAudioSource != null && clickSfx != null)
         {
@@ -147,26 +151,26 @@ public class MenuManager : MonoBehaviour
 
     void OnPlayPressed()
     {
-        PlayClickFeedback(playButton != null ? playButton.transform : null);
+        PlayClickFeedback(playButton != null ? playButton.transform : null, true);
         SceneManager.LoadScene("Cutscene");
     }
 
     void OnSettingsPressed()
     {
-        PlayClickFeedback(settingsButton != null ? settingsButton.transform : null);
+        PlayClickFeedback(settingsButton != null ? settingsButton.transform : null, true);
         settingsOpen = true;
         if (settingsCanvas != null) settingsCanvas.SetActive(true);
     }
 
     void OnGlossaryPressed()
     {
-        PlayClickFeedback(glossaryButton != null ? glossaryButton.transform : null);
+        PlayClickFeedback(glossaryButton != null ? glossaryButton.transform : null, true);
         SceneManager.LoadScene("Glossary");
     }
 
     void OnSettingsClosePressed()
     {
-        PlayClickFeedback(settingsCloseButton != null ? settingsCloseButton.transform : null);
+        PlayClickFeedback(settingsCloseButton != null ? settingsCloseButton.transform : null, false);
         settingsOpen = false;
         if (settingsCanvas != null) settingsCanvas.SetActive(false);
     }

@@ -29,6 +29,11 @@ public class GlossaryScript : MonoBehaviour
 
     private int currentIndex = 0;
 
+    [Header("Audio")]
+    public AudioSource uiAudioSource;
+    public AudioClip navSfx;
+    public AudioClip closeSfx;
+
     void Awake()
     {
         if (nextButton != null)
@@ -86,6 +91,7 @@ public class GlossaryScript : MonoBehaviour
             return;
 
         currentIndex = (currentIndex + 1) % entries.Count;
+        PlaySound(true);
         RefreshUI();
     }
 
@@ -97,13 +103,24 @@ public class GlossaryScript : MonoBehaviour
         currentIndex--;
         if (currentIndex < 0)
             currentIndex = entries.Count - 1;
-
+        PlaySound(true);
         RefreshUI();
     }
 
     public void CloseGlossary()
     {
         // Load MainMenu scene
+        PlaySound(false);
         SceneManager.LoadScene("MainMenu");
+    }
+
+    void PlaySound(bool open)
+    {
+        AudioClip clickSfx = (open) ? navSfx : closeSfx;
+
+        if (uiAudioSource != null && clickSfx != null)
+        {
+            uiAudioSource.PlayOneShot(clickSfx);
+        }
     }
 }
