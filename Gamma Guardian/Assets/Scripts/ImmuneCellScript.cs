@@ -15,10 +15,20 @@ public class ImmuneCellScript : MonoBehaviour
     private Transform target;
     private float timeNearTarget = 0f;
 
+    [Header("Wander Settings")]
+    public float wanderSpeed = 1.5f;
+    public float wanderChangeInterval = 2f;
+
+    private Rigidbody2D rb;
+    private Vector2 wanderDirection;
+    private float wanderTimer;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        rb = GetComponent<Rigidbody2D>();
+        PickNewWanderDirection();
+        wanderTimer = wanderChangeInterval;
     }
 
     // Update is called once per frame
@@ -31,6 +41,11 @@ public class ImmuneCellScript : MonoBehaviour
         List<GameObject> allBacteria = GameObject.FindGameObjectsWithTag("Bacteria")
             .OrderBy(bacteria => Vector2.Distance(transform.position, bacteria.transform.position))
             .ToList();
+        if (allBacteria.Count == 0 )
+        {
+            Wander();
+            return;
+        }
         foreach (GameObject bacteriaObj in allBacteria)
         {
             if (!HasOtherImmuneCellNearby(bacteriaObj.transform))
@@ -54,6 +69,25 @@ public class ImmuneCellScript : MonoBehaviour
             }
         }
         GoToBody();
+    }
+    void Wander()
+    {
+        wanderTimer -= Time.deltaTime;
+        if (wanderTimer <= 0f)
+        {
+            PickNewWanderDirection();
+            wanderTimer = wanderChangeInterval;
+        }
+
+        rb.linearVelocity = wanderDirection * wanderSpeed;
+    }
+
+    // Generates a random normalized direction vector for wandering
+    void PickNewWanderDirection()
+    {
+        float angle = Random.Range(0f, 360f);
+        float rad = angle * Mathf.Deg2Rad;
+        wanderDirection = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)).normalized;
     }
     void GoToBody()
     {
