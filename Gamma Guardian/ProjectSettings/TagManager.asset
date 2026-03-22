@@ -18,7 +18,7 @@ TagManager:
   - Water
   - UI
   - Bacteria
-  - 
+  - Bloodstream
   - 
   - 
   - 
@@ -46,6 +46,12 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Sprites
+    uniqueID: 1076892481
+    locked: 0
+  - name: Background
+    uniqueID: 635834815
     locked: 0
   m_RenderingLayers:
   - Default

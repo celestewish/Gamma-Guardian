@@ -10,6 +10,7 @@ public class CytokinesScript : MonoBehaviour
     private Transform target;
     public GameObject immuneCell;
     public bool deactivated = false;
+    public GameObject burst;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -27,6 +28,7 @@ public class CytokinesScript : MonoBehaviour
         {
             if (!deactivated)
                 Instantiate(immuneCell, transform.position, Quaternion.identity);
+            Instantiate(burst, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }
