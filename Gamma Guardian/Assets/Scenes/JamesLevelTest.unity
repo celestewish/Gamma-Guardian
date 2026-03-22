@@ -1647,7 +1647,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1367387626}
         m_TargetAssemblyTypeName: PlayerMove, Assembly-CSharp
-        m_MethodName: DeactivateCytokine
+        m_MethodName: PlayerAction
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1725,7 +1725,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   levelRunning: 0
+  bacteriaCount: 0
   completionBar: {fileID: 1535913507}
+  progress: 0
   isPaused: 0
   pauseMenuUI: {fileID: 0}
   timerText: {fileID: 1592744927}

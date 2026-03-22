@@ -54,7 +54,7 @@ public class PlayerMove : MonoBehaviour
         //Debug.Log("player speed: " + rb.linearVelocity.magnitude);
     }
 
-    public void DeactivateCytokine()
+    public void PlayerAction()
     {
         GameObject[] cytokines = GameObject.FindGameObjectsWithTag("Cytokines");
         GameObject closestCytokine = null;
@@ -78,6 +78,31 @@ public class PlayerMove : MonoBehaviour
                 cytokineScript.Deactivate();
             }
         }
+        else
+        {
+            GameObject[] bacterias = GameObject.FindGameObjectsWithTag("Bacteria");
+            GameObject closestBacteria = null;
+            closestDistance = Mathf.Infinity;
+            foreach (GameObject bacteria in bacterias)
+            {
+                float distance = Vector3.Distance(currentPosition, bacteria.transform.position);
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestBacteria = bacteria;
+                }
+            }
+            if (closestBacteria != null && closestDistance < 2f)
+            {
+                BacteriaAI bacteriaScript = closestBacteria.GetComponent<BacteriaAI>();
+                if (bacteriaScript != null)
+                {
+                    bacteriaScript.Die();
+                }
+            }
+        }
+
+        
     }
 
     //enum FalloffLevel

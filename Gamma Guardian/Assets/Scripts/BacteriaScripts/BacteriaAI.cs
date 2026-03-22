@@ -166,7 +166,7 @@ public class BacteriaAI : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("ImmuneCell"))
         {
-            Die();
+            //Die();
         }
         else if (collision.gameObject.CompareTag("Body"))
         {
