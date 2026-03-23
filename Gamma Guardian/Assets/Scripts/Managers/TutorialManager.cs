@@ -11,7 +11,6 @@ public class TutorialManager : MonoBehaviour
 {
     [Header("UI References")]
     public DialogueManager dialogueManager;
-    public GameObject inflammationMeter;
     public GameObject medicineButton;
 
     [Header("Flash Effect")]
@@ -26,12 +25,13 @@ public class TutorialManager : MonoBehaviour
     private Vector3 initialPlayerPos;
     private HashSet<Vector2> movedDirections = new HashSet<Vector2>();
     private bool hasCalmedGamma = false;
-    private int tutorialStep = 0;
+    public int tutorialStep = 0;
+    private bool hasDefeatedBacteria = false;
 
     private string[] welcomeDialogue = {
         "Welcome to the body, Guardian Explorer!",
-        "Your goal is to calm the interferon gammas and immune cells.",
-        "This will let them destroy bacteria without too much inflammation."
+        "Your goal is to calm the interferon gammas and destroy the infection.",
+        "This will allow us to defend the body."
     };
 
     private string[] moveDialogue = {
@@ -40,27 +40,28 @@ public class TutorialManager : MonoBehaviour
     };
 
     private string[] calmGammaDialogue = {
-        "Great! Now, use the medicine button to calm an interferon gamma.",
+        "You see, the gammas are trying to help the body, but they get the immune cells too excited!",
+        "When that happens, the cells get confused and start attacking the body instead!",
+        "To calm the interferon gamma, press the medicine button.",
         "The medicine button is the small square on the left."
     };
 
-    private string[] inflammationDialogue = {
-        "Excellent work! Now let's tackle inflammation.",
-        "The inflammation meter shows how badly the body is inflamed.",
-        "If it gets too high, the body gets too weak to fight.",
-        "Use the medicine button on immune cells to calm them."
+    private string[] bacteriaDialogue = {
+        "Excellent work! Now let's tackle defeating the bacteria.",
+        "The immune cells in this patient do not respond correctly to infection.",
+        "They try super hard! But they can't defeat the bacteria on their own.",
+        "We have to help them. Use the medicine button to defeat the bacteria."
     };
 
     private string[] endingDialogue =
     {
-        "Perfect, now that the immune cell is calm. It will no longer attack the body.",
-        "This was just one cell though, now we need to take on the center of the infection!",
-        "I believe the infection is attacking the intestines, fly forwards to make it there!"
+        "Perfect! Now that the bacteria is gone the body will be safe.",
+        "If we don't defeat the bacteria, the patient won't be able to heal.",
+        "Now, let's go take on the infection! Onwards!"
     };
 
     void Start()
     {
-        inflammationMeter.SetActive(false);
         medicineButton.SetActive(false);
         initialPlayerPos = player.position;
         dialogueManager.SetDialogueLines(welcomeDialogue);
@@ -78,6 +79,10 @@ public class TutorialManager : MonoBehaviour
         else if (tutorialStep == 2) // Calm gamma
         {
             CheckCalmedGamma();
+        }
+        else if (tutorialStep == 3) // Bacteria tutorial
+        {
+            CheckBacteriaDefeated();
         }
     }
 
@@ -155,11 +160,29 @@ public class TutorialManager : MonoBehaviour
     void OnGammaComplete()
     {
         tutorialStep = 3;
-        inflammationMeter.SetActive(true);
-        FlashUIColor(inflammationMeter);
-        dialogueManager.SetDialogueLines(inflammationDialogue);
+        dialogueManager.SetDialogueLines(bacteriaDialogue);
         dialogueManager.StartDialogue();
-        // Note: Immune calming mechanic not implemented yet
-        // When ready, add detection here similar to gamma
+    }
+    public void OnBacteriaDefeated()
+    {
+        if (tutorialStep == 3)
+        {
+            hasDefeatedBacteria = true;
+        }
+    }
+
+    void CheckBacteriaDefeated()
+    {
+        if (hasDefeatedBacteria)
+        {
+            OnTutorialComplete();
+        }
+    }
+
+    void OnTutorialComplete()
+    {
+        tutorialStep = 4;
+        dialogueManager.SetDialogueLines(endingDialogue);
+        dialogueManager.StartDialogue();
     }
 }
