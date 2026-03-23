@@ -70,6 +70,11 @@ public class GameManager : MonoBehaviour
 
     public void StartLevel()
     {
+        if (completionBar == null) completionBar = GameObject.Find("completionFill")?.GetComponent<UnityEngine.UI.Image>(); // Adjust path
+        if (timerText == null) timerText = GameObject.Find("timerText")?.GetComponent<TextMeshProUGUI>(); // Adjust path
+        if (pauseMenuUI == null) pauseMenuUI = GameObject.Find("PauseCanvas");
+
+
         BacteriaAI[] bacteria = Object.FindObjectsByType<BacteriaAI>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
         bacteriaCount = bacteria.Length;
         inflammationManager = InflammationManager.Instance;
