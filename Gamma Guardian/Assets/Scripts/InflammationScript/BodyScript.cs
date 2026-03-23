@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BodyScript : MonoBehaviour
 {
@@ -21,8 +22,6 @@ public class BodyScript : MonoBehaviour
         localInflammation += localAttachedCells * localRate * Time.deltaTime;
         if (localAttachedCells == 0) localInflammation -= decayRate * Time.deltaTime;
         localInflammation = Mathf.Clamp(localInflammation, 0f, localMax);
-
-        if (localInflammation >= localMax) Debug.Log($"{name} Destroyed!");
 
         if (!GameManager.Instance.levelRunning)
         {
