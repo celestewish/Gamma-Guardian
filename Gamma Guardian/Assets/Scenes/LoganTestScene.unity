@@ -131,6 +131,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ViralBacteria Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 5535836608039049688, guid: 80c5bf3550ab9f24f9be968cf43b2a1d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6478509727582156706, guid: 80c5bf3550ab9f24f9be968cf43b2a1d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.8
@@ -898,6 +902,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlobBacteria Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 4112754226846820390, guid: 579b6e623526151439caceba7b1c697b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -914,6 +922,10 @@ PrefabInstance:
     - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_Name
       value: PillBacteria Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8738967592643981994, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_LocalPosition.x

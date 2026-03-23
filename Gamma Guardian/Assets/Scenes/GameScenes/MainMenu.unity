@@ -1545,13 +1545,14 @@ MonoBehaviour:
   glossaryButton: {fileID: 78333841}
   settingsCloseButton: {fileID: 1950758072}
   settingsCanvas: {fileID: 751607634}
-  uiAudioSource: {fileID: 0}
-  clickSfx: {fileID: 0}
+  uiAudioSource: {fileID: 1237570068}
+  openSfx: {fileID: 8300000, guid: 6dd78c854cc10f145a71ca3d77007705, type: 3}
+  closeSfx: {fileID: 8300000, guid: a9aed93da3a6c814f83507b737396685, type: 3}
   brightnessSlider: {fileID: 957522253}
   qualityDropdown: {fileID: 1009672671}
   sfxVolumeSlider: {fileID: 655998229}
   musicVolumeSlider: {fileID: 381657300}
-  musicAudioSource: {fileID: 0}
+  musicAudioSource: {fileID: 439464009}
   brightnessOverlay: {fileID: 854805690}
 --- !u!1 &708713259
 GameObject:

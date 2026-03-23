@@ -1,7 +1,8 @@
+using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 
-public class TutorialCytokine : MonoBehaviour
+public class TutorialBacteria : MonoBehaviour
 {
     [Header("Tutorial Settings")]
     public float moveSpeed = 2f;
@@ -10,7 +11,6 @@ public class TutorialCytokine : MonoBehaviour
     private bool isVulnerable = false;
     private Vector3 wanderTarget;
     private TutorialManager tutorialManager;
-    public GameObject bacteria;
 
     void Start()
     {
@@ -51,12 +51,10 @@ public class TutorialCytokine : MonoBehaviour
 
     public void Deactivate()
     {
-        if (transform.Find("Neutral") != null)
-        {
-            transform.Find("Neutral").gameObject.SetActive(true);
-        }
-        tutorialManager?.OnGammaCalmed(); // Signal tutorial progress
+        Debug.Log("This code has run.");
+        GetComponent<SpriteRenderer>().DOColor(Color.red, 0.1f).OnComplete(() =>
+            GetComponent<SpriteRenderer>().color = Color.white);
+        tutorialManager?.OnBacteriaDefeated();
         Destroy(gameObject, 1f);
-        bacteria.SetActive(true);
     }
 }
