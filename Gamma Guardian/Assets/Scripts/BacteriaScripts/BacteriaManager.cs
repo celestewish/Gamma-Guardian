@@ -1,13 +1,19 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System; // For Action
 
 public class BacteriaManager : MonoBehaviour
 {
     public static BacteriaManager Instance;
 
     private GameObject[] bodies;
-
     private Dictionary<GameObject, int> targetCounts = new Dictionary<GameObject, int>();
+    private int totalAliveBacteria = 0;
+
+    public int TotalAliveBacteria => totalAliveBacteria;
+    public bool AreBacteriaActive => totalAliveBacteria > 0;
+
+    public static event Action OnAllBacteriaDead;
 
     void Awake()
     {
@@ -16,13 +22,14 @@ public class BacteriaManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
             bodies = GameObject.FindGameObjectsWithTag("Body");
+            CountInitialBacteria();
         }
         else
         {
             Destroy(gameObject);
         }
     }
-    // Looks for body part that has the least bacteria on it
+
     public GameObject GetLeastTargetedBody()
     {
         GameObject bestTarget = null;
@@ -45,7 +52,7 @@ public class BacteriaManager : MonoBehaviour
 
         return bestTarget;
     }
-    //Removes the body part from the targeted dict
+
     public void ReleaseTarget(GameObject body)
     {
         if (targetCounts.ContainsKey(body))
@@ -57,4 +64,19 @@ public class BacteriaManager : MonoBehaviour
             }
         }
     }
+
+    public void OnBacteriaDied()
+    {
+        totalAliveBacteria--;
+        if (totalAliveBacteria <= 0)
+        {
+            totalAliveBacteria = 0;
+            OnAllBacteriaDead?.Invoke();
+        }
+    }
+    public void CountInitialBacteria()
+    {
+        totalAliveBacteria = GameObject.FindGameObjectsWithTag("Bacteria").Length;
+    }
 }
+
