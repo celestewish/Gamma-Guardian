@@ -111,6 +111,8 @@ MonoBehaviour:
   spawnTime: 3
   ICCheckRadius: 2
   cytokines: {fileID: 8881689545613706198, guid: 5ab802797b40e1d4bacdd19d4e47252b, type: 3}
+  wanderSpeed: 1.5
+  wanderChangeInterval: 2
 --- !u!61 &8979840988635248114
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -141,7 +143,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class InflammationManager : MonoBehaviour
 {
@@ -24,7 +25,11 @@ public class InflammationManager : MonoBehaviour
         if (totalAttachedCells == 0) currentInflammation -= decayRate * Time.deltaTime;
         currentInflammation = Mathf.Clamp(currentInflammation, 0f, maxInflammation);
 
-        if (currentInflammation >= maxInflammation) Debug.Log("Game Over!");
+        if (currentInflammation >= maxInflammation) { 
+            Debug.Log("Game Over!");
+            GameManager.Instance.gameLost = true;
+            GameManager.Instance.EndLevel();
+        }
     }
 
     public void AddAttachedCell() => totalAttachedCells++;

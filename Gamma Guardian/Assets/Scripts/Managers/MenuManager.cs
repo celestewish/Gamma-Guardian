@@ -152,7 +152,7 @@ public class MenuManager : MonoBehaviour
     void OnPlayPressed()
     {
         PlayClickFeedback(playButton != null ? playButton.transform : null, true);
-        SceneManager.LoadScene("Cutscene");
+        SceneManager.LoadScene("Tutorial");
     }
 
     void OnSettingsPressed()
