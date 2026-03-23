@@ -1974,11 +1974,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2744704413688217792, guid: 97189d34c2e566e4087fd9e4636d15a8, type: 3}
       propertyPath: decayRate
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2744704413688217792, guid: 97189d34c2e566e4087fd9e4636d15a8, type: 3}
       propertyPath: inflammationRatePerCell
-      value: 0.7
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 4826943892882903912, guid: 97189d34c2e566e4087fd9e4636d15a8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4630,3 +4630,4 @@ SceneRoots:
   - {fileID: 83972414}
   - {fileID: 1170230709}
   - {fileID: 1067775580}
+  - {fileID: 1374083272394746271}
