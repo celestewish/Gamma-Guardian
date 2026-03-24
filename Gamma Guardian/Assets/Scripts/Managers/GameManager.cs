@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     [Header("Level State")]
     public bool levelRunning = false;
     public int bacteriaCount = 0;
+    public bool gameWon = false;
+    public bool gameLost = false;
 
     [Header("UI")]
     public UnityEngine.UI.Image completionBar;
@@ -33,7 +35,24 @@ public class GameManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Level" && !levelRunning)
+        {
+            StartLevel();
+        }
+    }
+
+    void OnDestroy()
+    {
+        // Clean up:
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
 
     void Start()
     {
@@ -51,6 +70,11 @@ public class GameManager : MonoBehaviour
 
     public void StartLevel()
     {
+        if (completionBar == null) completionBar = GameObject.Find("completionFill")?.GetComponent<UnityEngine.UI.Image>(); // Adjust path
+        if (timerText == null) timerText = GameObject.Find("timerText")?.GetComponent<TextMeshProUGUI>(); // Adjust path
+        if (pauseMenuUI == null) pauseMenuUI = GameObject.Find("PauseCanvas");
+
+
         BacteriaAI[] bacteria = Object.FindObjectsByType<BacteriaAI>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
         bacteriaCount = bacteria.Length;
         inflammationManager = InflammationManager.Instance;
@@ -59,6 +83,9 @@ public class GameManager : MonoBehaviour
         timeRemaining = levelTimeLimit;
         UpdateTimerUI();
         InvokeRepeating(nameof(TickTimer), 1f, 1f);
+
+        gameWon = false;
+        gameLost = false;
 
         Debug.Log($"Level started with {bacteriaCount} bacteria.");
     }
@@ -72,14 +99,24 @@ public class GameManager : MonoBehaviour
 
         if (bacteriaCount == 0)
         {
+            gameWon = true;
             EndLevel();
         }
     }
 
-    private void EndLevel()
+    public void EndLevel()
     {
         levelRunning = false;
-        Debug.Log("Level complete! All bacteria destroyed.");
+        CancelInvoke(nameof(TickTimer)); // Stop timer
+
+        if (gameWon)
+        {
+            SceneManager.LoadScene("Ending");
+        }
+        else if (gameLost)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 
     private void TickTimer()
@@ -109,7 +146,7 @@ public class GameManager : MonoBehaviour
     {
         levelRunning = false;
         Debug.Log("Time's up! Level failed.");
-        Time.timeScale = 0f;
+        EndLevel();
     }
     public void PauseGame()
     {

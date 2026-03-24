@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Sequence = DG.Tweening.Sequence;
 
@@ -184,5 +185,10 @@ public class TutorialManager : MonoBehaviour
         tutorialStep = 4;
         dialogueManager.SetDialogueLines(endingDialogue);
         dialogueManager.StartDialogue();
+        dialogueManager.onDialogueEnd.AddListener(LoadLevel);
+    }
+    void LoadLevel()
+    {
+        SceneManager.LoadScene("Level");
     }
 }
