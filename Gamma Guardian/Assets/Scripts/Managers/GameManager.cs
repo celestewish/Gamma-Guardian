@@ -189,36 +189,19 @@ public class GameManager : MonoBehaviour
             Debug.Log("This has run");
             comboText.gameObject.SetActive(true);
             comboText.text = $"{currentCombo}+";
+
+            Color originalColor = comboText.color;
+            originalColor.a = 1f;
+            comboText.color = originalColor;
             comboText.transform.localScale = Vector3.zero;
 
             comboText.transform.DOScale(1.5f, 0.2f).SetEase(Ease.OutBack);
             DOVirtual.DelayedCall(1.5f, () => {
                 comboText.DOFade(0, 0.3f).OnComplete(() => {
                     comboText.gameObject.SetActive(false);
-                    comboText.transform.localScale = Vector3.one;
                 });
             });
         }
-    }
-
-    public void ShowComboPopup(int combo, string type)
-    {
-        comboText.gameObject.SetActive(true);
-        comboText.text = $"{combo}+"; // Or $"{combo} {type}!"
-        comboText.transform.localScale = Vector3.zero;
-
-        // Animate (e.g., scale up then fade)
-        StartCoroutine(PopupAnim());
-    }
-
-    IEnumerator PopupAnim()
-    {
-        // Scale tween example (use DOTween for smoother)
-        comboText.transform.DOScale(1.5f, 0.2f).SetEase(Ease.OutBack);
-        yield return new WaitForSeconds(1f);
-        comboText.DOFade(0, 0.5f);
-        yield return new WaitForSeconds(0.5f);
-        comboText.gameObject.SetActive(false);
     }
 
     private void UpdateTimerUI()
