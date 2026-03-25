@@ -24,11 +24,20 @@ public class BacteriaAI : MonoBehaviour
     private readonly Collider2D[] nearbyResults = new Collider2D[16];
     private bool isDead = false;
 
+    public Transform player;
+    public float pulseRange = 6f;
+    private PulseEffect pulseEffect;
+    public float nearRadius = 2f;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         PickNewWanderDirection();
         wanderTimer = wanderChangeInterval;
+        pulseEffect = GetComponentInChildren<PulseEffect>();
+        if (pulseEffect != null)
+            pulseEffect.SetPulseActive(false);
+        if (player == null) player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     void Update()
@@ -42,6 +51,15 @@ public class BacteriaAI : MonoBehaviour
         else
         {
             ChaseTarget();
+        }
+        float distToPlayer = Vector2.Distance(transform.position, player.position);
+        bool shouldPulse = distToPlayer < pulseRange && distToPlayer > nearRadius;  // Between pulseRange & nearRadius
+        if (pulseEffect != null)
+        {
+            if (shouldPulse && !pulseEffect.isPulsing)
+                pulseEffect.SetPulseActive(true);
+            else if (!shouldPulse && pulseEffect.isPulsing)
+                pulseEffect.SetPulseActive(false);
         }
     }
 
