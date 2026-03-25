@@ -1,6 +1,9 @@
+using DG.Tweening;
+using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,7 +16,7 @@ public class GameManager : MonoBehaviour
     public bool gameLost = false;
 
     [Header("UI")]
-    public UnityEngine.UI.Image completionBar;
+    public Image completionBar;
     private InflammationManager inflammationManager;
     public float progress = 0f;
 
@@ -25,6 +28,16 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI timerText;
     public float levelTimeLimit = 300f;
     private float timeRemaining;
+
+    [Header("Combos")]
+    public TextMeshProUGUI comboText; // UI Text for "3+" pop-up (child of Canvas)
+    public float comboWindow = 3f;
+    public float comboReductionBase = 0.05f; // 5% per combo level, tune
+
+    private int currentCombo = 0;
+    private float lastKillTime;
+    private float comboTimer;
+    private string comboType = "Bacteria";
 
     void Awake()
     {
@@ -65,6 +78,13 @@ public class GameManager : MonoBehaviour
             float normalizedInflam = inflammationManager.currentInflammation / inflammationManager.maxInflammation;
             completionBar.fillAmount = Mathf.Lerp(completionBar.fillAmount, normalizedInflam, Time.deltaTime * 5f);
         }
+
+        comboTimer += Time.deltaTime;
+        if (comboTimer > comboWindow)
+        {
+            currentCombo = 0;
+            comboTimer = 0f;
+        }
     }
 
     public void StartLevel()
@@ -81,6 +101,7 @@ public class GameManager : MonoBehaviour
             timerText = timerObj?.GetComponent<TextMeshProUGUI>();
         }
         if (pauseMenuUI == null) pauseMenuUI = GameObject.Find("PauseCanvas");
+        if (comboText == null) comboText = GameObject.Find("ComboText")?.GetComponent<TextMeshProUGUI>();
 
 
         BacteriaAI[] bacteria = Object.FindObjectsByType<BacteriaAI>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
@@ -139,6 +160,65 @@ public class GameManager : MonoBehaviour
         {
             EndLevelByTimeout();
         }
+    }
+
+    public void RegisterBacteriaKill()
+    {
+        comboTimer = 0f;
+        lastKillTime = Time.time;
+
+        currentCombo++;
+        if (currentCombo >= 3)
+        {
+            TriggerComboBonus();
+        }
+    }
+
+    private void TriggerComboBonus()
+    {
+        // Reduce inflammation
+        float reduction = comboReductionBase * currentCombo;
+        completionBar.fillAmount = Mathf.Max(0f, completionBar.fillAmount - reduction);
+
+        // Sound
+        // GetComponent<AudioSource>().PlayOneShot(comboSound);
+
+        // Pop-up
+        if (comboText != null)
+        {
+            Debug.Log("This has run");
+            comboText.gameObject.SetActive(true);
+            comboText.text = $"{currentCombo}+";
+            comboText.transform.localScale = Vector3.zero;
+
+            comboText.transform.DOScale(1.5f, 0.2f).SetEase(Ease.OutBack);
+            DOVirtual.DelayedCall(1.5f, () => {
+                comboText.DOFade(0, 0.3f).OnComplete(() => {
+                    comboText.gameObject.SetActive(false);
+                    comboText.transform.localScale = Vector3.one;
+                });
+            });
+        }
+    }
+
+    public void ShowComboPopup(int combo, string type)
+    {
+        comboText.gameObject.SetActive(true);
+        comboText.text = $"{combo}+"; // Or $"{combo} {type}!"
+        comboText.transform.localScale = Vector3.zero;
+
+        // Animate (e.g., scale up then fade)
+        StartCoroutine(PopupAnim());
+    }
+
+    IEnumerator PopupAnim()
+    {
+        // Scale tween example (use DOTween for smoother)
+        comboText.transform.DOScale(1.5f, 0.2f).SetEase(Ease.OutBack);
+        yield return new WaitForSeconds(1f);
+        comboText.DOFade(0, 0.5f);
+        yield return new WaitForSeconds(0.5f);
+        comboText.gameObject.SetActive(false);
     }
 
     private void UpdateTimerUI()

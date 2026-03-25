@@ -68,6 +68,7 @@ public class BacteriaManager : MonoBehaviour
     public void OnBacteriaDied()
     {
         totalAliveBacteria--;
+        GameManager.Instance.RegisterBacteriaKill();
         if (totalAliveBacteria <= 0)
         {
             totalAliveBacteria = 0;
