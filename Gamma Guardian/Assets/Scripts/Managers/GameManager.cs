@@ -113,6 +113,7 @@ public class GameManager : MonoBehaviour
         timeRemaining = levelTimeLimit;
         UpdateTimerUI();
         InvokeRepeating(nameof(TickTimer), 1f, 1f);
+        currentCombo = 0;
 
         gameWon = false;
         gameLost = false;
