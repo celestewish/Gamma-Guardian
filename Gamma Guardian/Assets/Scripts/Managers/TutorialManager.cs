@@ -13,6 +13,7 @@ public class TutorialManager : MonoBehaviour
     [Header("UI References")]
     public DialogueManager dialogueManager;
     public GameObject medicineButton;
+    public GameObject completionBar;
 
     [Header("Flash Effect")]
     public Color flashColor = Color.red;
@@ -54,16 +55,30 @@ public class TutorialManager : MonoBehaviour
         "We have to help them. Use the medicine button to defeat the bacteria."
     };
 
-    private string[] endingDialogue =
+    private string[] barDialogue1 =
     {
         "Perfect! Now that the bacteria is gone the body will be safe.",
         "If we don't defeat the bacteria, the patient won't be able to heal.",
-        "Now, let's go take on the infection! Onwards!"
+        "Now, there's one last thing you need to know."
+    };
+
+    private string[] barDialogue2 =
+    {
+        "This flashing bar is the inflammation bar. It tells us how badly the body has inflammed.",
+        "It will gradually increase and decrease as inflammation changes.",
+        "Keep track of this bar, if it gets too full, it's game over.",
+    };
+
+    private string[] endingDialogue =
+    {
+        "Now Guardian Explorer, you have all you need to take on the infection and save the patient.",
+        "Fly onwards and save them!"
     };
 
     void Start()
     {
         medicineButton.SetActive(false);
+        completionBar.SetActive(false);
         initialPlayerPos = player.position;
         dialogueManager.SetDialogueLines(welcomeDialogue);
         dialogueManager.StartDialogue();
@@ -176,13 +191,32 @@ public class TutorialManager : MonoBehaviour
     {
         if (hasDefeatedBacteria)
         {
-            OnTutorialComplete();
+            StartBarTutorial();
         }
+    }
+
+    void StartBarTutorial()
+    {
+        tutorialStep = 4;
+        dialogueManager.onDialogueEnd.RemoveAllListeners();
+        dialogueManager.SetDialogueLines(barDialogue1);
+        dialogueManager.StartDialogue();
+        dialogueManager.onDialogueEnd.AddListener(EndBarTutorial);
+    }
+
+    void EndBarTutorial()
+    {
+        dialogueManager.onDialogueEnd.RemoveListener(EndBarTutorial);
+        dialogueManager.SetDialogueLines(barDialogue2);
+        dialogueManager.StartDialogue();
+        dialogueManager.onDialogueEnd.AddListener(OnTutorialComplete);
+        completionBar.SetActive(true);
+        FlashUIColor(completionBar);
     }
 
     void OnTutorialComplete()
     {
-        tutorialStep = 4;
+        tutorialStep = 5;
         dialogueManager.SetDialogueLines(endingDialogue);
         dialogueManager.StartDialogue();
         dialogueManager.onDialogueEnd.AddListener(LoadLevel);

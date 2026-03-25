@@ -15,6 +15,9 @@ public class BacteriaAI : MonoBehaviour
     [Header("Layer Masks")]
     [SerializeField] private LayerMask bodyLayerMask = 3;
 
+    [Header("VFX")]
+    public GameObject bacteriaPuffPrefab;
+
     private Transform target;
     private Rigidbody2D rb;
     private float targetTimer;
@@ -24,11 +27,20 @@ public class BacteriaAI : MonoBehaviour
     private readonly Collider2D[] nearbyResults = new Collider2D[16];
     private bool isDead = false;
 
+    public Transform player;
+    public float pulseRange = 6f;
+    private PulseEffect pulseEffect;
+    public float nearRadius = 2f;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         PickNewWanderDirection();
         wanderTimer = wanderChangeInterval;
+        pulseEffect = GetComponentInChildren<PulseEffect>();
+        if (pulseEffect != null)
+            pulseEffect.SetPulseActive(false);
+        if (player == null) player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     void Update()
@@ -42,6 +54,15 @@ public class BacteriaAI : MonoBehaviour
         else
         {
             ChaseTarget();
+        }
+        float distToPlayer = Vector2.Distance(transform.position, player.position);
+        bool shouldPulse = distToPlayer < pulseRange && distToPlayer > nearRadius;  // Between pulseRange & nearRadius
+        if (pulseEffect != null)
+        {
+            if (shouldPulse && !pulseEffect.isPulsing)
+                pulseEffect.SetPulseActive(true);
+            else if (!shouldPulse && pulseEffect.isPulsing)
+                pulseEffect.SetPulseActive(false);
         }
     }
 
@@ -150,6 +171,8 @@ public class BacteriaAI : MonoBehaviour
         {
             GameManager.Instance.OnBacteriaDestroyed();
         }
+        if (bacteriaPuffPrefab != null)
+            Instantiate(bacteriaPuffPrefab, transform.position, transform.rotation);
 
         Destroy(gameObject);
     }

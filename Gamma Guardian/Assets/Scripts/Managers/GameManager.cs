@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Level" && !levelRunning)
+        if ((scene.name == "Level" || scene.name == "LaurenLevelScene") && !levelRunning)
         {
             StartLevel();
         }
@@ -60,24 +60,33 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-        if (completionBar != null)
+        if (completionBar != null && inflammationManager != null)
         {
-            progress = inflammationManager.currentInflammation / 100f;
-            completionBar.fillAmount =
-                Mathf.Lerp(completionBar.fillAmount, progress, Time.deltaTime * 5f);
+            float normalizedInflam = inflammationManager.currentInflammation / inflammationManager.maxInflammation;
+            completionBar.fillAmount = Mathf.Lerp(completionBar.fillAmount, normalizedInflam, Time.deltaTime * 5f);
         }
     }
 
     public void StartLevel()
     {
-        if (completionBar == null) completionBar = GameObject.Find("completionFill")?.GetComponent<UnityEngine.UI.Image>(); // Adjust path
-        if (timerText == null) timerText = GameObject.Find("timerText")?.GetComponent<TextMeshProUGUI>(); // Adjust path
+        if (completionBar == null)
+        {
+            GameObject barObj = GameObject.Find("completionFill");
+            completionBar = barObj?.GetComponent<UnityEngine.UI.Image>();
+            Debug.Log($"completionBar: {completionBar}");
+        }
+        if (timerText == null)
+        {
+            GameObject timerObj = GameObject.Find("timerText");
+            timerText = timerObj?.GetComponent<TextMeshProUGUI>();
+        }
         if (pauseMenuUI == null) pauseMenuUI = GameObject.Find("PauseCanvas");
 
 
         BacteriaAI[] bacteria = Object.FindObjectsByType<BacteriaAI>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
         bacteriaCount = bacteria.Length;
         inflammationManager = InflammationManager.Instance;
+        if (inflammationManager == null) Debug.LogError("InflammationManager.Instance is null!");
         levelRunning = true;
 
         timeRemaining = levelTimeLimit;
