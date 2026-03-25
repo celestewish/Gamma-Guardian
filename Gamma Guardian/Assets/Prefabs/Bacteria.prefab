@@ -152,8 +152,10 @@ MonoBehaviour:
   bodyLayerMask:
     serializedVersion: 2
     m_Bits: 8
+  bacteriaPuffPrefab: {fileID: 2735249694781336584, guid: 49bfaeb1de0e526418eefce937e334b3, type: 3}
   player: {fileID: 0}
   pulseRange: 6
+  nearRadius: 2
 --- !u!50 &1509211612569786872
 Rigidbody2D:
   serializedVersion: 5

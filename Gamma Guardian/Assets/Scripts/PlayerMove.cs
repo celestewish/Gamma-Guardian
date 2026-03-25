@@ -14,6 +14,7 @@ public class PlayerMove : MonoBehaviour
     private Vector2 move;
     private Rigidbody2D rb;
     private PlayerAudioScript playerAudio;
+    public TrailRenderer playerTrail;
 
     void Start()
     {
@@ -29,6 +30,14 @@ public class PlayerMove : MonoBehaviour
     void OnMove(InputValue ip)
     {
         move = ip.Get<Vector2>();
+    }
+
+    private void Update()
+    {
+        if (rb.linearVelocity.magnitude > 0.1f)
+            playerTrail.emitting = true;
+        else
+            playerTrail.emitting = false;
     }
 
     void FixedUpdate()

@@ -15,6 +15,9 @@ public class BacteriaAI : MonoBehaviour
     [Header("Layer Masks")]
     [SerializeField] private LayerMask bodyLayerMask = 3;
 
+    [Header("VFX")]
+    public GameObject bacteriaPuffPrefab;
+
     private Transform target;
     private Rigidbody2D rb;
     private float targetTimer;
@@ -168,6 +171,8 @@ public class BacteriaAI : MonoBehaviour
         {
             GameManager.Instance.OnBacteriaDestroyed();
         }
+        if (bacteriaPuffPrefab != null)
+            Instantiate(bacteriaPuffPrefab, transform.position, transform.rotation);
 
         Destroy(gameObject);
     }
