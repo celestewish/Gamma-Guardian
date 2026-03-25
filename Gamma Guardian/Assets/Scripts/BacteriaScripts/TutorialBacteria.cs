@@ -1,4 +1,3 @@
-using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 
@@ -7,6 +6,9 @@ public class TutorialBacteria : MonoBehaviour
     [Header("Tutorial Settings")]
     public float moveSpeed = 2f;
     public float stationaryTime = 3f; // Seconds to stay still before "vulnerable"
+
+    [Header("VFX")]
+    public GameObject bacteriaPuffPrefab;
 
     private bool isVulnerable = false;
     private Vector3 wanderTarget;
@@ -51,10 +53,9 @@ public class TutorialBacteria : MonoBehaviour
 
     public void Deactivate()
     {
-        Debug.Log("This code has run.");
-        GetComponent<SpriteRenderer>().DOColor(Color.red, 0.1f).OnComplete(() =>
-            GetComponent<SpriteRenderer>().color = Color.white);
+        if (bacteriaPuffPrefab != null)
+            Instantiate(bacteriaPuffPrefab, transform.position, transform.rotation);
         tutorialManager?.OnBacteriaDefeated();
-        Destroy(gameObject, 1f);
+        Destroy(gameObject);
     }
 }

@@ -11,6 +11,7 @@ public class TutorialCytokine : MonoBehaviour
     private Vector3 wanderTarget;
     private TutorialManager tutorialManager;
     public GameObject bacteria;
+    public GameObject healEffect;
 
     void Start()
     {
@@ -55,6 +56,7 @@ public class TutorialCytokine : MonoBehaviour
         {
             transform.Find("Neutral").gameObject.SetActive(true);
         }
+        Instantiate(healEffect, transform.position, Quaternion.identity);
         tutorialManager?.OnGammaCalmed(); // Signal tutorial progress
         Destroy(gameObject, 1f);
         bacteria.SetActive(true);
