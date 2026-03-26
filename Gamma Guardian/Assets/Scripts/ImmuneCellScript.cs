@@ -19,6 +19,13 @@ public class ImmuneCellScript : MonoBehaviour
     public float wanderSpeed = 1.5f;
     public float wanderChangeInterval = 2f;
 
+    [Header("Sprite States")]
+    public Sprite normalSprite;
+    public Sprite distressedSprite;
+    public Sprite criticalSprite;
+    private SpriteRenderer spriteRenderer;
+
+
     private Rigidbody2D rb;
     private Vector2 wanderDirection;
     private float wanderTimer;
@@ -27,6 +34,7 @@ public class ImmuneCellScript : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         PickNewWanderDirection();
         wanderTimer = wanderChangeInterval;
     }
@@ -34,8 +42,30 @@ public class ImmuneCellScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        UpdateSpriteBasedOnInflammation();
         TryBacteria();
     }
+
+    void UpdateSpriteBasedOnInflammation()
+    {
+        if (spriteRenderer == null || InflammationManager.Instance == null) return;
+
+        float inflammationPct = InflammationManager.Instance.currentInflammation / InflammationManager.Instance.maxInflammation;
+
+        if (inflammationPct > 0.5f && criticalSprite != null)
+        {
+            spriteRenderer.sprite = criticalSprite;
+        }
+        else if (inflammationPct > 0.25f && distressedSprite != null)
+        {
+            spriteRenderer.sprite = distressedSprite;
+        }
+        else if (normalSprite != null)
+        {
+            spriteRenderer.sprite = normalSprite;
+        }
+    }
+
     void TryBacteria()
     {
         List<GameObject> allBacteria = GameObject.FindGameObjectsWithTag("Bacteria")

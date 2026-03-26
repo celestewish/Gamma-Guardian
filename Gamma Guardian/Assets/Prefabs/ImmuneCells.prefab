@@ -113,6 +113,9 @@ MonoBehaviour:
   cytokines: {fileID: 8881689545613706198, guid: 5ab802797b40e1d4bacdd19d4e47252b, type: 3}
   wanderSpeed: 1.5
   wanderChangeInterval: 2
+  normalSprite: {fileID: 21300000, guid: 217e4d3837569f447a73f61da185a57b, type: 3}
+  distressedSprite: {fileID: 21300000, guid: e33ac4aab5c72c24d82e47edd07c085e, type: 3}
+  criticalSprite: {fileID: 21300000, guid: 27f5751e08ad5b145b03f9aabc6d1ea7, type: 3}
 --- !u!61 &8979840988635248114
 BoxCollider2D:
   m_ObjectHideFlags: 0
