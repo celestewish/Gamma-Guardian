@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -16,8 +17,15 @@ public class PlayerMove : MonoBehaviour
     private PlayerAudioScript playerAudio;
     public TrailRenderer playerTrail;
 
+    [SerializeField] private SpriteRenderer playerSprite;     // Main player sprite
+    [SerializeField] private SpriteRenderer actionSprite;     // Action sprite (child)
+    [SerializeField] private float actionShowTime = 1f;       // Seconds to show action
+    private bool isFacingRight = true;
+
     void Start()
     {
+        if (actionSprite != null) actionSprite.gameObject.SetActive(false);
+
         if (speedMult <= 0) speedMult = 5f;
         move = new Vector2(0, 0);
         rb = GetComponent<Rigidbody2D>();
@@ -41,6 +49,18 @@ public class PlayerMove : MonoBehaviour
             playerTrail.emitting = true;
         else
             playerTrail.emitting = false;
+
+        if (move.x != 0)
+        {
+            bool newFacingRight = move.x > 0;
+            if (newFacingRight != isFacingRight)
+            {
+                isFacingRight = newFacingRight;
+                if (playerSprite != null) playerSprite.flipX = !isFacingRight;
+                if (actionSprite != null) actionSprite.flipX = !isFacingRight;
+            }
+        }
+
         if (move.magnitude > 0)
         {
             rb.AddForce(move.normalized * speedMult);
@@ -67,6 +87,11 @@ public class PlayerMove : MonoBehaviour
 
     public void PlayerAction()
     {
+        if (actionSprite != null)
+        {
+            actionSprite.flipX = !isFacingRight;
+            StartCoroutine(ShowActionCoroutine());
+        }
         GameObject[] cytokines = GameObject.FindGameObjectsWithTag("Cytokines");
         GameObject closestCytokine = null;
         float closestDistance = Mathf.Infinity;
@@ -114,6 +139,17 @@ public class PlayerMove : MonoBehaviour
         }
 
         
+    }
+    private IEnumerator ShowActionCoroutine()
+    {
+        if (actionSprite != null)
+        {
+            actionSprite.gameObject.SetActive(true);
+            playerSprite.enabled = false;
+            yield return new WaitForSeconds(actionShowTime);
+            actionSprite.gameObject.SetActive(false);
+            playerSprite.enabled = true;
+        }
     }
 
     //enum FalloffLevel
