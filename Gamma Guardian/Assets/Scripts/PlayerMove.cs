@@ -25,6 +25,9 @@ public class PlayerMove : MonoBehaviour
 
         if (foMult > .1f) foMult = .1f;
         foVal = foMult;
+
+        //Time.fixedDeltaTime = 0.02f;
+        Application.targetFrameRate = 60;
     }
 
     void OnMove(InputValue ip)
@@ -38,27 +41,26 @@ public class PlayerMove : MonoBehaviour
             playerTrail.emitting = true;
         else
             playerTrail.emitting = false;
-    }
-
-    void FixedUpdate()
-    {
-        if(move.magnitude > 0)
+        if (move.magnitude > 0)
         {
             rb.AddForce(move.normalized * speedMult);
             if (rb.linearVelocity.magnitude > maxSpeed)
                 rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
         }
-        else if(rb.linearVelocity.magnitude > 0)
+        else if (rb.linearVelocity.magnitude > 0)
         {
             if (rb.linearVelocity.magnitude > 1f)
             {
-                if((int)foType == 0) rb.linearVelocity = rb.linearVelocity * (1-foVal); //exponential fall-off
+                if ((int)foType == 0) rb.linearVelocity = rb.linearVelocity * (1 - foVal); //exponential fall-off
                 else rb.linearVelocity = rb.linearVelocity - (foVal * maxSpeed * rb.linearVelocity.normalized); //linear fall-off
             }
             else
                 rb.linearVelocity = new Vector2(0, 0);
         }
+    }
 
+    void FixedUpdate()
+    {
         playerAudio.SetPitch(1.4f * rb.linearVelocity.magnitude / maxSpeed); //calls SetPitch with values from 0 - 1.4
         //Debug.Log("player speed: " + rb.linearVelocity.magnitude);
     }

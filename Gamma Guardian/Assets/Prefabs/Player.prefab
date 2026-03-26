@@ -249,8 +249,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e8c548430bcf974784b2c1a0b755ceb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  speedMult: 10
-  maxSpeed: 30
+  speedMult: 20
+  maxSpeed: 10
   foType: 0
   foMult: 0.05
   playerTrail: {fileID: 8108299731072982554}
