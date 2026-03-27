@@ -1554,6 +1554,7 @@ MonoBehaviour:
   musicVolumeSlider: {fileID: 381657300}
   musicAudioSource: {fileID: 439464009}
   brightnessOverlay: {fileID: 854805690}
+  fadeController: {fileID: 1462923874}
 --- !u!1 &708713259
 GameObject:
   m_ObjectHideFlags: 0
@@ -3323,6 +3324,114 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1413688148}
   m_CullTransparentMesh: 1
+--- !u!1001 &1462923873
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3231314795165697735, guid: 40b9dc780f31cfe4c8f873bb7d822b9c, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3231314795165697735, guid: 40b9dc780f31cfe4c8f873bb7d822b9c, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3231314795165697735, guid: 40b9dc780f31cfe4c8f873bb7d822b9c, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3231314795165697735, guid: 40b9dc780f31cfe4c8f873bb7d822b9c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3231314795165697735, guid: 40b9dc780f31cfe4c8f873bb7d822b9c, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3231314795165697735, guid: 40b9dc780f31cfe4c8f873bb7d822b9c, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3231314795165697735, guid: 40b9dc780f31cfe4c8f873bb7d822b9c, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3231314795165697735, guid: 40b9dc780f31cfe4c8f873bb7d822b9c, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3231314795165697735, guid: 40b9dc780f31cfe4c8f873bb7d822b9c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3231314795165697735, guid: 40b9dc780f31cfe4c8f873bb7d822b9c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3231314795165697735, guid: 40b9dc780f31cfe4c8f873bb7d822b9c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3231314795165697735, guid: 40b9dc780f31cfe4c8f873bb7d822b9c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3231314795165697735, guid: 40b9dc780f31cfe4c8f873bb7d822b9c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3231314795165697735, guid: 40b9dc780f31cfe4c8f873bb7d822b9c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3231314795165697735, guid: 40b9dc780f31cfe4c8f873bb7d822b9c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3231314795165697735, guid: 40b9dc780f31cfe4c8f873bb7d822b9c, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3231314795165697735, guid: 40b9dc780f31cfe4c8f873bb7d822b9c, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3231314795165697735, guid: 40b9dc780f31cfe4c8f873bb7d822b9c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3231314795165697735, guid: 40b9dc780f31cfe4c8f873bb7d822b9c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3231314795165697735, guid: 40b9dc780f31cfe4c8f873bb7d822b9c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7182518526825057111, guid: 40b9dc780f31cfe4c8f873bb7d822b9c, type: 3}
+      propertyPath: m_Name
+      value: FadeCanvas
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 40b9dc780f31cfe4c8f873bb7d822b9c, type: 3}
+--- !u!114 &1462923874 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8924647699287054498, guid: 40b9dc780f31cfe4c8f873bb7d822b9c, type: 3}
+  m_PrefabInstance: {fileID: 1462923873}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f191596812e8c7a458b7c692666266a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FadeController
 --- !u!1 &1467406107
 GameObject:
   m_ObjectHideFlags: 0
@@ -4349,3 +4458,4 @@ SceneRoots:
   - {fileID: 1859984871}
   - {fileID: 1124840258}
   - {fileID: 779049432}
+  - {fileID: 1462923873}

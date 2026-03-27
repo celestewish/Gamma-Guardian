@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Collections;
 
 public class MenuManager : MonoBehaviour
 {
@@ -34,6 +35,8 @@ public class MenuManager : MonoBehaviour
 
     [Header("Brightness Overlay")]
     public CanvasGroup brightnessOverlay;
+
+    public FadeController fadeController;
 
     // Internal
     Vector3 titleStartPos;
@@ -75,6 +78,11 @@ public class MenuManager : MonoBehaviour
         if (settingsCanvas != null) settingsCanvas.SetActive(false);
     }
 
+    private void Start()
+    {
+        fadeController.FadeOut();
+    }
+
     void Update()
     {
         // Floating up and down for title and main character splash
@@ -93,7 +101,6 @@ public class MenuManager : MonoBehaviour
     {
         if (buttonTransform != null)
         {
-            StopAllCoroutines();
             StartCoroutine(SquashAndStretch(buttonTransform));
         }
 
@@ -153,6 +160,7 @@ public class MenuManager : MonoBehaviour
     {
         PlayClickFeedback(playButton != null ? playButton.transform : null, true);
         SceneManager.LoadScene("Tutorial");
+        //LoadLevelCoroutine("Tutorial");
     }
 
     void OnSettingsPressed()
@@ -166,6 +174,7 @@ public class MenuManager : MonoBehaviour
     {
         PlayClickFeedback(glossaryButton != null ? glossaryButton.transform : null, true);
         SceneManager.LoadScene("Glossary");
+        //LoadLevelCoroutine("Glossary");
     }
 
     void OnSettingsClosePressed()
@@ -173,5 +182,12 @@ public class MenuManager : MonoBehaviour
         PlayClickFeedback(settingsCloseButton != null ? settingsCloseButton.transform : null, false);
         settingsOpen = false;
         if (settingsCanvas != null) settingsCanvas.SetActive(false);
+    }
+
+    private IEnumerator LoadLevelCoroutine(string levelName)
+    {
+        Debug.Log("This code has run");
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(levelName);
     }
 }

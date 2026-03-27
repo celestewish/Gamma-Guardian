@@ -14,6 +14,12 @@ public class TutorialManager : MonoBehaviour
     public DialogueManager dialogueManager;
     public GameObject medicineButton;
     public GameObject completionBar;
+    public GameObject map;
+
+    public GameObject cytokine;
+    public FadeController fadeController;
+    public GameObject immuneCellPrefab;
+    public float immuneCellApproachDistance = 3f;
 
     [Header("Flash Effect")]
     public Color flashColor = Color.red;
@@ -32,19 +38,31 @@ public class TutorialManager : MonoBehaviour
 
     private string[] welcomeDialogue = {
         "Welcome to the body, Guardian Explorer!",
-        "Your goal is to calm the interferon gammas and destroy the infection.",
+        "Your goal is to help the immune system defeat the infection.",
         "This will allow us to defend the body."
     };
 
     private string[] moveDialogue = {
         "First, learn to move: try forwards, backwards, up, and down.",
-        "Use W for up, A for left, D for right, and S for down."
+        "Use W for up, A for left, D for right, and S for down.",
+        "Try flying in a circle!"
+    };
+
+    private string[] immuneCell =
+    {
+        "Nice work! Let's learn about the immune cells now.",
+        "This is an immune cell.",
+        "Their job is to defend the body against pathogens.",
+        "However the immune cells in this patient struggle to kill pathogens.",
+        "To try and stop the infection, they call a cytokine.",
+        "They are like little messengers who call for more immune cells."
     };
 
     private string[] calmGammaDialogue = {
+        "This is a inferferon gamma. A special type of cytokine that helps call the immune cells to attack infections,",
         "You see, the gammas are trying to help the body, but they get the immune cells too excited!",
         "When that happens, the cells get confused and start attacking the body instead!",
-        "To calm the interferon gamma, press the medicine button.",
+        "To calm the interferon gamma, fly up to the gamma and press the medicine button.",
         "The medicine button is the small square on the left."
     };
 
@@ -52,14 +70,14 @@ public class TutorialManager : MonoBehaviour
         "Excellent work! Now let's tackle defeating the bacteria.",
         "The immune cells in this patient do not respond correctly to infection.",
         "They try super hard! But they can't defeat the bacteria on their own.",
-        "We have to help them. Use the medicine button to defeat the bacteria."
+        "We have to help them. Fly up to the bacteria and use the medicine button."
     };
 
     private string[] barDialogue1 =
     {
         "Perfect! Now that the bacteria is gone the body will be safe.",
         "If we don't defeat the bacteria, the patient won't be able to heal.",
-        "Now, there's one last thing you need to know."
+        "Now, there's couple more things you need to know."
     };
 
     private string[] barDialogue2 =
@@ -67,6 +85,13 @@ public class TutorialManager : MonoBehaviour
         "This flashing bar is the inflammation bar. It tells us how badly the body has inflammed.",
         "It will gradually increase and decrease as inflammation changes.",
         "Keep track of this bar, if it gets too full, it's game over.",
+    };
+
+    private string[] mapDialogue =
+    {
+        "This here is the map",
+        "When there's bacteria on the map, they will show up as red dots.",
+        "You can use the map to tell where enemies are"
     };
 
     private string[] endingDialogue =
@@ -77,8 +102,12 @@ public class TutorialManager : MonoBehaviour
 
     void Start()
     {
+        fadeController.FadeOut();
+        immuneCellPrefab.SetActive(false);
+        cytokine.SetActive(false);
         medicineButton.SetActive(false);
         completionBar.SetActive(false);
+        map.SetActive(false);
         initialPlayerPos = player.position;
         dialogueManager.SetDialogueLines(welcomeDialogue);
         dialogueManager.StartDialogue();
@@ -99,6 +128,10 @@ public class TutorialManager : MonoBehaviour
         else if (tutorialStep == 3) // Bacteria tutorial
         {
             CheckBacteriaDefeated();
+        }
+        else if (tutorialStep == 6) // Immune cell approach
+        {
+            CheckImmuneCellApproach();
         }
     }
 
@@ -128,7 +161,7 @@ public class TutorialManager : MonoBehaviour
 
             if (movedDirections.Count >= 4) // Assume 4 directions detected
             {
-                OnMovementComplete();
+                ImmuneCell();
             }
         }
     }
@@ -148,9 +181,41 @@ public class TutorialManager : MonoBehaviour
         flashSeq.Play();
     }
 
+    void ImmuneCell()
+    {
+        tutorialStep = 6;
+        immuneCellPrefab.SetActive(true);
+        dialogueManager.SetDialogueLines(new string[] { "Follow the arrow back towards the center." });
+        dialogueManager.StartDialogue();
+        dialogueManager.onDialogueEnd.AddListener(OnImmuneApproachDialogueEnd);
+    }
+    void OnImmuneApproachDialogueEnd()
+    {
+        // Keep listening for approach completion
+    }
+
+    void CheckImmuneCellApproach()
+    {
+        float distanceToImmune = Vector3.Distance(player.position, immuneCellPrefab.transform.position);
+
+        if (distanceToImmune <= immuneCellApproachDistance)
+        {
+            OnImmuneCellReached();
+        }
+    }
+    void OnImmuneCellReached()
+    {
+        tutorialStep = 0; // Reset for next phase
+        dialogueManager.SetDialogueLines(immuneCell); // Full immune cell dialogue
+        dialogueManager.StartDialogue();
+        dialogueManager.onDialogueEnd.AddListener(OnMovementComplete);
+    }
+
     void OnMovementComplete()
     {
+        dialogueManager.onDialogueEnd.RemoveAllListeners();
         tutorialStep = 2;
+        cytokine.SetActive(true);
         dialogueManager.SetDialogueLines(calmGammaDialogue);
         dialogueManager.StartDialogue();
         medicineButton.SetActive(true);
@@ -209,9 +274,19 @@ public class TutorialManager : MonoBehaviour
         dialogueManager.onDialogueEnd.RemoveListener(EndBarTutorial);
         dialogueManager.SetDialogueLines(barDialogue2);
         dialogueManager.StartDialogue();
-        dialogueManager.onDialogueEnd.AddListener(OnTutorialComplete);
+        dialogueManager.onDialogueEnd.AddListener(MapTutorial);
         completionBar.SetActive(true);
         FlashUIColor(completionBar);
+    }
+
+    void MapTutorial()
+    {
+        dialogueManager.onDialogueEnd.RemoveAllListeners();
+        dialogueManager.SetDialogueLines(mapDialogue);
+        dialogueManager.StartDialogue();
+        dialogueManager.onDialogueEnd.AddListener(OnTutorialComplete);
+        map.SetActive(true);
+        FlashUIColor(map);
     }
 
     void OnTutorialComplete()
@@ -223,6 +298,14 @@ public class TutorialManager : MonoBehaviour
     }
     void LoadLevel()
     {
+        dialogueManager.SetDialogueLines(new string[] { "" });
+        StartCoroutine(LoadLevelCoroutine());
+    }
+
+    private IEnumerator LoadLevelCoroutine()
+    {
+        fadeController.FadeIn();
+        yield return new WaitForSeconds(2f);
         SceneManager.LoadScene("Level");
     }
 }
