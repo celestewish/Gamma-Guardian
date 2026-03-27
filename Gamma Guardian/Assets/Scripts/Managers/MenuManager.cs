@@ -159,8 +159,7 @@ public class MenuManager : MonoBehaviour
     void OnPlayPressed()
     {
         PlayClickFeedback(playButton != null ? playButton.transform : null, true);
-        SceneManager.LoadScene("Tutorial");
-        //LoadLevelCoroutine("Tutorial");
+        StartCoroutine(LoadLevelCoroutine("Tutorial"));
     }
 
     void OnSettingsPressed()
@@ -173,8 +172,7 @@ public class MenuManager : MonoBehaviour
     void OnGlossaryPressed()
     {
         PlayClickFeedback(glossaryButton != null ? glossaryButton.transform : null, true);
-        SceneManager.LoadScene("Glossary");
-        //LoadLevelCoroutine("Glossary");
+        StartCoroutine(LoadLevelCoroutine("Glossary"));
     }
 
     void OnSettingsClosePressed()
@@ -186,7 +184,7 @@ public class MenuManager : MonoBehaviour
 
     private IEnumerator LoadLevelCoroutine(string levelName)
     {
-        Debug.Log("This code has run");
+        fadeController.FadeIn();
         yield return new WaitForSeconds(2f);
         SceneManager.LoadScene(levelName);
     }

@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public Image completionBar;
     private InflammationManager inflammationManager;
     public float progress = 0f;
+    public FadeController fadeController;
 
     [Header("Pause")]
     public bool isPaused = false;
@@ -56,6 +57,7 @@ public class GameManager : MonoBehaviour
     {
         if ((scene.name == "Level" || scene.name == "LaurenLevelScene") && !levelRunning)
         {
+            if (fadeController == null) fadeController = GameObject.Find("FadeCanvas")?.GetComponent<FadeController>();
             StartLevel();
         }
     }
@@ -117,6 +119,7 @@ public class GameManager : MonoBehaviour
 
         gameWon = false;
         gameLost = false;
+        fadeController.FadeOut();
 
         Debug.Log($"Level started with {bacteriaCount} bacteria.");
     }
@@ -142,11 +145,11 @@ public class GameManager : MonoBehaviour
 
         if (gameWon)
         {
-            SceneManager.LoadScene("Ending");
+            StartCoroutine(LoadLevelCoroutine("Ending"));
         }
         else if (gameLost)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            StartCoroutine(LoadLevelCoroutine(SceneManager.GetActiveScene().name));
         }
     }
 
@@ -251,6 +254,13 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(0);
         Time.timeScale = 1f;
+    }
+
+    private IEnumerator LoadLevelCoroutine(string levelName)
+    {
+        fadeController.FadeIn();
+        yield return new WaitForSecondsRealtime(2f);
+        SceneManager.LoadScene(levelName, LoadSceneMode.Single);
     }
 }
 
