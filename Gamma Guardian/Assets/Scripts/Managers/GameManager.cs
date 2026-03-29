@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -20,10 +21,14 @@ public class GameManager : MonoBehaviour
     private InflammationManager inflammationManager;
     public float progress = 0f;
     public FadeController fadeController;
+    private GameObject uiCanvas;
 
     [Header("Pause")]
     public bool isPaused = false;
     public GameObject pauseMenuUI;
+    public Button pauseButton;
+    public Button resumeButton;
+    public Button homeButton;
 
     [Header("Timer")]
     public TextMeshProUGUI timerText;
@@ -31,9 +36,9 @@ public class GameManager : MonoBehaviour
     private float timeRemaining;
 
     [Header("Combos")]
-    public TextMeshProUGUI comboText; // UI Text for "3+" pop-up (child of Canvas)
+    public TextMeshProUGUI comboText;
     public float comboWindow = 3f;
-    public float comboReductionBase = 0.05f; // 5% per combo level, tune
+    public float comboReductionBase = 0.05f;
 
     private int currentCombo = 0;
     private float lastKillTime;
@@ -55,23 +60,22 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if ((scene.name == "Level" || scene.name == "LaurenLevelScene") && !levelRunning)
+        string sname = scene.name;
+        if ((sname == "Level" || sname == "LaurenLevelScene") && !levelRunning)
         {
-            if (fadeController == null) fadeController = GameObject.Find("FadeCanvas")?.GetComponent<FadeController>();
             StartLevel();
         }
     }
 
     void OnDestroy()
     {
-        // Clean up:
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
 
     void Start()
     {
-        StartLevel();
+        if (!levelRunning) StartLevel();
     }
     void Update()
     {
@@ -91,37 +95,52 @@ public class GameManager : MonoBehaviour
 
     public void StartLevel()
     {
-        if (completionBar == null)
-        {
-            GameObject barObj = GameObject.Find("completionFill");
-            completionBar = barObj?.GetComponent<UnityEngine.UI.Image>();
-            Debug.Log($"completionBar: {completionBar}");
-        }
-        if (timerText == null)
-        {
-            GameObject timerObj = GameObject.Find("timerText");
-            timerText = timerObj?.GetComponent<TextMeshProUGUI>();
-        }
-        if (pauseMenuUI == null) pauseMenuUI = GameObject.Find("PauseCanvas");
-        if (comboText == null) comboText = GameObject.Find("ComboText")?.GetComponent<TextMeshProUGUI>();
+        if (levelRunning) return;
 
+        uiCanvas = GameObject.Find("UserInterface");
+        if (uiCanvas != null)
+        {
+            if (completionBar == null)
+            {
+                GameObject barObj = GameObject.Find("completionFill");
+                completionBar = barObj?.GetComponent<UnityEngine.UI.Image>();
+                Debug.Log($"completionBar: {completionBar}");
+            }
+            if (timerText == null)
+            {
+                GameObject timerObj = GameObject.Find("timerText");
+                timerText = timerObj?.GetComponent<TextMeshProUGUI>();
+            }
+            if (pauseMenuUI == null) {
+                pauseMenuUI = GameObject.Find("PauseCanvas");
+            }
+            if (comboText == null) comboText = GameObject.Find("ComboText")?.GetComponent<TextMeshProUGUI>();
+            if (pauseButton == null) {
+                pauseButton = GameObject.Find("pause")?.GetComponent<Button>();
+                pauseButton.onClick.AddListener(TogglePause);
+                resumeButton = GameObject.Find("Play")?.GetComponent<Button>();
+                resumeButton.onClick.AddListener(TogglePause);
+                homeButton = GameObject.Find("Home")?.GetComponent<Button>();
+                homeButton.onClick.AddListener(GoHome);
+            }
+        }
 
         BacteriaAI[] bacteria = Object.FindObjectsByType<BacteriaAI>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
         bacteriaCount = bacteria.Length;
-        inflammationManager = InflammationManager.Instance;
-        if (inflammationManager == null) Debug.LogError("InflammationManager.Instance is null!");
-        levelRunning = true;
 
+        inflammationManager = InflammationManager.Instance;
+        levelRunning = true;
         timeRemaining = levelTimeLimit;
         UpdateTimerUI();
         InvokeRepeating(nameof(TickTimer), 1f, 1f);
         currentCombo = 0;
+        gameWon = gameLost = false;
+        pauseMenuUI.SetActive(false);
 
-        gameWon = false;
-        gameLost = false;
-        fadeController.FadeOut();
+        if (fadeController == null) fadeController = GameObject.Find("FadeCanvas")?.GetComponent<FadeController>();
+        if (fadeController != null) fadeController.FadeOut();
 
-        Debug.Log($"Level started with {bacteriaCount} bacteria.");
+        Debug.Log($"Level started: {bacteriaCount} bacteria");
     }
 
     public void OnBacteriaDestroyed()
@@ -145,11 +164,13 @@ public class GameManager : MonoBehaviour
 
         if (gameWon)
         {
-            StartCoroutine(LoadLevelCoroutine("Ending"));
+            StartCoroutine(fadeScene());
+            SceneManager.LoadScene("Ending");
         }
         else if (gameLost)
         {
-            StartCoroutine(LoadLevelCoroutine(SceneManager.GetActiveScene().name));
+            StartCoroutine(fadeScene());
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 
@@ -256,11 +277,10 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    private IEnumerator LoadLevelCoroutine(string levelName)
+    private IEnumerator fadeScene()
     {
         fadeController.FadeIn();
-        yield return new WaitForSecondsRealtime(2f);
-        SceneManager.LoadScene(levelName, LoadSceneMode.Single);
+        yield return new WaitForSeconds(5f);
     }
 }
 

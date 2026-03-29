@@ -1,40 +1,38 @@
-using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
 public class FadeController : MonoBehaviour
 {
-    [SerializeField] private float fadeDuration = 1f;  // Adjustable in Inspector
+    [SerializeField] private float fadeDuration = 1f;
     private CanvasGroup canvasGroup;
 
     void Awake()
     {
+        RefreshCanvasGroup();
+    }
+
+    public void RefreshCanvasGroup()
+    {
         canvasGroup = GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
+            Debug.LogWarning("No CanvasGroup found on " + gameObject.name);
     }
 
-    // Call to fade in (black overlay appears)
-    public void FadeIn()
+    public Tween FadeIn()
     {
-        StartCoroutine(DoFade(1f));
+        RefreshCanvasGroup();  // Always get fresh reference
+        if (canvasGroup == null) return null;
+
+        DOTween.Kill(canvasGroup);  // Kill any old tweens on this CanvasGroup
+        return canvasGroup.DOFade(1f, 0.5f).SetLink(gameObject);
     }
 
-    // Call to fade out (overlay disappears)
-    public void FadeOut()
+    public Tween FadeOut()
     {
-        StartCoroutine(DoFade(0f));
-    }
+        RefreshCanvasGroup();
+        if (canvasGroup == null) return null;
 
-    private IEnumerator DoFade(float targetAlpha)
-    {
-        float startAlpha = canvasGroup.alpha;
-        float timeElapsed = 0f;
-
-        while (timeElapsed < fadeDuration)
-        {
-            timeElapsed += Time.deltaTime;
-            canvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, timeElapsed / fadeDuration);
-            yield return null;
-        }
-
-        canvasGroup.alpha = targetAlpha;
+        DOTween.Kill(canvasGroup);
+        return canvasGroup.DOFade(0f, 0.5f).SetLink(gameObject);
     }
 }

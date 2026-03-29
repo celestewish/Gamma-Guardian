@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 public class SettingsManager : MonoBehaviour
@@ -14,12 +15,13 @@ public class SettingsManager : MonoBehaviour
     [Header("Audio")]
     public AudioSource uiAudioSource;
     public AudioSource musicAudioSource;
+    public AudioMixer audioMixer;
 
     // Keys
     private const string BRIGHTNESS_KEY = "Brightness";
+    private const string QUALITY_KEY = "Quality";
     private const string SFX_VOL_KEY = "SfxVolume";
     private const string MUSIC_VOL_KEY = "MusicVolume";
-    private const string QUALITY_KEY = "Quality";
 
     void Awake()
     {
@@ -57,18 +59,27 @@ public class SettingsManager : MonoBehaviour
         ApplyBrightness();
     }
 
-    public void SetSfxVolume(float value)
+    public void SetSfxVolume(float sliderValue)  // 0-1 from slider
     {
-        PlayerPrefs.SetFloat(SFX_VOL_KEY, value);
+        float dB = Mathf.Log10(Mathf.Max(sliderValue, 0.0001f)) * 20;  // -80dB to 0dB
+        audioMixer.SetFloat("SFX", dB);
+
+        PlayerPrefs.SetFloat(SFX_VOL_KEY, sliderValue);
         PlayerPrefs.Save();
-        if (uiAudioSource != null) uiAudioSource.volume = value;
+
+        // Keep source fallback
+        if (uiAudioSource != null) uiAudioSource.volume = sliderValue;
     }
 
-    public void SetMusicVolume(float value)
+    public void SetMusicVolume(float sliderValue)
     {
-        PlayerPrefs.SetFloat(MUSIC_VOL_KEY, value);
+        float dB = Mathf.Log10(Mathf.Max(sliderValue, 0.0001f)) * 20;
+        audioMixer.SetFloat("Music", dB);
+
+        PlayerPrefs.SetFloat(MUSIC_VOL_KEY, sliderValue);
         PlayerPrefs.Save();
-        if (musicAudioSource != null) musicAudioSource.volume = value;
+
+        if (musicAudioSource != null) musicAudioSource.volume = sliderValue;
     }
 
     public void SetQuality(int index)
@@ -83,10 +94,10 @@ public class SettingsManager : MonoBehaviour
         float brightness = PlayerPrefs.GetFloat(BRIGHTNESS_KEY, 1f);
         SetBrightness(brightness);
 
-        float sfxVol = PlayerPrefs.GetFloat(SFX_VOL_KEY, 1f);
+        float sfxVol = PlayerPrefs.GetFloat(SFX_VOL_KEY, 0.75f);
         SetSfxVolume(sfxVol);
 
-        float musicVol = PlayerPrefs.GetFloat(MUSIC_VOL_KEY, 1f);
+        float musicVol = PlayerPrefs.GetFloat(MUSIC_VOL_KEY, 0.75f);
         SetMusicVolume(musicVol);
 
         int quality = PlayerPrefs.GetInt(QUALITY_KEY, QualitySettings.names.Length - 1);
