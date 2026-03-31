@@ -40,6 +40,9 @@ public class GameManager : MonoBehaviour
     public float comboWindow = 3f;
     public float comboReductionBase = 0.05f;
 
+    [Header("Scenes")]
+    public string mainMenuScene = "MainMenu";
+
     private int currentCombo = 0;
     private float lastKillTime;
     private float comboTimer;
@@ -58,9 +61,18 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         string sname = scene.name;
+
+        // RESET on main menu return
+        if (sname == mainMenuScene)
+        {
+            ResetGameState();
+            return;
+        }
+
+        // Start level on level scenes
         if ((sname == "Level" || sname == "LaurenLevelScene") && !levelRunning)
         {
             StartLevel();
@@ -72,11 +84,6 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-
-    void Start()
-    {
-        if (!levelRunning) StartLevel();
-    }
     void Update()
     {
         if (completionBar != null && inflammationManager != null)
@@ -115,12 +122,25 @@ public class GameManager : MonoBehaviour
                 pauseMenuUI = GameObject.Find("PauseCanvas");
             }
             if (comboText == null) comboText = GameObject.Find("ComboText")?.GetComponent<TextMeshProUGUI>();
-            if (pauseButton == null) {
-                pauseButton = GameObject.Find("pause")?.GetComponent<Button>();
+
+            pauseButton = GameObject.Find("pause")?.GetComponent<Button>();
+            resumeButton = GameObject.Find("Play")?.GetComponent<Button>();
+            homeButton = GameObject.Find("Home")?.GetComponent<Button>();
+            if (pauseButton != null)
+            {
+                pauseButton.onClick.RemoveAllListeners();
                 pauseButton.onClick.AddListener(TogglePause);
-                resumeButton = GameObject.Find("Play")?.GetComponent<Button>();
+            }
+
+            if (resumeButton != null)
+            {
+                resumeButton.onClick.RemoveAllListeners();
                 resumeButton.onClick.AddListener(TogglePause);
-                homeButton = GameObject.Find("Home")?.GetComponent<Button>();
+            }
+
+            if (homeButton != null)
+            {
+                homeButton.onClick.RemoveAllListeners();
                 homeButton.onClick.AddListener(GoHome);
             }
         }
@@ -141,6 +161,22 @@ public class GameManager : MonoBehaviour
         if (fadeController != null) fadeController.FadeOut();
 
         Debug.Log($"Level started: {bacteriaCount} bacteria");
+    }
+
+    public void ResetGameState()
+    {
+        levelRunning = false;
+        bacteriaCount = 0;
+        gameWon = gameLost = false;
+        isPaused = false;
+        CancelInvoke(nameof(TickTimer));
+        Time.timeScale = 1f;
+        AudioListener.pause = false;
+
+        if (pauseMenuUI != null) pauseMenuUI.SetActive(false);
+        if (completionBar != null) completionBar.fillAmount = 0f;
+
+        Debug.Log("GameManager RESET for main menu");
     }
 
     public void OnBacteriaDestroyed()
@@ -273,6 +309,7 @@ public class GameManager : MonoBehaviour
 
     public void GoHome()
     {
+        ResetGameState();
         SceneManager.LoadScene(0);
         Time.timeScale = 1f;
     }
