@@ -16,6 +16,11 @@ public class GameManager : MonoBehaviour
     public bool gameWon = false;
     public bool gameLost = false;
 
+    [Header("Gameplay Flow")]
+    public bool timerStarted = false;
+    public bool introDialogueFinished = false;
+    private bool waitingForEndDialogue = false;
+
     [Header("UI")]
     public Image completionBar;
     private InflammationManager inflammationManager;
@@ -42,6 +47,24 @@ public class GameManager : MonoBehaviour
 
     [Header("Scenes")]
     public string mainMenuScene = "MainMenu";
+
+    [Header("Dialogue")]
+    public DialogueManager dialogueManager;
+    #region Dialogue
+    private string[] introDialogue =
+    {
+        "Welcome to the first vessel Guardian Explorer",
+        "The infection is swarming this part of the body.",
+        "Take out all the bacteria to save the patient!",
+        "Make sure to take out cytokines too to slow infection."
+    };
+    public string[] endDialogue = {
+        "Nice work Guardian!",
+        "Our job's not over yet!",
+        "There are more regions we need to tackle.",
+        "Onwards!"
+    };
+    #endregion
 
     private int currentCombo = 0;
     private float lastKillTime;
@@ -107,25 +130,15 @@ public class GameManager : MonoBehaviour
         uiCanvas = GameObject.Find("UserInterface");
         if (uiCanvas != null)
         {
-            if (completionBar == null)
-            {
-                GameObject barObj = GameObject.Find("completionFill");
-                completionBar = barObj?.GetComponent<UnityEngine.UI.Image>();
-                Debug.Log($"completionBar: {completionBar}");
-            }
-            if (timerText == null)
-            {
-                GameObject timerObj = GameObject.Find("timerText");
-                timerText = timerObj?.GetComponent<TextMeshProUGUI>();
-            }
-            if (pauseMenuUI == null) {
-                pauseMenuUI = GameObject.Find("PauseCanvas");
-            }
-            if (comboText == null) comboText = GameObject.Find("ComboText")?.GetComponent<TextMeshProUGUI>();
+            completionBar = GameObject.Find("completionFill")?.GetComponent<Image>();
+            timerText = GameObject.Find("timerText")?.GetComponent<TextMeshProUGUI>();
+            pauseMenuUI = GameObject.Find("PauseCanvas");
+            comboText = GameObject.Find("ComboText")?.GetComponent<TextMeshProUGUI>();
 
             pauseButton = GameObject.Find("pause")?.GetComponent<Button>();
             resumeButton = GameObject.Find("Play")?.GetComponent<Button>();
             homeButton = GameObject.Find("Home")?.GetComponent<Button>();
+
             if (pauseButton != null)
             {
                 pauseButton.onClick.RemoveAllListeners();
@@ -150,31 +163,116 @@ public class GameManager : MonoBehaviour
 
         inflammationManager = InflammationManager.Instance;
         levelRunning = true;
-        timeRemaining = levelTimeLimit;
-        UpdateTimerUI();
-        InvokeRepeating(nameof(TickTimer), 1f, 1f);
-        currentCombo = 0;
-        gameWon = gameLost = false;
-        pauseMenuUI.SetActive(false);
+        gameWon = false;
+        gameLost = false;
+        isPaused = false;
 
-        if (fadeController == null) fadeController = GameObject.Find("FadeCanvas")?.GetComponent<FadeController>();
-        if (fadeController != null) fadeController.FadeOut();
+        timeRemaining = levelTimeLimit;
+        timerStarted = false;
+        introDialogueFinished = false;
+        currentCombo = 0;
+
+        UpdateTimerUI();
+
+        if (pauseMenuUI != null)
+            pauseMenuUI.SetActive(false);
+
+        if (fadeController == null)
+            fadeController = GameObject.Find("FadeCanvas")?.GetComponent<FadeController>();
+
+        if (fadeController != null)
+            fadeController.FadeOut();
+
+        dialogueManager = FindFirstObjectByType<DialogueManager>();
+
+        timerStarted = false;
+        introDialogueFinished = false;
+
+        if (dialogueManager != null)
+        {
+            dialogueManager.onDialogueEnd.RemoveListener(BeginGameplay);
+            dialogueManager.onDialogueEnd.RemoveListener(HandleEndDialogueFinished);
+            dialogueManager.onDialogueEnd.AddListener(BeginGameplay);
+
+            dialogueManager.SetDialogueLines(introDialogue);
+            dialogueManager.StartDialogue();
+        }
+        else
+        {
+            BeginGameplay();
+        }
 
         Debug.Log($"Level started: {bacteriaCount} bacteria");
+    }
+    public void BeginGameplay()
+    {
+        if (timerStarted) return;
+
+        timerStarted = true;
+        introDialogueFinished = true;
+        InvokeRepeating(nameof(TickTimer), 1f, 1f);
+
+        Debug.Log("Gameplay started after dialogue.");
+    }
+
+    public void StartEndDialogue()
+    {
+        levelRunning = false;
+        timerStarted = false;
+        CancelInvoke(nameof(TickTimer));
+
+        if (dialogueManager == null)
+            dialogueManager = FindFirstObjectByType<DialogueManager>();
+
+        if (dialogueManager != null)
+        {
+            waitingForEndDialogue = true;
+
+            dialogueManager.onDialogueEnd.RemoveListener(BeginGameplay);
+            dialogueManager.onDialogueEnd.RemoveListener(HandleEndDialogueFinished);
+            dialogueManager.onDialogueEnd.AddListener(HandleEndDialogueFinished);
+
+            dialogueManager.SetDialogueLines(endDialogue);
+            dialogueManager.StartDialogue();
+        }
+        else
+        {
+            HandleEndDialogueFinished();
+        }
+    }
+
+    private void HandleEndDialogueFinished()
+    {
+        if (!waitingForEndDialogue) return;
+
+        waitingForEndDialogue = false;
+        dialogueManager.onDialogueEnd.RemoveListener(HandleEndDialogueFinished);
+
+        GoHome();
     }
 
     public void ResetGameState()
     {
         levelRunning = false;
         bacteriaCount = 0;
-        gameWon = gameLost = false;
+        gameWon = false;
+        gameLost = false;
         isPaused = false;
+        timerStarted = false;
+        introDialogueFinished = false;
+        waitingForEndDialogue = false;
+
         CancelInvoke(nameof(TickTimer));
         Time.timeScale = 1f;
         AudioListener.pause = false;
 
         if (pauseMenuUI != null) pauseMenuUI.SetActive(false);
         if (completionBar != null) completionBar.fillAmount = 0f;
+        if (dialogueManager != null)
+        {
+            dialogueManager.onDialogueEnd.RemoveListener(BeginGameplay);
+            dialogueManager.onDialogueEnd.RemoveListener(HandleEndDialogueFinished);
+        }
 
         Debug.Log("GameManager RESET for main menu");
     }
@@ -189,7 +287,7 @@ public class GameManager : MonoBehaviour
         if (bacteriaCount == 0)
         {
             gameWon = true;
-            EndLevel();
+            StartEndDialogue();
         }
     }
 
@@ -201,7 +299,7 @@ public class GameManager : MonoBehaviour
         if (gameWon)
         {
             StartCoroutine(fadeScene());
-            SceneManager.LoadScene("Ending");
+            GoHome();
         }
         else if (gameLost)
         {
@@ -212,7 +310,7 @@ public class GameManager : MonoBehaviour
 
     private void TickTimer()
     {
-        if (!levelRunning || isPaused) return;
+        if (!levelRunning || isPaused || !timerStarted) return;
 
         timeRemaining -= 1f;
         UpdateTimerUI();

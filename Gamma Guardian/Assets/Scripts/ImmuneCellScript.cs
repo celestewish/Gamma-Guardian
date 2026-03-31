@@ -89,6 +89,8 @@ public class ImmuneCellScript : MonoBehaviour
                     timeNearTarget += Time.deltaTime;
                     if (timeNearTarget >= spawnTime)
                     {
+                        if (GameManager.Instance == null || !GameManager.Instance.timerStarted)
+                            return;
                         Instantiate(cytokines, transform.position, Quaternion.identity);
                         timeNearTarget = 0f;
                     }
