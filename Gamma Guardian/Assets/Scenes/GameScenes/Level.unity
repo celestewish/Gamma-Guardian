@@ -2904,6 +2904,10 @@ PrefabInstance:
       propertyPath: speedMult
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 7146601134386753264, guid: f69ad9d59989db4478746abe1b885c3f, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7230516569306459849, guid: f69ad9d59989db4478746abe1b885c3f, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
