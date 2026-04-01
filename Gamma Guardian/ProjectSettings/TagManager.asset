@@ -10,6 +10,7 @@ TagManager:
   - ImmuneCell
   - Spawn
   - Cytokines
+  - Wall
   layers:
   - Default
   - TransparentFX
