@@ -585,23 +585,41 @@ MonoBehaviour:
   closeButton: {fileID: 2015982930}
   entries:
   - image: {fileID: -1680877705835521684, guid: 43b8b9ff3a683364895f3fafc8d2f009, type: 3}
-    title: Pill Bacteria
-    description: Angry pill virus! These guys infect the body.
+    title: Bacilli
+    description: 'Pill-shaped or rod-shaped bacteria are formally known as bacilli
+      (singular: bacillus). These bacteria are straight, elongated, and often resemble
+      the appearance of a capsule pill, occurring as single cells, pairs (diplobacilli),
+      or chains (streptobacilli).'
   - image: {fileID: -2531176253003870966, guid: 3bee0e84268d3264bb24890a297739f1, type: 3}
-    title: Sphere Bacteria
-    description: Angry sphere virus! These guys infect the body.
+    title: Icosahedron Virus
+    description: Spherical viruses are commonly shaped particles characterized by
+      a protein shell (capsid) or outer envelope that is roughly spherical or icosahedral
+      in appearance. They are often not perfect spheres but are highly symmetrical,
+      utilizing icosahedral symmetry to protect the viral genome efficiently, such
+      as in adenovirus, poliovirus, and measles.
   - image: {fileID: -6059336636965133244, guid: ed6f161d4d6e3ca448b148670eb518f5, type: 3}
-    title: Blob Bacteria
-    description: Angry blob virus! These guys infect the body.
+    title: Mycoplasma
+    description: "Mycoplasma is a unique genus of bacteria distinguished by the complete
+      absence of a cell wall. They are the smallest known free-living organisms,
+      often measuring only 0.2 to 0.3 micrometers\u2014small enough to pass through
+      filters that trap most other bacteria."
   - image: {fileID: 21300000, guid: 217e4d3837569f447a73f61da185a57b, type: 3}
     title: Immune Cell
-    description: The immune cells protect the body against pathogens, but can cause
-      harm when triggered to be overactive by the cytokines.
+    description: 'Immune cells, also known as white blood cells or leukocytes, are
+      the "soldiers" of your body''s defense network. They constantly patrol your
+      blood and tissues to identify and destroy "non-self" invaders like the viruses
+      and bacteria.
+
+      The immune cells in this patient do not work properly
+      and can''t kill bacteria on their own, so they call cytokines to help them.'
   - image: {fileID: 21300000, guid: a593654a343828f4db55ca447875bd65, type: 3}
     title: Cytokine
-    description: The cytokine helps the immune cells do their jobs! These ones are
-      interferon gammas. Sometimes they malfunction and cause the immune cells to
-      become overactive.
+    description: "Interferon gamma (IFN-\u03B3) is a powerful signaling protein (cytokine)
+      that acts as the primary \"activator\" for your immune system's heavy hitters.
+      While other interferons are mainly famous for fighting viruses, Interferon
+      Gamma is the only Type II interferon and is essential for killing intracellular
+      bacteria.\nIn our patient, the gammas are malfunctioning and causing the immune
+      cells to become hyperactive."
   uiAudioSource: {fileID: 400523131}
   navSfx: {fileID: 8300000, guid: 41b1dff1d67040e4dae6bd4f7ceb1ee2, type: 3}
   closeSfx: {fileID: 8300000, guid: a9aed93da3a6c814f83507b737396685, type: 3}

@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour
         }
 
         // Start level on level scenes
-        if ((sname == "Level" || sname == "LaurenLevelScene") && !levelRunning)
+        if ((sname == "Level1" || sname == "LaurenLevelScene") && !levelRunning)
         {
             StartLevel();
         }

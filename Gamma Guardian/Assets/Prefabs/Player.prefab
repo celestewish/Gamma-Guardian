@@ -255,6 +255,7 @@ MonoBehaviour:
   foType: 0
   foMult: 0.05
   playerTrail: {fileID: 8108299731072982554}
+  playerAbilitySFX: {fileID: 7146601134386753264}
   playerSprite: {fileID: 3688605063155900463}
   actionSprite: {fileID: 4762185050931113201}
   actionShowTime: 0.5

@@ -11,6 +11,7 @@ public class DialogueManager : MonoBehaviour
     [Header("UI References")]
     public Image dialoguebox;
     public Button nextButton;
+    public Button backButton;
     public TMP_Text dialogueText;
     public AudioSource sfxSource; // Assign typing sound clip here
 
@@ -28,6 +29,8 @@ public class DialogueManager : MonoBehaviour
     void Start()
     {
         nextButton.onClick.AddListener(OnNextPressed);
+        if (backButton != null)
+            backButton.onClick.AddListener(OnBackPressed);
         dialogueText.maxVisibleCharacters = 0;
         dialogueText.text = "";
         if (dialogueLines.Count > 0) StartDialogue();
@@ -92,6 +95,21 @@ public class DialogueManager : MonoBehaviour
         else
         {
             EndDialogue();
+        }
+    }
+
+    void OnBackPressed()
+    {
+        if (isTyping)
+        {
+            if (typeCoroutine != null) StopCoroutine(typeCoroutine);
+            dialogueText.maxVisibleCharacters = dialogueText.textInfo.characterCount;
+            isTyping = false;
+        }
+        else if (currentLineIndex > 0)
+        {
+            currentLineIndex--;
+            StartDialogue();
         }
     }
 

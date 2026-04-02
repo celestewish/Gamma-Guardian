@@ -62,6 +62,8 @@ public class TutorialManager : MonoBehaviour
         "This is a interferon gamma. A special type of cytokine that helps call the immune cells to attack infections,",
         "You see, the gammas are trying to help the body, but they get the immune cells too excited!",
         "When that happens, the cells get confused and start attacking the body instead!",
+        "We have to make sure that there aren't too many cytokines in the body",
+        "If there are too many, they will make the immune cells hyperactive and cause chaos!",
         "To calm the interferon gamma, fly up to the gamma and press the medicine button.",
         "The medicine button is the small square on the left."
     };
@@ -96,6 +98,12 @@ public class TutorialManager : MonoBehaviour
 
     private string[] endingDialogue =
     {
+        "Here is a final tip for you Guardian Explorer.",
+        "To get through the levels, you have to make sure to clear all the bacteria on the map.",
+        "If all the bacteria are eliminated, then you can move on to the next section of the body.",
+        "To help slow the inflammation down, keep cytokine levels at bay",
+        "This will give you more time to defeat all of the bacteria",
+        "Make sure not to take too long though! Time is limited, and you need to work quickly.",
         "Now Guardian Explorer, you have all you need to take on the infection and save the patient.",
         "Fly onwards and save them!"
     };
@@ -299,6 +307,7 @@ public class TutorialManager : MonoBehaviour
     void LoadLevel()
     {
         dialogueManager.SetDialogueLines(new string[] { "" });
+        dialogueManager.StartDialogue();
         StartCoroutine(LoadLevelCoroutine());
     }
 
@@ -306,6 +315,6 @@ public class TutorialManager : MonoBehaviour
     {
         fadeController.FadeIn();
         yield return new WaitForSeconds(2f);
-        SceneManager.LoadScene("Level");
+        SceneManager.LoadScene("Level1");
     }
 }

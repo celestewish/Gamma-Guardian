@@ -2106,6 +2106,8 @@ MonoBehaviour:
   bacteriaCount: 0
   gameWon: 0
   gameLost: 0
+  timerStarted: 0
+  introDialogueFinished: 0
   completionBar: {fileID: 1535913507}
   progress: 0
   fadeController: {fileID: 1193158478}
@@ -2120,6 +2122,18 @@ MonoBehaviour:
   comboWindow: 3
   comboReductionBase: 0.05
   mainMenuScene: MainMenu
+  dialogueManager: {fileID: 0}
+  endDialogue:
+  - Nice work Guardian!
+  - Our job's not over yet!
+  - There are more regions we need to tackle.
+  - Onwards!
+  failDialogue:
+  - Don't give up, Guardian!
+  - That infection was tough, but you can beat it.
+  - Here's a tip. Prioritize the bacteria, but make sure to calm cytokines when flying
+    by them!
+  - Take a breath and try again!
 --- !u!4 &1050348328
 Transform:
   m_ObjectHideFlags: 0
