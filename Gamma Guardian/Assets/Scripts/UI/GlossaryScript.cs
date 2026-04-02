@@ -75,7 +75,12 @@ public class GlossaryScript : MonoBehaviour
             titleText.text = entry.title;
 
         if (descriptionText != null)
+        {
+            descriptionText.enableAutoSizing = true;
+            descriptionText.fontSizeMin = 16;
+            descriptionText.fontSizeMax = 28;
             descriptionText.text = entry.description;
+        }
 
         //Enable/disable navigation buttons at ends
         if (previousButton != null)

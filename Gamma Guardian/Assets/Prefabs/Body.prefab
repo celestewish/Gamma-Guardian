@@ -107,7 +107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BodyScript
   localInflammation: 0
   localMax: 50
-  localRate: 3
+  localRate: 1
 --- !u!61 &5900309135471771090
 BoxCollider2D:
   m_ObjectHideFlags: 0

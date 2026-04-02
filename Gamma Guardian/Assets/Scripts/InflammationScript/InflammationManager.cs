@@ -15,6 +15,8 @@ public class InflammationManager : MonoBehaviour
     private int totalAttachedCells = 0;
     private float attachedCellCount => totalAttachedCells;
 
+    private bool failTriggered = false;
+
     void Awake()
     {
         if (Instance == null) Instance = this;
@@ -24,6 +26,7 @@ public class InflammationManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        failTriggered = false;
         if (InflammationVignette == null)
         {
             GameObject vignetteObj = GameObject.Find("VignetteOverlay");
@@ -45,6 +48,7 @@ public class InflammationManager : MonoBehaviour
 
     void Update()
     {
+        if (failTriggered) return;
         currentInflammation += totalAttachedCells * inflammationRatePerCell * Time.deltaTime;
         if (totalAttachedCells == 0) currentInflammation -= decayRate * Time.deltaTime;
         currentInflammation = Mathf.Clamp(currentInflammation, 0f, maxInflammation);
@@ -54,10 +58,16 @@ public class InflammationManager : MonoBehaviour
         if (InflammationBar != null)
             InflammationBar.SetInflammation(currentInflammation / maxInflammation);
 
-        if (currentInflammation >= maxInflammation) { 
+        if (currentInflammation >= maxInflammation)
+        {
+            failTriggered = true;
             Debug.Log("Game Over!");
-            GameManager.Instance.gameLost = true;
-            GameManager.Instance.EndLevel();
+
+            if (GameManager.Instance != null && !GameManager.Instance.gameLost)
+            {
+                GameManager.Instance.gameLost = true;
+                GameManager.Instance.StartFailDialogue();
+            }
         }
     }
 
