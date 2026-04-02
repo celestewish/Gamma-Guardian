@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public bool timerStarted = false;
     public bool introDialogueFinished = false;
     private bool waitingForEndDialogue = false;
+    private bool waitingForFailDialogue = false;
 
     [Header("UI")]
     public Image completionBar;
@@ -64,6 +65,12 @@ public class GameManager : MonoBehaviour
         "There are more regions we need to tackle.",
         "Onwards!"
     };
+    public string[] failDialogue = {
+    "Don't give up, Guardian!",
+    "That infection was tough, but you can beat it.",
+    "Here's a tip. Prioritize the bacteria, but make sure to calm cytokines when flying by them!",
+    "Take a breath and try again!"
+};
     #endregion
 
     private int currentCombo = 0;
@@ -261,6 +268,7 @@ public class GameManager : MonoBehaviour
         timerStarted = false;
         introDialogueFinished = false;
         waitingForEndDialogue = false;
+        waitingForFailDialogue = false;
 
         CancelInvoke(nameof(TickTimer));
         Time.timeScale = 1f;
@@ -272,6 +280,7 @@ public class GameManager : MonoBehaviour
         {
             dialogueManager.onDialogueEnd.RemoveListener(BeginGameplay);
             dialogueManager.onDialogueEnd.RemoveListener(HandleEndDialogueFinished);
+            dialogueManager.onDialogueEnd.RemoveListener(HandleFailDialogueFinished);
         }
 
         Debug.Log("GameManager RESET for main menu");
@@ -294,18 +303,8 @@ public class GameManager : MonoBehaviour
     public void EndLevel()
     {
         levelRunning = false;
-        CancelInvoke(nameof(TickTimer)); // Stop timer
-
-        if (gameWon)
-        {
-            StartCoroutine(fadeScene());
-            GoHome();
-        }
-        else if (gameLost)
-        {
-            StartCoroutine(fadeScene());
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
+        timerStarted = false;
+        CancelInvoke(nameof(TickTimer));
     }
 
     private void TickTimer()
@@ -375,9 +374,53 @@ public class GameManager : MonoBehaviour
 
     private void EndLevelByTimeout()
     {
+        if (!levelRunning) return;
+
+        gameLost = true;
         levelRunning = false;
+        timerStarted = false;
+        CancelInvoke(nameof(TickTimer));
+
         Debug.Log("Time's up! Level failed.");
-        EndLevel();
+        StartFailDialogue();
+    }
+    public void StartFailDialogue()
+    {
+        if (dialogueManager == null)
+            dialogueManager = FindFirstObjectByType<DialogueManager>();
+
+        if (dialogueManager != null)
+        {
+            waitingForFailDialogue = true;
+
+            dialogueManager.onDialogueEnd.RemoveListener(BeginGameplay);
+            dialogueManager.onDialogueEnd.RemoveListener(HandleEndDialogueFinished);
+            dialogueManager.onDialogueEnd.RemoveListener(HandleFailDialogueFinished);
+            dialogueManager.onDialogueEnd.AddListener(HandleFailDialogueFinished);
+
+            dialogueManager.SetDialogueLines(failDialogue);
+            dialogueManager.StartDialogue();
+        }
+        else
+        {
+            HandleFailDialogueFinished();
+        }
+    }
+    private void HandleFailDialogueFinished()
+    {
+        if (!waitingForFailDialogue) return;
+
+        waitingForFailDialogue = false;
+
+        if (dialogueManager != null)
+            dialogueManager.onDialogueEnd.RemoveListener(HandleFailDialogueFinished);
+
+        RestartLevel();
+    }
+    public void RestartLevel()
+    {
+        ResetGameState();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     public void PauseGame()
     {

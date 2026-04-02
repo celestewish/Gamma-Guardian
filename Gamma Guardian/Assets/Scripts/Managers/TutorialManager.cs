@@ -59,7 +59,7 @@ public class TutorialManager : MonoBehaviour
     };
 
     private string[] calmGammaDialogue = {
-        "This is a inferferon gamma. A special type of cytokine that helps call the immune cells to attack infections,",
+        "This is a interferon gamma. A special type of cytokine that helps call the immune cells to attack infections,",
         "You see, the gammas are trying to help the body, but they get the immune cells too excited!",
         "When that happens, the cells get confused and start attacking the body instead!",
         "To calm the interferon gamma, fly up to the gamma and press the medicine button.",
