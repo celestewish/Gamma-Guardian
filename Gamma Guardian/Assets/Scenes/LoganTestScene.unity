@@ -887,7 +887,7 @@ PrefabInstance:
     - target: {fileID: 5887741873894603475, guid: f69ad9d59989db4478746abe1b885c3f, type: 3}
       propertyPath: bumpSound
       value: 
-      objectReference: {fileID: 8300000, guid: 5fcce036983c7b147ad4f8f558e23518, type: 3}
+      objectReference: {fileID: 8300000, guid: 3a7c29232f1c24d48b71605f982ddfa1, type: 3}
     - target: {fileID: 5887741873894603475, guid: f69ad9d59989db4478746abe1b885c3f, type: 3}
       propertyPath: speedMult
       value: 20
@@ -895,7 +895,7 @@ PrefabInstance:
     - target: {fileID: 7146601134386753264, guid: f69ad9d59989db4478746abe1b885c3f, type: 3}
       propertyPath: audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: b3766e1c3a44ad443a120d0160d5a30f, type: 3}
+      objectReference: {fileID: 8300000, guid: 8f0c0828413e6064d8a5f719ea9ddf49, type: 3}
     - target: {fileID: 7146601134386753264, guid: f69ad9d59989db4478746abe1b885c3f, type: 3}
       propertyPath: audioSource
       value: 
