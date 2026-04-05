@@ -315,6 +315,10 @@ public class TutorialManager : MonoBehaviour
     {
         fadeController.FadeIn();
         yield return new WaitForSeconds(2f);
+
+        if (ProgressionManager.Instance != null)
+            ProgressionManager.Instance.MarkTutorialCompleted();
+
         SceneManager.LoadScene("Level1");
     }
 }

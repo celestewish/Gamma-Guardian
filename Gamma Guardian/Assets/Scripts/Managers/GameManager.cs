@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour
     public bool gameWon = false;
     public bool gameLost = false;
 
+    [Header("Progression")]
+    public int thisLevelIndex = 1;
+
     [Header("Gameplay Flow")]
     public bool timerStarted = false;
     public bool introDialogueFinished = false;
@@ -95,18 +98,21 @@ public class GameManager : MonoBehaviour
     {
         string sname = scene.name;
 
-        // RESET on main menu return
         if (sname == mainMenuScene)
         {
             ResetGameState();
             return;
         }
 
-        // Start level on level scenes
-        if ((sname == "Level1" || sname == "LaurenLevelScene") && !levelRunning)
-        {
+        bool isGameplayLevel = false;
+
+        if (ProgressionManager.Instance != null)
+            isGameplayLevel = ProgressionManager.Instance.IsGameplayScene(sname);
+        else
+            isGameplayLevel = sname.StartsWith("Level");
+
+        if (isGameplayLevel && !levelRunning)
             StartLevel();
-        }
     }
 
     void OnDestroy()
@@ -253,7 +259,18 @@ public class GameManager : MonoBehaviour
         if (!waitingForEndDialogue) return;
 
         waitingForEndDialogue = false;
-        dialogueManager.onDialogueEnd.RemoveListener(HandleEndDialogueFinished);
+
+        if (dialogueManager != null)
+            dialogueManager.onDialogueEnd.RemoveListener(HandleEndDialogueFinished);
+
+        if (ProgressionManager.Instance != null)
+        {
+            string currentSceneName = SceneManager.GetActiveScene().name;
+            int completedLevelIndex = ProgressionManager.Instance.GetLevelIndexFromScene(currentSceneName);
+
+            if (completedLevelIndex > 0)
+                ProgressionManager.Instance.MarkLevelCompleted(completedLevelIndex);
+        }
 
         GoHome();
     }
