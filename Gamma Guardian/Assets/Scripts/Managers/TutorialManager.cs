@@ -64,7 +64,7 @@ public class TutorialManager : MonoBehaviour
         "When that happens, the cells get confused and start attacking the body instead!",
         "We have to make sure that there aren't too many cytokines in the body",
         "If there are too many, they will make the immune cells hyperactive and cause chaos!",
-        "To calm the interferon gamma, fly up to the gamma and press the medicine button.",
+        "To calm the interferon gamma, fly up to the gamma and press the medicine button or press space.",
         "The medicine button is the small square on the left."
     };
 
