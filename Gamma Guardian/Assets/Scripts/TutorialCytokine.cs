@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class TutorialCytokine : MonoBehaviour
 {
@@ -33,6 +34,10 @@ public class TutorialCytokine : MonoBehaviour
             {
                 PickNewTarget();
             }
+        }
+        if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
+        {
+            Deactivate();
         }
     }
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class TutorialBacteria : MonoBehaviour
 {
@@ -34,6 +35,10 @@ public class TutorialBacteria : MonoBehaviour
             {
                 PickNewTarget();
             }
+        }
+        if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
+        {
+            Deactivate();
         }
     }
 
