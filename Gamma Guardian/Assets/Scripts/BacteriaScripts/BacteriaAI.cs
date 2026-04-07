@@ -32,6 +32,9 @@ public class BacteriaAI : MonoBehaviour
     private PulseEffect pulseEffect;
     public float nearRadius = 2f;
 
+    public GameObject textDisplay;
+    private bool displayOn = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -41,6 +44,8 @@ public class BacteriaAI : MonoBehaviour
         if (pulseEffect != null)
             pulseEffect.SetPulseActive(false);
         if (player == null) player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        textDisplay.SetActive(false);
     }
 
     void Update()
@@ -205,5 +210,12 @@ public class BacteriaAI : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, detectionRange);
+    }
+
+    void DisplayText()
+    {
+        //
+        displayOn = !displayOn;
+        textDisplay.SetActive(displayOn);
     }
 }

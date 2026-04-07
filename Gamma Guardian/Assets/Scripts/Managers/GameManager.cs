@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     public Button resumeButton;
     public Button homeButton;
     public Button modeButton;
+    private bool infoMode = false;
 
     [Header("Timer")]
     public TextMeshProUGUI timerText;
@@ -483,6 +484,10 @@ public class GameManager : MonoBehaviour
     public void SwitchMode()
     {
         Debug.Log("mode switched");
+        foreach(BacteriaAI ba in Object.FindObjectsByType<BacteriaAI>(FindObjectsSortMode.None))
+        {
+            ba.gameObject.SendMessage("DisplayText");
+        }
     }
 
     private IEnumerator fadeScene()
