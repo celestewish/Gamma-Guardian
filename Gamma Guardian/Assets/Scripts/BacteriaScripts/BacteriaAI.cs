@@ -174,6 +174,8 @@ public class BacteriaAI : MonoBehaviour
         BacteriaManager.Instance.OnBacteriaDied();
         if (bacteriaPuffPrefab != null)
             Instantiate(bacteriaPuffPrefab, transform.position, transform.rotation);
+        player.gameObject.SendMessage("PlayBactDeath");
+
 
         Destroy(gameObject);
     }
