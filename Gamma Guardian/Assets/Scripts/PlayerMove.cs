@@ -16,6 +16,7 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody2D rb;
     private PlayerAudioScript playerAudio;
     public TrailRenderer playerTrail;
+    public PlayerAbilitySFX playerAbilitySFX;
 
     public AudioClip bumpSound;
     [SerializeField] private AudioSource sfxAudio;
@@ -44,6 +45,15 @@ public class PlayerMove : MonoBehaviour
     void OnMove(InputValue ip)
     {
         move = ip.Get<Vector2>();
+    }
+
+    void OnAbility(InputValue value)
+    {
+        if (value.isPressed)
+        {
+            PlayerAction();
+            playerAbilitySFX.OnButtonClick();
+        }
     }
 
     private void Update()

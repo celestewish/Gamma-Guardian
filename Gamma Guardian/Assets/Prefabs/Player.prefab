@@ -224,8 +224,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 635834815
-  m_SortingLayer: 2
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 6a777bc04a34c1b44b114143c71fd6ef, type: 3}
@@ -255,6 +255,7 @@ MonoBehaviour:
   foType: 0
   foMult: 0.05
   playerTrail: {fileID: 8108299731072982554}
+  playerAbilitySFX: {fileID: 7146601134386753264}
   playerSprite: {fileID: 3688605063155900463}
   actionSprite: {fileID: 4762185050931113201}
   actionShowTime: 0.5
@@ -373,11 +374,11 @@ AudioSource:
   m_GameObject: {fileID: 4429506477127064806}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 2967470661454568825, guid: e8803f3786e409a46a0e902445570c2a, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 843a0064ab6aa8a489efc94e2008ba38, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.25
+  m_Volume: 0.1
   m_Pitch: 0
   Loop: 1
   Mute: 0
