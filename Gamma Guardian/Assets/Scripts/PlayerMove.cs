@@ -18,6 +18,9 @@ public class PlayerMove : MonoBehaviour
     public TrailRenderer playerTrail;
     public PlayerAbilitySFX playerAbilitySFX;
 
+    public AudioClip bumpSound;
+    [SerializeField] private AudioSource sfxAudio;
+
     [SerializeField] private SpriteRenderer playerSprite;     // Main player sprite
     [SerializeField] private SpriteRenderer actionSprite;     // Action sprite (child)
     [SerializeField] private float actionShowTime = 1f;       // Seconds to show action
@@ -159,6 +162,16 @@ public class PlayerMove : MonoBehaviour
             yield return new WaitForSeconds(actionShowTime);
             actionSprite.gameObject.SetActive(false);
             playerSprite.enabled = true;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        Debug.Log("hit");
+        if (coll.gameObject.tag == "Wall")
+        {
+            Debug.Log("wall");
+            sfxAudio.PlayOneShot(bumpSound);
         }
     }
 

@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour
     public Button pauseButton;
     public Button resumeButton;
     public Button homeButton;
+    public Button modeButton;
+    private bool infoMode = false;
 
     [Header("Timer")]
     public TextMeshProUGUI timerText;
@@ -151,6 +153,7 @@ public class GameManager : MonoBehaviour
             pauseButton = GameObject.Find("pause")?.GetComponent<Button>();
             resumeButton = GameObject.Find("Play")?.GetComponent<Button>();
             homeButton = GameObject.Find("Home")?.GetComponent<Button>();
+            modeButton = GameObject.Find("mode")?.GetComponent<Button>();
 
             if (pauseButton != null)
             {
@@ -168,6 +171,12 @@ public class GameManager : MonoBehaviour
             {
                 homeButton.onClick.RemoveAllListeners();
                 homeButton.onClick.AddListener(GoHome);
+            }
+
+            if (modeButton != null)
+            {
+                modeButton.onClick.RemoveAllListeners();
+                modeButton.onClick.AddListener(SwitchMode);
             }
         }
 
@@ -470,6 +479,15 @@ public class GameManager : MonoBehaviour
         ResetGameState();
         SceneManager.LoadScene(0);
         Time.timeScale = 1f;
+    }
+
+    public void SwitchMode()
+    {
+        Debug.Log("mode switched");
+        foreach(BacteriaAI ba in Object.FindObjectsByType<BacteriaAI>(FindObjectsSortMode.None))
+        {
+            ba.gameObject.SendMessage("DisplayText");
+        }
     }
 
     private IEnumerator fadeScene()
