@@ -1,4 +1,6 @@
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class BacteriaAI : MonoBehaviour
 {
@@ -33,7 +35,10 @@ public class BacteriaAI : MonoBehaviour
     public float nearRadius = 2f;
 
     public GameObject textDisplay;
+    public bool textFadeIn;
+    private TextMeshProUGUI temp;
     private bool displayOn = false;
+    public float displayRange;
 
     void Start()
     {
@@ -45,7 +50,8 @@ public class BacteriaAI : MonoBehaviour
             pulseEffect.SetPulseActive(false);
         if (player == null) player = GameObject.FindGameObjectWithTag("Player").transform;
 
-        textDisplay.SetActive(false);
+        temp = textDisplay.GetComponent<TextMeshProUGUI>();
+        temp.enabled=false;
     }
 
     void Update()
@@ -69,6 +75,13 @@ public class BacteriaAI : MonoBehaviour
             else if (!shouldPulse && pulseEffect.isPulsing)
                 pulseEffect.SetPulseActive(false);
         }
+
+        if (displayOn && textFadeIn)
+        {
+            float dist = Mathf.Min(distToPlayer, displayRange); //- .2f * displayRange
+            temp.color = new Color(1f,1f,1f, (displayRange - dist)/displayRange);
+        }
+        
     }
 
     // Picks a new random direction for wandering movement
@@ -216,6 +229,6 @@ public class BacteriaAI : MonoBehaviour
     {
         //
         displayOn = !displayOn;
-        textDisplay.SetActive(displayOn);
+        temp.enabled = displayOn;
     }
 }
