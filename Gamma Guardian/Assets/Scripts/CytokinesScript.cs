@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class CytokinesScript : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class CytokinesScript : MonoBehaviour
     public float pulseRange = 4f;
     private PulseEffect pulseEffect;
 
+
+    private NavMeshAgent agent;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -28,12 +31,18 @@ public class CytokinesScript : MonoBehaviour
         if (pulseEffect != null)
             pulseEffect.SetPulseActive(false);
         if (player == null) player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = Vector2.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
+        //transform.position = Vector2.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
+        agent.SetDestination(target.position);
+
         if (Vector2.Distance(transform.position, target.position) < 6)
         {
             if (!deactivated)
