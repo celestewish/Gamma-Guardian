@@ -34,6 +34,10 @@ public class BacteriaAI : MonoBehaviour
     public float nearRadius = 2f;
 
     private NavMeshAgent agent;
+    
+    public GameObject textDisplay;
+    private bool displayOn = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -47,6 +51,8 @@ public class BacteriaAI : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+        
+        textDisplay.SetActive(false);
     }
 
     void Update()
@@ -182,6 +188,8 @@ public class BacteriaAI : MonoBehaviour
         BacteriaManager.Instance.OnBacteriaDied();
         if (bacteriaPuffPrefab != null)
             Instantiate(bacteriaPuffPrefab, transform.position, transform.rotation);
+        player.gameObject.SendMessage("PlayBactDeath");
+
 
         Destroy(gameObject);
     }
@@ -211,5 +219,12 @@ public class BacteriaAI : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, detectionRange);
+    }
+
+    void DisplayText()
+    {
+        //
+        displayOn = !displayOn;
+        textDisplay.SetActive(displayOn);
     }
 }
