@@ -143,6 +143,47 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    private string[] GetMovementDialogue()
+    {
+#if UNITY_ANDROID || UNITY_IOS
+        return new string[]
+        {
+        "First, learn to move: try forwards, backwards, up, and down.",
+        "Use the joystick to move around!",
+        "Try flying in a circle!" };
+#else
+        return new string[]
+        {
+        "First, learn to move: try forwards, backwards, up, and down.",
+        "Use W for up, A for left, D for right, and S for down.",
+        "Try flying in a circle!" };
+#endif
+    }
+
+    private string[] GetCalmGammaDialogue()
+    {
+#if UNITY_ANDROID || UNITY_IOS
+        return new string[] {
+            "This is a interferon gamma. A special type of cytokine that helps call the immune cells to attack infections,",
+        "You see, the gammas are trying to help the body, but they get the immune cells too excited!",
+        "When that happens, the cells get confused and start attacking the body instead!",
+        "We have to make sure that there aren't too many cytokines in the body",
+        "If there are too many, they will make the immune cells hyperactive and cause chaos!",
+        "To calm the interferon gamma, fly up to the gamma and press the medicine button.",
+        "The medicine button is the square on the right."
+    };
+#else
+return new string[] {
+            "This is a interferon gamma. A special type of cytokine that helps call the immune cells to attack infections,",
+        "You see, the gammas are trying to help the body, but they get the immune cells too excited!",
+        "When that happens, the cells get confused and start attacking the body instead!",
+        "We have to make sure that there aren't too many cytokines in the body",
+        "If there are too many, they will make the immune cells hyperactive and cause chaos!",
+        "To calm the interferon gamma, fly up to the gamma and press the medicine button or press space.",
+        "The medicine button is the square on the right."
+    };
+#endif
+    }
     void OnWelcomeEnd()
     {
         tutorialStep = 1;
