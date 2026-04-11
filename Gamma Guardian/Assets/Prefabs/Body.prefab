@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4706546698247489205}
   - component: {fileID: 3690304496659638872}
   - component: {fileID: 5900309135471771090}
+  - component: {fileID: 2831953981546680623}
   m_Layer: 0
   m_Name: Body
   m_TagString: Body
@@ -154,3 +155,16 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &2831953981546680623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8171064976227977852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b201a305155df0141b28972d62ee3b61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ForceStartingAlpha
+  startingAlpha: 0
