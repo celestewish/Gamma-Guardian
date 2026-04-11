@@ -101,6 +101,24 @@ public class GameManager : MonoBehaviour
     "Here's a tip. Prioritize the bacteria, but make sure to calm cytokines when flying by them!",
     "Take a breath and try again!"
 };
+    [Header("Level 3 Dialogue")]
+    [SerializeField]
+    private string[] level3IntroDialogue =
+{
+    "Guardian, this next region is much larger than the others.",
+    "The infection has spread across two separate paths.",
+    "You will need to explore both routes before this area can be fully cleared.",
+    "Stay alert, cover the whole level, and don't leave either path unchecked."
+};
+
+    [SerializeField]
+    private string[] level3EndDialogue =
+    {
+    "Excellent work, Guardian!",
+    "You cleared both paths and secured this entire region.",
+    "That was a large area, but you handled it well.",
+    "Let's keep moving and finish driving back the infection."
+};
     #endregion
 
     private int currentCombo = 0;
@@ -326,6 +344,9 @@ public class GameManager : MonoBehaviour
             case "Level2":
                 return level2IntroDialogue;
 
+            case "Level3":
+                return level3IntroDialogue;
+
             default:
                 return level1IntroDialogue;
         }
@@ -340,6 +361,9 @@ public class GameManager : MonoBehaviour
 
             case "Level2":
                 return level2EndDialogue;
+
+            case "Level3":
+                return level3EndDialogue;
 
             default:
                 return level1EndDialogue;
@@ -357,7 +381,7 @@ public class GameManager : MonoBehaviour
                 return 210f;
 
             case "Level3":
-                return 300f;
+                return 420f;
 
             case "Level4":
                 return 300f;
