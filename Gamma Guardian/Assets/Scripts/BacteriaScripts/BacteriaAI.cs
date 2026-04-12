@@ -1,6 +1,6 @@
 using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
+//using TMPro;
+//using UnityEngine.UI;
 
 public class BacteriaAI : MonoBehaviour
 {
@@ -34,12 +34,6 @@ public class BacteriaAI : MonoBehaviour
     private PulseEffect pulseEffect;
     public float nearRadius = 2f;
 
-    public GameObject textDisplay;
-    public bool textFadeIn;
-    private TextMeshProUGUI temp;
-    private bool displayOn = false;
-    public float displayRange;
-
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -50,8 +44,11 @@ public class BacteriaAI : MonoBehaviour
             pulseEffect.SetPulseActive(false);
         if (player == null) player = GameObject.FindGameObjectWithTag("Player").transform;
 
-        temp = textDisplay.GetComponent<TextMeshProUGUI>();
-        temp.enabled=false;
+        //if (!displayButton.GetComponent<Button>())
+        //{
+        //    Debug.LogWarning("Error: no button found for "+gameObject.name);
+        //}else
+        //    displayButton.SetActive(false);
     }
 
     void Update()
@@ -75,13 +72,6 @@ public class BacteriaAI : MonoBehaviour
             else if (!shouldPulse && pulseEffect.isPulsing)
                 pulseEffect.SetPulseActive(false);
         }
-
-        if (displayOn && textFadeIn)
-        {
-            float dist = Mathf.Min(distToPlayer, displayRange); //- .2f * displayRange
-            temp.color = new Color(1f,1f,1f, (displayRange - dist)/displayRange);
-        }
-        
     }
 
     // Picks a new random direction for wandering movement
@@ -223,12 +213,5 @@ public class BacteriaAI : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, detectionRange);
-    }
-
-    void DisplayText()
-    {
-        //
-        displayOn = !displayOn;
-        temp.enabled = displayOn;
     }
 }

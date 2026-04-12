@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2590153302681245513, guid: 579b6e623526151439caceba7b1c697b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3181798052411721308, guid: 579b6e623526151439caceba7b1c697b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.097735
@@ -86,3 +90,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TutorialBacteria
   moveSpeed: 1.5
   stationaryTime: 3
+  bacteriaPuffPrefab: {fileID: 0}
