@@ -119,6 +119,23 @@ public class GameManager : MonoBehaviour
     "That was a large area, but you handled it well.",
     "Let's keep moving and finish driving back the infection."
 };
+    [Header("Level 5 Dialogue")]
+    [SerializeField]
+    private string[] level5IntroDialogue =
+{
+    "We've made it to the epicenter of the infection Guardian.",
+    "This is the largest area yet, and the paths twist and turn.",
+    "We must be vigilant and work fast to clear through this area.",
+    "Onwards!!!!"
+};
+
+    [SerializeField]
+    private string[] level5EndDialogue =
+    {
+    "Amazing work Guardian!",
+    "That was the last of the infection!",
+    "Let's celebrate!!!"
+};
     #endregion
 
     private int currentCombo = 0;
@@ -347,6 +364,9 @@ public class GameManager : MonoBehaviour
             case "Level3":
                 return level3IntroDialogue;
 
+            case "Level5":
+                return level5IntroDialogue;
+
             default:
                 return level1IntroDialogue;
         }
@@ -364,6 +384,9 @@ public class GameManager : MonoBehaviour
 
             case "Level3":
                 return level3EndDialogue;
+
+            case "Level5":
+                return level5EndDialogue;
 
             default:
                 return level1EndDialogue;
