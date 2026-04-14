@@ -978,7 +978,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &93517157
 Transform:
   m_ObjectHideFlags: 0
@@ -5794,6 +5794,16 @@ MonoBehaviour:
   - Here's a tip. Prioritize the bacteria, but make sure to calm cytokines when flying
     by them!
   - Take a breath and try again!
+  level3IntroDialogue:
+  - Guardian, this next region is much larger than the others.
+  - The infection has spread across two separate paths.
+  - You will need to explore both routes before this area can be fully cleared.
+  - Stay alert, cover the whole level, and don't leave either path unchecked.
+  level3EndDialogue:
+  - Excellent work, Guardian!
+  - You cleared both paths and secured this entire region.
+  - That was a large area, but you handled it well.
+  - Let's keep moving and finish driving back the infection.
 --- !u!4 &1050348328
 Transform:
   m_ObjectHideFlags: 0
@@ -7639,7 +7649,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7182518526825057111, guid: 40b9dc780f31cfe4c8f873bb7d822b9c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
