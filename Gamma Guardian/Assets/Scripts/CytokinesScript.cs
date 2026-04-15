@@ -17,6 +17,7 @@ public class CytokinesScript : MonoBehaviour
     public Transform player;
     public float pulseRange = 4f;
     private PulseEffect pulseEffect;
+    public float inflammationReduction = 5f;
 
 
     private NavMeshAgent agent;
@@ -67,6 +68,8 @@ public class CytokinesScript : MonoBehaviour
             transform.Find("Neutral").gameObject.SetActive(true);
             pulseEffect?.SetPulseActive(false);
             Instantiate(healEffect, transform.position, Quaternion.identity);
+            deactivated = true;
+            InflammationManager.Instance?.ReduceInflammation(inflammationReduction);
         }
     }
 }

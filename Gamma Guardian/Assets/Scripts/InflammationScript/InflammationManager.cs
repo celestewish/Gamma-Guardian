@@ -73,4 +73,16 @@ public class InflammationManager : MonoBehaviour
 
     public void AddAttachedCell() => totalAttachedCells++;
     public void RemoveAttachedCell() => totalAttachedCells = Mathf.Max(0, totalAttachedCells - 1);
+
+    public void ReduceInflammation(float amount)
+    {
+        currentInflammation -= amount;
+        currentInflammation = Mathf.Clamp(currentInflammation, 0f, maxInflammation);
+
+        if (InflammationVignette != null)
+            InflammationVignette.SetInflammation(currentInflammation / maxInflammation);
+
+        if (InflammationBar != null)
+            InflammationBar.SetInflammation(currentInflammation / maxInflammation);
+    }
 }
