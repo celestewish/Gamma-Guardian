@@ -649,12 +649,22 @@ public class GameManager : MonoBehaviour
 
     public void SwitchMode()
     {
-        Debug.Log("mode switched");
-        foreach(BacteriaAI ba in Object.FindObjectsByType<BacteriaAI>(FindObjectsSortMode.None))
+        InfoDisplay[] infoArr = Object.FindObjectsByType<InfoDisplay>(FindObjectsSortMode.None);
+        if(infoArr == null || infoArr.Length == 0)
         {
-            ba.gameObject.SendMessage("DisplayText");
+            Debug.LogWarning("No info objects found.");
+            return;
         }
+
+        foreach (InfoDisplay info in infoArr)
+        {
+            info.gameObject.SendMessage("Display");
+        }
+        infoMode = !infoMode;
+        Debug.Log("Mode Switched.");
     }
+
+    public bool IsDisplayOn() { return infoMode; }
 
     private IEnumerator fadeScene()
     {
