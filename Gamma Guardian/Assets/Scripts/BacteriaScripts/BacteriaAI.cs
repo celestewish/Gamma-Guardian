@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 //using TMPro;
 //using UnityEngine.UI;
 
+
 public class BacteriaAI : MonoBehaviour
 {
     [Header("Chase Settings")]
@@ -20,6 +21,32 @@ public class BacteriaAI : MonoBehaviour
     public float swarmDetectRange = 6f;
     public float swarmMoveSpeed = 3.5f;
     public float swarmOffsetRadius = 1.5f;
+
+    [Header("Evasive Settings")]
+    private bool isEvasive;
+    private bool isEvading;
+    public float evadeTriggerRange = 4f;
+    public float evadeSpeed = 4.5f;
+    public float evadeDuration = 1.25f;
+    private float evadeTimer;
+
+    private bool isAggressive;
+    private bool isEnraged;
+
+    [Header("Aggressive Settings")]
+    public float aggressionSpeed = 4f;
+    public float aggressionDuration = 2.5f;
+    public float aggressionStopDistance = 1.2f;
+    private float aggressionTimer;
+
+    private enum BehaviorBias
+    {
+        Swarmer,
+        Evasive,
+        Aggressive
+    }
+
+    private BehaviorBias behaviorBias;
 
     [Header("Layer Masks")]
     [SerializeField] private LayerMask bodyLayerMask = 3;
@@ -42,43 +69,65 @@ public class BacteriaAI : MonoBehaviour
     public float pulseRange = 6f;
     private PulseEffect pulseEffect;
     public float nearRadius = 2f;
+    private NavMeshAgent agent;
+    public GameObject textDisplay;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         PickNewWanderDirection();
         wanderTimer = wanderChangeInterval;
+
         pulseEffect = GetComponentInChildren<PulseEffect>();
         if (pulseEffect != null)
             pulseEffect.SetPulseActive(false);
-        if (player == null) player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        if (player == null)
+            player = GameObject.FindGameObjectWithTag("Player").transform;
 
         agent = GetComponent<NavMeshAgent>();
-        agent.updateRotation = false;
-        agent.updateUpAxis = false;
+        if (agent != null)
+        {
+            agent.updateRotation = false;
+            agent.updateUpAxis = false;
+        }
 
-        isSwarmer = SceneManager.GetActiveScene().name == "Level2";
-        
-        textDisplay.SetActive(false);
-        //if (!displayButton.GetComponent<Button>())
-        //{
-        //    Debug.LogWarning("Error: no button found for "+gameObject.name);
-        //}else
-        //    displayButton.SetActive(false);
+        string sceneName = SceneManager.GetActiveScene().name;
+
+        isSwarmer = sceneName == "Level2" || sceneName == "Level5";
+        isEvasive = sceneName == "Level3" || sceneName == "Level5";
+        isAggressive = sceneName == "Level4" || sceneName == "Level5";
+
+        if (sceneName == "Level5")
+        {
+            AssignBehaviorBias();
+            ApplyBehaviorBias();
+        }
+
+        if (textDisplay != null)
+            textDisplay.SetActive(false);
     }
 
     void Update()
     {
-        if (player == null) return;
+        if (player == null || isDead) return;
 
-        if (isSwarmer && PlayerInSwarmRange())
+        float distToPlayer = Vector2.Distance(transform.position, player.position);
+
+        if (isEnraged)
         {
-            swarmTriggered = true;
+            HandleAggression();
+        }
+        else if (isEvasive && distToPlayer <= evadeTriggerRange)
+        {
+            HandleEvasiveBehavior(distToPlayer);
+        }
+        else if (isSwarmer && distToPlayer <= swarmDetectRange)
+        {
             SwarmPlayer();
         }
         else
         {
-            swarmTriggered = false;
             DetectAndAssignBodyTarget();
 
             if (target == null)
@@ -86,7 +135,6 @@ public class BacteriaAI : MonoBehaviour
             else
                 ChaseTarget();
         }
-        float distToPlayer = Vector2.Distance(transform.position, player.position);
         bool shouldPulse = distToPlayer < pulseRange && distToPlayer > nearRadius;  // Between pulseRange & nearRadius
         if (pulseEffect != null)
         {
@@ -94,6 +142,45 @@ public class BacteriaAI : MonoBehaviour
                 pulseEffect.SetPulseActive(true);
             else if (!shouldPulse && pulseEffect.isPulsing)
                 pulseEffect.SetPulseActive(false);
+        }
+    }
+
+    void AssignBehaviorBias()
+    {
+        int roll = Random.Range(0, 100);
+
+        if (roll < 40)
+            behaviorBias = BehaviorBias.Swarmer;
+        else if (roll < 75)
+            behaviorBias = BehaviorBias.Evasive;
+        else
+            behaviorBias = BehaviorBias.Aggressive;
+    }
+
+    void ApplyBehaviorBias()
+    {
+        switch (behaviorBias)
+        {
+            case BehaviorBias.Swarmer:
+                swarmDetectRange += 1.5f;
+                swarmMoveSpeed += 0.5f;
+                evadeTriggerRange -= 0.5f;
+                aggressionDuration -= 0.5f;
+                break;
+
+            case BehaviorBias.Evasive:
+                evadeTriggerRange += 1.5f;
+                evadeDuration += 0.5f;
+                evadeSpeed += 0.5f;
+                swarmDetectRange -= 0.5f;
+                break;
+
+            case BehaviorBias.Aggressive:
+                aggressionDuration += 1f;
+                aggressionSpeed += 0.75f;
+                aggressionStopDistance += 0.25f;
+                evadeDuration -= 0.25f;
+                break;
         }
     }
 
@@ -121,6 +208,92 @@ public class BacteriaAI : MonoBehaviour
         {
             Vector2 direction = (swarmPoint - (Vector2)transform.position).normalized;
             rb.linearVelocity = direction * swarmMoveSpeed;
+        }
+    }
+
+    void HandleEvasiveBehavior(float distToPlayer)
+    {
+        if (distToPlayer <= evadeTriggerRange)
+        {
+            isEvading = true;
+            evadeTimer = evadeDuration;
+        }
+
+        if (isEvading)
+        {
+            ReleaseCurrentTarget();
+
+            evadeTimer -= Time.deltaTime;
+
+            Vector2 fleeDirection = ((Vector2)transform.position - (Vector2)player.position).normalized;
+            if (fleeDirection == Vector2.zero)
+                fleeDirection = Random.insideUnitCircle.normalized;
+
+            Vector2 fleeTarget = (Vector2)transform.position + fleeDirection * 3f;
+
+            if (agent != null)
+            {
+                agent.speed = evadeSpeed;
+                agent.SetDestination(fleeTarget);
+            }
+            else if (rb != null)
+            {
+                rb.linearVelocity = fleeDirection * evadeSpeed;
+            }
+
+            if (evadeTimer <= 0f)
+                isEvading = false;
+        }
+        else
+        {
+            DetectAndAssignBodyTarget();
+
+            if (target == null)
+                Wander();
+            else
+                ChaseTarget();
+        }
+    }
+
+    public void TriggerAggression()
+    {
+        if (!isAggressive || isDead) return;
+
+        isEnraged = true;
+        aggressionTimer = aggressionDuration;
+        ReleaseCurrentTarget();
+    }
+
+    void HandleAggression()
+    {
+        aggressionTimer -= Time.deltaTime;
+
+        ReleaseCurrentTarget();
+
+        float distToPlayer = Vector2.Distance(transform.position, player.position);
+
+        if (distToPlayer > aggressionStopDistance)
+        {
+            if (agent != null)
+            {
+                agent.speed = aggressionSpeed;
+                agent.SetDestination(player.position);
+            }
+            else if (rb != null)
+            {
+                Vector2 dir = ((Vector2)player.position - (Vector2)transform.position).normalized;
+                rb.linearVelocity = dir * aggressionSpeed;
+            }
+        }
+        else
+        {
+            if (rb != null)
+                rb.linearVelocity = Vector2.zero;
+        }
+
+        if (aggressionTimer <= 0f)
+        {
+            isEnraged = false;
         }
     }
 
