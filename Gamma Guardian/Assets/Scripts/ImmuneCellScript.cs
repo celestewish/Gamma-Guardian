@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 using static UnityEngine.GraphicsBuffer;
 
 public class ImmuneCellScript : MonoBehaviour
 {
     public float moveSpeed = 3f;
-    public float nearRadius = 1.5f;
+    public float nearRadius = 3f;
     public float spawnTime = 3f;
     public float ICCheckRadius = 2f;
 
@@ -30,6 +31,8 @@ public class ImmuneCellScript : MonoBehaviour
     private Vector2 wanderDirection;
     private float wanderTimer;
 
+    private NavMeshAgent agent;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -37,6 +40,10 @@ public class ImmuneCellScript : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         PickNewWanderDirection();
         wanderTimer = wanderChangeInterval;
+
+        agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
     }
 
     // Update is called once per frame
@@ -87,6 +94,7 @@ public class ImmuneCellScript : MonoBehaviour
                 {
                     MoveTowards(target.position);
                     timeNearTarget += Time.deltaTime;
+                    Debug.Log("time" + timeNearTarget);
                     if (timeNearTarget >= spawnTime)
                     {
                         if (GameManager.Instance == null || !GameManager.Instance.timerStarted)
@@ -140,6 +148,10 @@ public class ImmuneCellScript : MonoBehaviour
     void MoveTowards(Vector2 t)
     {
         if (Vector2.Distance(transform.position, t) >= 1f)
-            transform.position = Vector2.MoveTowards(transform.position, t, moveSpeed * Time.deltaTime);
+        {
+            //transform.position = Vector2.MoveTowards(transform.position, t, moveSpeed * Time.deltaTime);
+            agent.SetDestination(t);
+        }
     }
+    
 }

@@ -117,6 +117,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2856779496387707518, guid: ef4bf6e1c02ca3d41b484a2a5280391e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4456461531354404964}
+    - targetCorrespondingSourceObject: {fileID: 2856779496387707518, guid: ef4bf6e1c02ca3d41b484a2a5280391e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8447113647792070792}
   m_SourcePrefab: {fileID: 100100000, guid: ef4bf6e1c02ca3d41b484a2a5280391e, type: 3}
 --- !u!1 &7817256008778439888 stripped
 GameObject:
@@ -132,7 +135,7 @@ AudioSource:
   m_GameObject: {fileID: 7817256008778439888}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 2967470661454568825, guid: e8803f3786e409a46a0e902445570c2a, type: 2}
+  OutputAudioMixerGroup: {fileID: -3993245016419636914, guid: 1bf0ab5e1c72f45448ac14141dc43d25, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 098150de2c0e1384784773a7c2f4d6c3, type: 3}
   m_PlayOnAwake: 1
@@ -234,6 +237,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SFXdelay
   delay: 1
   offset: 0.5
+--- !u!195 &8447113647792070792
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7817256008778439888}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 1.94
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 4.04
+  m_BaseOffset: 2.02
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!4 &8738967592643981994 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3647394004556327940, guid: ef4bf6e1c02ca3d41b484a2a5280391e, type: 3}

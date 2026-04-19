@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 253821616679039988}
   - component: {fileID: 8273757905939534841}
   - component: {fileID: 15790780719066561}
+  - component: {fileID: 3655649698613338596}
   m_Layer: 0
   m_Name: Barrier
   m_TagString: Untagged
@@ -41,7 +42,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2686044845102760216}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -83,7 +84,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -138,6 +139,22 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &3655649698613338596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2686044845102760216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &3293758963078156702
 GameObject:
   m_ObjectHideFlags: 0
@@ -148,6 +165,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5633198427320155218}
   - component: {fileID: 3044519554587590160}
+  - component: {fileID: 8096073008568953634}
   m_Layer: 0
   m_Name: Barrier
   m_TagString: Untagged
@@ -221,7 +239,7 @@ SpriteRenderer:
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: -7201341233562377432, guid: 32136c1385a791d4bba1f141c60fc7b1, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.77254903}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -230,3 +248,16 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &8096073008568953634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3293758963078156702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b201a305155df0141b28972d62ee3b61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ForceStartingAlpha
+  startingAlpha: 0.75

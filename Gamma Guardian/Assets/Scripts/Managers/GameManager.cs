@@ -16,9 +16,6 @@ public class GameManager : MonoBehaviour
     public bool gameWon = false;
     public bool gameLost = false;
 
-    [Header("Progression")]
-    public int thisLevelIndex = 1;
-
     [Header("Gameplay Flow")]
     public bool timerStarted = false;
     public bool introDialogueFinished = false;
@@ -57,24 +54,87 @@ public class GameManager : MonoBehaviour
     [Header("Dialogue")]
     public DialogueManager dialogueManager;
     #region Dialogue
-    private string[] introDialogue =
+    [Header("Level 1 Dialogue")]
+    [SerializeField]
+    private string[] level1IntroDialogue =
+{
+    "Welcome to the first vessel Guardian Explorer",
+    "The infection is swarming this part of the body.",
+    "Take out all the bacteria to save the patient!",
+    "Make sure to take out cytokines too to slow infection."
+};
+
+    [SerializeField]
+    private string[] level1EndDialogue =
     {
-        "Welcome to the first vessel Guardian Explorer",
-        "The infection is swarming this part of the body.",
-        "Take out all the bacteria to save the patient!",
-        "Make sure to take out cytokines too to slow infection."
-    };
-    public string[] endDialogue = {
-        "Nice work Guardian!",
-        "Our job's not over yet!",
-        "There are more regions we need to tackle.",
-        "Onwards!"
-    };
-    public string[] failDialogue = {
+    "Nice work Guardian!",
+    "Our job's not over yet!",
+    "There are more regions we need to tackle.",
+    "Onwards!"
+};
+
+    [Header("Level 2 Dialogue")]
+    [SerializeField]
+    private string[] level2IntroDialogue =
+    {
+    "We've made it deeper into the body, Guardian Explorer.",
+    "This region is more dangerous than the last.",
+    "Clear the bacteria here and keep the inflammation under control.",
+    "Stay sharp and keep moving!"
+};
+
+    [SerializeField]
+    private string[] level2EndDialogue =
+    {
+    "Excellent work, Guardian!",
+    "This region is safe for now.",
+    "But the infection is still spreading elsewhere.",
+    "Let's keep going!"
+};
+
+    [Header("Fail Dialogue")]
+    [SerializeField]
+    private string[] failDialogue =
+    {
     "Don't give up, Guardian!",
     "That infection was tough, but you can beat it.",
     "Here's a tip. Prioritize the bacteria, but make sure to calm cytokines when flying by them!",
     "Take a breath and try again!"
+};
+    [Header("Level 3 Dialogue")]
+    [SerializeField]
+    private string[] level3IntroDialogue =
+{
+    "Guardian, this next region is much larger than the others.",
+    "The infection has spread across two separate paths.",
+    "You will need to explore both routes before this area can be fully cleared.",
+    "Stay alert, cover the whole level, and don't leave either path unchecked."
+};
+
+    [SerializeField]
+    private string[] level3EndDialogue =
+    {
+    "Excellent work, Guardian!",
+    "You cleared both paths and secured this entire region.",
+    "That was a large area, but you handled it well.",
+    "Let's keep moving and finish driving back the infection."
+};
+    [Header("Level 5 Dialogue")]
+    [SerializeField]
+    private string[] level5IntroDialogue =
+{
+    "We've made it to the epicenter of the infection Guardian.",
+    "This is the largest area yet, and the paths twist and turn.",
+    "We must be vigilant and work fast to clear through this area.",
+    "Onwards!!!!"
+};
+
+    [SerializeField]
+    private string[] level5EndDialogue =
+    {
+    "Amazing work Guardian!",
+    "That was the last of the infection!",
+    "Let's celebrate!!!"
 };
     #endregion
 
@@ -189,7 +249,8 @@ public class GameManager : MonoBehaviour
         gameLost = false;
         isPaused = false;
 
-        timeRemaining = levelTimeLimit;
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        timeRemaining = GetTimeLimitForScene(currentSceneName);
         timerStarted = false;
         introDialogueFinished = false;
         currentCombo = 0;
@@ -216,7 +277,10 @@ public class GameManager : MonoBehaviour
             dialogueManager.onDialogueEnd.RemoveListener(HandleEndDialogueFinished);
             dialogueManager.onDialogueEnd.AddListener(BeginGameplay);
 
-            dialogueManager.SetDialogueLines(introDialogue);
+            currentSceneName = SceneManager.GetActiveScene().name;
+            string[] currentIntroDialogue = GetIntroDialogueForScene(currentSceneName);
+
+            dialogueManager.SetDialogueLines(currentIntroDialogue);
             dialogueManager.StartDialogue();
         }
         else
@@ -254,7 +318,10 @@ public class GameManager : MonoBehaviour
             dialogueManager.onDialogueEnd.RemoveListener(HandleEndDialogueFinished);
             dialogueManager.onDialogueEnd.AddListener(HandleEndDialogueFinished);
 
-            dialogueManager.SetDialogueLines(endDialogue);
+            string currentSceneName = SceneManager.GetActiveScene().name;
+            string[] currentEndDialogue = GetEndDialogueForScene(currentSceneName);
+
+            dialogueManager.SetDialogueLines(currentEndDialogue);
             dialogueManager.StartDialogue();
         }
         else
@@ -281,7 +348,73 @@ public class GameManager : MonoBehaviour
                 ProgressionManager.Instance.MarkLevelCompleted(completedLevelIndex);
         }
 
-        GoHome();
+        GoNext();
+    }
+
+    private string[] GetIntroDialogueForScene(string sceneName)
+    {
+        switch (sceneName)
+        {
+            case "Level1":
+                return level1IntroDialogue;
+
+            case "Level2":
+                return level2IntroDialogue;
+
+            case "Level3":
+                return level3IntroDialogue;
+
+            case "Level5":
+                return level5IntroDialogue;
+
+            default:
+                return level1IntroDialogue;
+        }
+    }
+
+    private string[] GetEndDialogueForScene(string sceneName)
+    {
+        switch (sceneName)
+        {
+            case "Level1":
+                return level1EndDialogue;
+
+            case "Level2":
+                return level2EndDialogue;
+
+            case "Level3":
+                return level3EndDialogue;
+
+            case "Level5":
+                return level5EndDialogue;
+
+            default:
+                return level1EndDialogue;
+        }
+    }
+
+    private float GetTimeLimitForScene(string sceneName)
+    {
+        switch (sceneName)
+        {
+            case "Level1":
+                return 300f;
+
+            case "Level2":
+                return 210f;
+
+            case "Level3":
+                return 420f;
+
+            case "Level4":
+                return 300f;
+
+            case "Level5":
+                return 300f;
+
+            default:
+                return levelTimeLimit;
+        }
     }
 
     public void ResetGameState()
@@ -479,6 +612,39 @@ public class GameManager : MonoBehaviour
         ResetGameState();
         SceneManager.LoadScene(0);
         Time.timeScale = 1f;
+    }
+
+    public void GoNext()
+    {
+        if (ProgressionManager.Instance == null)
+        {
+            GoHome();
+            return;
+        }
+
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        int completedLevelIndex = ProgressionManager.Instance.GetLevelIndexFromScene(currentSceneName);
+
+        if (completedLevelIndex <= 0)
+        {
+            GoHome();
+            return;
+        }
+
+        bool isLastLevel = completedLevelIndex >= ProgressionManager.Instance.MaxLevelCount;
+
+        ProgressionManager.Instance.MarkLevelCompleted(completedLevelIndex);
+
+        ResetGameState();
+        Time.timeScale = 1f;
+
+        if (isLastLevel)
+        {
+            SceneManager.LoadScene(mainMenuScene);
+            return;
+        }
+
+        SceneManager.LoadScene(ProgressionManager.Instance.GetCurrentLevelScene());
     }
 
     public void SwitchMode()
