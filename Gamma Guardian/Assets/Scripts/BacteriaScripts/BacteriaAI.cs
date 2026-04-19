@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class BacteriaAI : MonoBehaviour
 {
@@ -13,12 +14,19 @@ public class BacteriaAI : MonoBehaviour
     public float wanderSpeed = 1.5f;
     public float wanderChangeInterval = 2f;
 
+    [Header("Swarmer Settings")]
+    public float swarmDetectRange = 6f;
+    public float swarmMoveSpeed = 3.5f;
+    public float swarmOffsetRadius = 1.5f;
+
     [Header("Layer Masks")]
     [SerializeField] private LayerMask bodyLayerMask = 3;
 
     [Header("VFX")]
     public GameObject bacteriaPuffPrefab;
 
+    private bool isSwarmer;
+    private bool swarmTriggered;
     private Transform target;
     private Rigidbody2D rb;
     private float targetTimer;
@@ -51,21 +59,30 @@ public class BacteriaAI : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+
+        isSwarmer = SceneManager.GetActiveScene().name == "Level2";
         
         textDisplay.SetActive(false);
     }
 
     void Update()
     {
-        DetectAndAssignBodyTarget();
+        if (player == null) return;
 
-        if (target == null)
+        if (isSwarmer && PlayerInSwarmRange())
         {
-            Wander();
+            swarmTriggered = true;
+            SwarmPlayer();
         }
         else
         {
-            ChaseTarget();
+            swarmTriggered = false;
+            DetectAndAssignBodyTarget();
+
+            if (target == null)
+                Wander();
+            else
+                ChaseTarget();
         }
         float distToPlayer = Vector2.Distance(transform.position, player.position);
         bool shouldPulse = distToPlayer < pulseRange && distToPlayer > nearRadius;  // Between pulseRange & nearRadius
@@ -75,6 +92,33 @@ public class BacteriaAI : MonoBehaviour
                 pulseEffect.SetPulseActive(true);
             else if (!shouldPulse && pulseEffect.isPulsing)
                 pulseEffect.SetPulseActive(false);
+        }
+    }
+
+    bool PlayerInSwarmRange()
+    {
+        return Vector2.Distance(transform.position, player.position) <= swarmDetectRange;
+    }
+
+    void SwarmPlayer()
+    {
+        ReleaseCurrentTarget();
+
+        Vector2 offset = ((Vector2)transform.position - (Vector2)player.position).normalized;
+        if (offset == Vector2.zero)
+            offset = Random.insideUnitCircle.normalized;
+
+        Vector2 swarmPoint = (Vector2)player.position + offset * swarmOffsetRadius;
+
+        if (agent != null)
+        {
+            agent.speed = swarmMoveSpeed;
+            agent.SetDestination(swarmPoint);
+        }
+        else if (rb != null)
+        {
+            Vector2 direction = (swarmPoint - (Vector2)transform.position).normalized;
+            rb.linearVelocity = direction * swarmMoveSpeed;
         }
     }
 
