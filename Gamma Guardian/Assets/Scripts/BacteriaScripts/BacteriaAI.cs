@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+//using TMPro;
+//using UnityEngine.UI;
 
 public class BacteriaAI : MonoBehaviour
 {
@@ -41,11 +43,6 @@ public class BacteriaAI : MonoBehaviour
     private PulseEffect pulseEffect;
     public float nearRadius = 2f;
 
-    private NavMeshAgent agent;
-    
-    public GameObject textDisplay;
-    private bool displayOn = false;
-
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -63,6 +60,11 @@ public class BacteriaAI : MonoBehaviour
         isSwarmer = SceneManager.GetActiveScene().name == "Level2";
         
         textDisplay.SetActive(false);
+        //if (!displayButton.GetComponent<Button>())
+        //{
+        //    Debug.LogWarning("Error: no button found for "+gameObject.name);
+        //}else
+        //    displayButton.SetActive(false);
     }
 
     void Update()
@@ -158,10 +160,8 @@ public class BacteriaAI : MonoBehaviour
         float distance = Vector2.Distance(transform.position, target.position);
         if (distance < detectionRange)
         {
-            //Vector2 direction = (target.position - transform.position).normalized;
-            //rb.linearVelocity = direction * moveSpeed;
-
-            agent.SetDestination(target.position);
+            Vector2 direction = (target.position - transform.position).normalized;
+            rb.linearVelocity = direction * moveSpeed;
         }
         else
         {
@@ -263,12 +263,5 @@ public class BacteriaAI : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, detectionRange);
-    }
-
-    void DisplayText()
-    {
-        //
-        displayOn = !displayOn;
-        textDisplay.SetActive(displayOn);
     }
 }
