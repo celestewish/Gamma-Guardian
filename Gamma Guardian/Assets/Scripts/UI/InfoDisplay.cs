@@ -22,14 +22,13 @@ public class InfoDisplay : MonoBehaviour
     private Renderer objRenderer;
     private string sortingLayer;
     private Canvas canvas;
-    private GameObject bgCover;
-    private string bgSortingLayer;
+
+    GameObject manager;
+    string bgSortingLayer;
 
     void Awake()
     {
         buttonText.text = "See Info";
-        displayButton.SetActive(displayOn);
-        displayText.SetActive(isOn);
 
         //tempColor = displayButton.GetComponent<UnityEngine.UI.Image>().color;
 
@@ -37,16 +36,6 @@ public class InfoDisplay : MonoBehaviour
         sortingLayer = objRenderer.sortingLayerName;
 
         canvas = GetComponent<Canvas>();
-
-        bgCover = GameObject.FindGameObjectWithTag("InfoMask");
-        if (bgCover != null)
-        {
-            bgSortingLayer = bgCover.GetComponent<Canvas>().sortingLayerName;
-        }
-        else
-        {
-            Debug.LogWarning("Could not find mask object");
-        }
     }
 
     void Start()
@@ -54,10 +43,22 @@ public class InfoDisplay : MonoBehaviour
         if (player == null)
             player = GameObject.FindGameObjectWithTag("Player").transform;
 
-        if(bgCover != null && bgCover.activeSelf)
-            bgCover.SetActive(false);
-
         this.fixedDeltaTime = Time.fixedDeltaTime;
+
+        manager = GameObject.Find("Game Manager");
+        bgSortingLayer = manager.GetComponent<InfoManager>().bgCover.GetComponent<Canvas>().sortingLayerName;
+
+        bool displayTest = manager.GetComponent<GameManager>().IsDisplayOn();
+        Debug.Log("Is display mode on: "+displayTest);
+        if (displayTest)
+        {
+            displayButton.SetActive(true);
+        }else
+            displayButton.SetActive(false);
+
+        displayText.SetActive(false);
+
+        Debug.Log(transform.parent.gameObject.name + ": " + transform.parent.gameObject.GetInstanceID());
     }
 
     void Update()
@@ -86,8 +87,10 @@ public class InfoDisplay : MonoBehaviour
         displayText.SetActive(isOn);
         buttonText.text = (isOn) ? "Hide Info" : "See Info";
 
-        if(bgCover != null)
-            bgCover.SetActive(isOn);
+        if (isOn) manager.GetComponent<InfoManager>().DisableButtons(transform.parent.gameObject.GetInstanceID());
+        //manager.SendMessage("DisableButtons", transform.parent.gameObject.name);
+        else manager.SendMessage("EnableButtons");
+
         objRenderer.sortingLayerName = (isOn) ? bgSortingLayer : sortingLayer;
         canvas.sortingLayerName = (isOn) ? bgSortingLayer : sortingLayer;
 

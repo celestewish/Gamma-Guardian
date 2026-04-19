@@ -12,6 +12,7 @@ TagManager:
   - Cytokines
   - Wall
   - InfoMask
+  - InfoDisplay
   layers:
   - Default
   - TransparentFX

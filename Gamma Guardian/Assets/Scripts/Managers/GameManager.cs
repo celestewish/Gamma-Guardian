@@ -494,8 +494,11 @@ public class GameManager : MonoBehaviour
         {
             info.gameObject.SendMessage("Display");
         }
+        infoMode = !infoMode;
         Debug.Log("Mode Switched.");
     }
+
+    public bool IsDisplayOn() { return infoMode; }
 
     private IEnumerator fadeScene()
     {
