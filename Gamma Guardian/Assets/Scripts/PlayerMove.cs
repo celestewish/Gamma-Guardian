@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -14,9 +15,21 @@ public class PlayerMove : MonoBehaviour
     private Vector2 move;
     private Rigidbody2D rb;
     private PlayerAudioScript playerAudio;
+    public TrailRenderer playerTrail;
+    public PlayerAbilitySFX playerAbilitySFX;
+
+    public AudioClip bumpSound;
+    [SerializeField] private AudioSource sfxAudio;
+
+    [SerializeField] private SpriteRenderer playerSprite;     // Main player sprite
+    [SerializeField] private SpriteRenderer actionSprite;     // Action sprite (child)
+    [SerializeField] private float actionShowTime = 1f;       // Seconds to show action
+    private bool isFacingRight = true;
 
     void Start()
     {
+        if (actionSprite != null) actionSprite.gameObject.SetActive(false);
+
         if (speedMult <= 0) speedMult = 5f;
         move = new Vector2(0, 0);
         rb = GetComponent<Rigidbody2D>();
@@ -24,6 +37,9 @@ public class PlayerMove : MonoBehaviour
 
         if (foMult > .1f) foMult = .1f;
         foVal = foMult;
+
+        //Time.fixedDeltaTime = 0.02f;
+        Application.targetFrameRate = 60;
     }
 
     void OnMove(InputValue ip)
@@ -31,8 +47,33 @@ public class PlayerMove : MonoBehaviour
         move = ip.Get<Vector2>();
     }
 
-    void FixedUpdate()
+    void OnAbility(InputValue value)
     {
+        if (value.isPressed)
+        {
+            PlayerAction();
+            playerAbilitySFX.OnButtonClick();
+        }
+    }
+
+    private void Update()
+    {
+        if (rb.linearVelocity.magnitude > 0.1f)
+            playerTrail.emitting = true;
+        else
+            playerTrail.emitting = false;
+
+        if (move.x != 0)
+        {
+            bool newFacingRight = move.x > 0;
+            if (newFacingRight != isFacingRight)
+            {
+                isFacingRight = newFacingRight;
+                if (playerSprite != null) playerSprite.flipX = !isFacingRight;
+                if (actionSprite != null) actionSprite.flipX = !isFacingRight;
+            }
+        }
+
         if (move.magnitude > 0)
         {
             rb.AddForce(move.normalized * speedMult);
@@ -49,28 +90,21 @@ public class PlayerMove : MonoBehaviour
             else
                 rb.linearVelocity = new Vector2(0, 0);
         }
-
-        playerAudio.SetPitch(1.4f * rb.linearVelocity.magnitude / maxSpeed); //calls SetPitch with values from 0 - 1.4
-        Debug.Log("dir: " + rb.linearVelocity.magnitude);
     }
 
-    //enum FalloffLevel
-    //{
-    //    _0 = 0,
-    //    _1 = 1,
-    //    _2 = 2,
-    //    _3 = 3,
-    //    _4 = 4
-    //};
-
-    enum FalloffType
+    void FixedUpdate()
     {
-        Exponential, //speed fall-off exponentially decreases
-        Linear //speed fall-off decreases linearly (portion of maxspeed / time)
-    };
+        playerAudio.SetPitch(1.4f * rb.linearVelocity.magnitude / maxSpeed); //calls SetPitch with values from 0 - 1.4
+        //Debug.Log("player speed: " + rb.linearVelocity.magnitude);
+    }
 
-    public void DeactivateCytokine()
+    public void PlayerAction()
     {
+        if (actionSprite != null)
+        {
+            actionSprite.flipX = !isFacingRight;
+            StartCoroutine(ShowActionCoroutine());
+        }
         GameObject[] cytokines = GameObject.FindGameObjectsWithTag("Cytokines");
         GameObject closestCytokine = null;
         float closestDistance = Mathf.Infinity;
@@ -93,5 +127,66 @@ public class PlayerMove : MonoBehaviour
                 cytokineScript.Deactivate();
             }
         }
+        else
+        {
+            GameObject[] bacterias = GameObject.FindGameObjectsWithTag("Bacteria");
+            GameObject closestBacteria = null;
+            closestDistance = Mathf.Infinity;
+            foreach (GameObject bacteria in bacterias)
+            {
+                float distance = Vector3.Distance(currentPosition, bacteria.transform.position);
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestBacteria = bacteria;
+                }
+            }
+            if (closestBacteria != null && closestDistance < 2f)
+            {
+                BacteriaAI bacteriaScript = closestBacteria.GetComponent<BacteriaAI>();
+                if (bacteriaScript != null)
+                {
+                    bacteriaScript.Die();
+                }
+            }
+        }
+
+        
     }
+    private IEnumerator ShowActionCoroutine()
+    {
+        if (actionSprite != null)
+        {
+            actionSprite.gameObject.SetActive(true);
+            playerSprite.enabled = false;
+            yield return new WaitForSeconds(actionShowTime);
+            actionSprite.gameObject.SetActive(false);
+            playerSprite.enabled = true;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        Debug.Log("hit");
+        if (coll.gameObject.tag == "Wall")
+        {
+            Debug.Log("wall");
+            sfxAudio.PlayOneShot(bumpSound);
+        }
+    }
+
+    //enum FalloffLevel
+    //{
+    //    _0 = 0,
+    //    _1 = 1,
+    //    _2 = 2,
+    //    _3 = 3,
+    //    _4 = 4
+    //};
+
+    enum FalloffType
+    {
+        Exponential, //speed fall-off exponentially decreases
+        Linear //speed fall-off decreases linearly (portion of maxspeed / time)
+    };
 }
