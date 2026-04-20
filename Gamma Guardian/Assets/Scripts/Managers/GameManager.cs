@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Rendering.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -142,6 +143,7 @@ public class GameManager : MonoBehaviour
     private float lastKillTime;
     private float comboTimer;
     private string comboType = "Bacteria";
+    [SerializeField] private InputActionReference quitAction;
 
     void Awake()
     {
@@ -180,6 +182,24 @@ public class GameManager : MonoBehaviour
     void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnEnable()
+    {
+        if (quitAction != null)
+        {
+            quitAction.action.Enable();
+            quitAction.action.performed += OnQuitPerformed;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (quitAction != null)
+        {
+            quitAction.action.performed -= OnQuitPerformed;
+            quitAction.action.Disable();
+        }
     }
 
     void Update()
@@ -647,7 +667,21 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(ProgressionManager.Instance.GetCurrentLevelScene());
     }
 
-    public void SwitchMode()
+    private void OnQuitPerformed(InputAction.CallbackContext context)
+    {
+        QuitGame();
+    }
+
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+
+public void SwitchMode()
     {
         InfoDisplay[] infoArr = Object.FindObjectsByType<InfoDisplay>(FindObjectsSortMode.None);
         if(infoArr == null || infoArr.Length == 0)
