@@ -57,6 +57,36 @@ public class MenuManager : MonoBehaviour
     private bool playMenuOpen = false;
     private bool levelSelectOpen = false;
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        ReassignSfxSource();
+    }
+
+    private void ReassignSfxSource()
+    {
+        GameObject sfxObject = GameObject.Find("SFX");
+
+        if (sfxObject != null)
+        {
+            uiAudioSource = sfxObject.GetComponent<AudioSource>();
+        }
+        else
+        {
+            Debug.LogWarning("MenuManager could not find a GameObject named SFX in this scene.");
+            uiAudioSource = null;
+        }
+    }
+
     void Awake()
     {
         if (titleTransform != null) titleStartPos = titleTransform.anchoredPosition;
@@ -112,8 +142,11 @@ public class MenuManager : MonoBehaviour
 
     private void Start()
     {
+        ReassignSfxSource();
+
         if (fadeController != null)
             fadeController.FadeOut();
+
         RefreshPlayMenuButtons();
     }
 
