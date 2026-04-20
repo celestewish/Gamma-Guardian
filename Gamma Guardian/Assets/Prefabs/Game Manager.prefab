@@ -1,0 +1,127 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4213117003158508365
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 824994422461493058}
+  - component: {fileID: 7021163621165922757}
+  - component: {fileID: 95491399776250747}
+  m_Layer: 0
+  m_Name: Game Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &824994422461493058
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4213117003158508365}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.69119, y: 0.00449, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7021163621165922757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4213117003158508365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2e3a6132265d9745943d5220d92235a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  levelRunning: 0
+  bacteriaCount: 0
+  gameWon: 0
+  gameLost: 0
+  timerStarted: 0
+  introDialogueFinished: 0
+  completionBar: {fileID: 0}
+  progress: 0
+  fadeController: {fileID: 0}
+  isPaused: 0
+  pauseMenuUI: {fileID: 0}
+  pauseButton: {fileID: 0}
+  resumeButton: {fileID: 0}
+  homeButton: {fileID: 0}
+  modeButton: {fileID: 0}
+  timerText: {fileID: 0}
+  levelTimeLimit: 300
+  comboText: {fileID: 0}
+  comboWindow: 3
+  comboReductionBase: 0.05
+  mainMenuScene: MainMenu
+  dialogueManager: {fileID: 0}
+  level1IntroDialogue:
+  - Welcome to the first vessel Guardian Explorer
+  - The infection is swarming this part of the body.
+  - Take out all the bacteria to save the patient!
+  - Make sure to take out cytokines too to slow infection.
+  level1EndDialogue:
+  - Nice work Guardian!
+  - Our job's not over yet!
+  - There are more regions we need to tackle.
+  - Onwards!
+  level2IntroDialogue:
+  - We've made it deeper into the body, Guardian Explorer.
+  - This region is more dangerous than the last.
+  - Clear the bacteria here and keep the inflammation under control.
+  - Stay sharp and keep moving!
+  level2EndDialogue:
+  - Excellent work, Guardian!
+  - This region is safe for now.
+  - But the infection is still spreading elsewhere.
+  - Let's keep going!
+  failDialogue:
+  - Don't give up, Guardian!
+  - That infection was tough, but you can beat it.
+  - Here's a tip. Prioritize the bacteria, but make sure to calm cytokines when flying
+    by them!
+  - Take a breath and try again!
+  level3IntroDialogue:
+  - Guardian, this next region is much larger than the others.
+  - The infection has spread across two separate paths.
+  - You will need to explore both routes before this area can be fully cleared.
+  - Stay alert, cover the whole level, and don't leave either path unchecked.
+  level3EndDialogue:
+  - Excellent work, Guardian!
+  - You cleared both paths and secured this entire region.
+  - That was a large area, but you handled it well.
+  - Let's keep moving and finish driving back the infection.
+  level5IntroDialogue:
+  - We've made it to the epicenter of the infection Guardian.
+  - This is the largest area yet, and the paths twist and turn.
+  - We must be vigilant and work fast to clear through this area.
+  - Onwards!!!!
+  level5EndDialogue:
+  - Amazing work Guardian!
+  - That was the last of the infection!
+  - Let's celebrate!!!
+--- !u!114 &95491399776250747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4213117003158508365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd7be592f6f173e4ca943eb7853a99b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  bgCover: {fileID: 0}
