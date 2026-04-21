@@ -78,7 +78,7 @@ public class GlossaryScript : MonoBehaviour
         {
             descriptionText.enableAutoSizing = true;
             descriptionText.fontSizeMin = 16;
-            descriptionText.fontSizeMax = 28;
+            descriptionText.fontSizeMax = 70;
             descriptionText.text = entry.description;
         }
 
