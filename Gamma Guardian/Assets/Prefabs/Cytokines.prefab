@@ -324,7 +324,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7383247072557008003, guid: 0c3c3a0e13fef6f46a935c452142f70f, type: 3}
       propertyPath: m_text
-      value: (Cytokine info wil go here.)
+      value: ( Cytokine info wil go here )
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

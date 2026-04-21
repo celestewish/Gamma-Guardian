@@ -46,7 +46,11 @@ public class InfoDisplay : MonoBehaviour
         this.fixedDeltaTime = Time.fixedDeltaTime;
 
         manager = GameObject.Find("Game Manager");
-        bgSortingLayer = manager.GetComponent<InfoManager>().bgCover.GetComponent<Canvas>().sortingLayerName;
+        GameObject BG = manager.GetComponent<InfoManager>().bgCover;
+        if (BG.GetComponent<Renderer>() != null)
+            bgSortingLayer = BG.GetComponent<Renderer>().sortingLayerName;
+        else
+            bgSortingLayer = BG.GetComponent<Canvas>().sortingLayerName;
 
         bool displayTest = manager.GetComponent<GameManager>().IsDisplayOn();
         Debug.Log("Is display mode on: "+displayTest);

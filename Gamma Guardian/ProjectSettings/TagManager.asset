@@ -56,11 +56,11 @@ TagManager:
   - name: Sprites
     uniqueID: 1076892481
     locked: 0
-  - name: BG Temp
-    uniqueID: 2982800737
-    locked: 0
   - name: Player
     uniqueID: 15771377
+    locked: 0
+  - name: BG Temp
+    uniqueID: 2982800737
     locked: 0
   m_RenderingLayers:
   - Default
