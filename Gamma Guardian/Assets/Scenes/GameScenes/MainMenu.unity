@@ -2105,6 +2105,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 95491399776250747, guid: 305c91bb069e5d34596d5a7fd8978e6a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 824994422461493058, guid: 305c91bb069e5d34596d5a7fd8978e6a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -87.5909
@@ -3182,16 +3186,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 996383070}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1693916802}
+  m_Father: {fileID: 1768364155}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 180, y: -430}
+  m_AnchoredPosition: {x: 180, y: 0}
   m_SizeDelta: {x: 90, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &996383072
@@ -3257,7 +3261,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.6862745, g: 0.6862745, b: 0.6862745, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -3276,8 +3280,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1693916805}
-        m_TargetAssemblyTypeName: ColorChangeTest, Assembly-CSharp
+      - m_Target: {fileID: 1768364156}
+        m_TargetAssemblyTypeName: PlayerSpriteColorShift, Assembly-CSharp
         m_MethodName: SetShift
         m_Mode: 3
         m_Arguments:
@@ -3301,7 +3305,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ColorLock
   isLocked: 0
-  disabledColor: {r: 0.66666657, g: 0.66666657, b: 0.66666657, a: 0.78431374}
 --- !u!1 &1009672669
 GameObject:
   m_ObjectHideFlags: 0
@@ -3852,16 +3855,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1069168821}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1693916802}
+  m_Father: {fileID: 1768364155}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 60, y: -430}
+  m_AnchoredPosition: {x: 60, y: 0}
   m_SizeDelta: {x: 90, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1069168823
@@ -3927,7 +3930,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.6862745, g: 0.6862745, b: 0.6862745, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -3946,8 +3949,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1693916805}
-        m_TargetAssemblyTypeName: ColorChangeTest, Assembly-CSharp
+      - m_Target: {fileID: 1768364156}
+        m_TargetAssemblyTypeName: PlayerSpriteColorShift, Assembly-CSharp
         m_MethodName: SetShift
         m_Mode: 3
         m_Arguments:
@@ -3971,7 +3974,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ColorLock
   isLocked: 0
-  disabledColor: {r: 0.66666657, g: 0.66666657, b: 0.66666657, a: 0.78431374}
 --- !u!1 &1079144627
 GameObject:
   m_ObjectHideFlags: 0
@@ -4149,16 +4151,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1116623866}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1693916802}
+  m_Father: {fileID: 1768364155}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -60, y: -430}
+  m_AnchoredPosition: {x: -60, y: 0}
   m_SizeDelta: {x: 90, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1116623868
@@ -4224,7 +4226,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.6862745, g: 0.6862745, b: 0.6862745, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -4243,8 +4245,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1693916805}
-        m_TargetAssemblyTypeName: ColorChangeTest, Assembly-CSharp
+      - m_Target: {fileID: 1768364156}
+        m_TargetAssemblyTypeName: PlayerSpriteColorShift, Assembly-CSharp
         m_MethodName: SetShift
         m_Mode: 3
         m_Arguments:
@@ -4268,7 +4270,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   isLocked: 0
-  disabledColor: {r: 0.66666657, g: 0.66666657, b: 0.66666657, a: 0.78431374}
 --- !u!1 &1124840256
 GameObject:
   m_ObjectHideFlags: 0
@@ -5567,6 +5568,7 @@ RectTransform:
   - {fileID: 431812938}
   - {fileID: 78333840}
   - {fileID: 1693916802}
+  - {fileID: 1768364155}
   - {fileID: 1090372177}
   m_Father: {fileID: 1124840258}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5651,7 +5653,7 @@ GameObject:
   - component: {fileID: 1471859180}
   - component: {fileID: 1471859182}
   m_Layer: 5
-  m_Name: Color Option 1
+  m_Name: Color Option Default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5664,16 +5666,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1471859178}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1693916802}
+  m_Father: {fileID: 1768364155}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -180, y: -430}
+  m_AnchoredPosition: {x: -180, y: 0}
   m_SizeDelta: {x: 90, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1471859180
@@ -5758,8 +5760,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1693916805}
-        m_TargetAssemblyTypeName: ColorChangeTest, Assembly-CSharp
+      - m_Target: {fileID: 1768364156}
+        m_TargetAssemblyTypeName: PlayerSpriteColorShift, Assembly-CSharp
         m_MethodName: SetShift
         m_Mode: 3
         m_Arguments:
@@ -6123,7 +6125,6 @@ GameObject:
   - component: {fileID: 1693916802}
   - component: {fileID: 1693916804}
   - component: {fileID: 1693916803}
-  - component: {fileID: 1693916805}
   m_Layer: 5
   m_Name: GuardianSplash
   m_TagString: Untagged
@@ -6142,16 +6143,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
-  m_Children:
-  - {fileID: 1471859179}
-  - {fileID: 1116623867}
-  - {fileID: 1069168822}
-  - {fileID: 996383071}
+  m_Children: []
   m_Father: {fileID: 1467406108}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -471, y: -3}
+  m_AnchoredPosition: {x: -471, y: 0}
   m_SizeDelta: {x: 826.6664, y: 847.45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1693916803
@@ -6192,18 +6189,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1693916801}
   m_CullTransparentMesh: 1
---- !u!114 &1693916805
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1693916801}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a51f7d6247561f4cb574d8dc0a3d920, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
 --- !u!1 &1701143532
 GameObject:
   m_ObjectHideFlags: 0
@@ -6360,6 +6345,59 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1720205175}
   m_CullTransparentMesh: 1
+--- !u!1 &1768364154
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1768364155}
+  - component: {fileID: 1768364156}
+  m_Layer: 5
+  m_Name: Color Options
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1768364155
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1768364154}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1471859179}
+  - {fileID: 1116623867}
+  - {fileID: 1069168822}
+  - {fileID: 996383071}
+  m_Father: {fileID: 1467406108}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -471, y: -445}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1768364156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1768364154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a51f7d6247561f4cb574d8dc0a3d920, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSpriteColorShift
+  obj: {fileID: 1693916801}
 --- !u!1 &1791097302
 GameObject:
   m_ObjectHideFlags: 0

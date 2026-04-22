@@ -49,6 +49,7 @@ public class CytokinesScript : MonoBehaviour
             if (!deactivated)
                 Instantiate(immuneCell, transform.position, Quaternion.identity);
             Instantiate(burst, transform.position, Quaternion.identity);
+            gameObject.BroadcastMessage("RemoveMeFromInfo");
             Destroy(gameObject);
         }
         float distToPlayer = Vector2.Distance(transform.position, player.position);

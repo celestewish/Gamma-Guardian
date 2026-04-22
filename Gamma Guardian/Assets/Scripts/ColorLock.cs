@@ -4,15 +4,14 @@ using UnityEngine.UI;
 
 public class ColorLock : MonoBehaviour
 {
-    public bool isLocked;
-    public Color disabledColor;
+    public bool isLocked; //reference this when loading the unlockables
+    //public Color disabledColor;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         if (isLocked)
         {
-            GetComponent<Image>().color = disabledColor;
+            GetComponent<Image>().color = Color.white;
             GetComponent<Button>().interactable = false;
         }
         else

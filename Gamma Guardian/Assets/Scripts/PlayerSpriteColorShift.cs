@@ -2,18 +2,19 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class ColorChangeTest : MonoBehaviour
+public class PlayerSpriteColorShift : MonoBehaviour
 {
+    public GameObject obj;
     private Material mat;
-    float target;
+    float target; //target hue val
 
-    float diff;
-    float dir;
+    float diff; //hue val difference
+    float diffTemp; 
+    float dir; //change direction
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        mat = GetComponent<Image>().material;
+        mat = obj.GetComponent<Image>().material;
         target = mat.GetFloat("_Hue");
         Debug.Log("hue shift: "+target);
 
@@ -24,32 +25,33 @@ public class ColorChangeTest : MonoBehaviour
     {
         if(mat.GetFloat("_Hue") != target)
         {
-            if(diff > 50)
+            //controls change speed
+            if(diffTemp > .3f * diff)
             {
                 mat.SetFloat("_Hue", mat.GetFloat("_Hue") + dir);
+                diffTemp -= Mathf.Abs(dir);
             }
-            else if(diff > 20)
+            else //if(diffTemp > .1f * diff)
             {
                 mat.SetFloat("_Hue", mat.GetFloat("_Hue") + .5f * dir);
-            }
-            else
-            {
-                mat.SetFloat("_Hue", mat.GetFloat("_Hue") + .25f * dir);
+                diffTemp -= .5f * Mathf.Abs(dir);
             }
 
+            //resets hue val to be with 0-360
             if( (mat.GetFloat("_Hue")+360) % 360 == target)
             {
+                Debug.Log("diff: " + diffTemp);
                 target = (mat.GetFloat("_Hue") + 360) % 360;
                 mat.SetFloat("_Hue", target);
             }
         }
     }
 
-    public void SetShift(int shift)
+    public void SetShift(int newShiftVal)
     {
-        Debug.Log($"old: {target} | new: {shift}");
-        target = shift;
-
+        Debug.Log($"old: {target} | new: {newShiftVal}");
+        target = newShiftVal;
+        
         diff = target - mat.GetFloat("_Hue");
         dir = Mathf.Sign(diff);
         diff = Mathf.Abs(diff);
@@ -57,10 +59,10 @@ public class ColorChangeTest : MonoBehaviour
         if ( (360 - diff) < diff)
         {
             diff = 360 - diff;
-            dir = -dir;
+            dir = -dir; //swaps to other direction if there's less distance
         }
 
-        Debug.Log($" difference: {diff} ");
-        //Debug.Log($" difference: {diff} | direction: {dir}");
+        Debug.Log($" difference: {diff} | direction: {dir}");
+        diffTemp = diff;
     }
 }

@@ -407,6 +407,7 @@ public class BacteriaAI : MonoBehaviour
             Instantiate(bacteriaPuffPrefab, transform.position, transform.rotation);
         player.gameObject.SendMessage("PlayBactDeath");
 
+        gameObject.BroadcastMessage("RemoveMeFromInfo");
 
         Destroy(gameObject);
     }

@@ -4,18 +4,18 @@ using UnityEngine.UI;
 
 public class InfoDisplay : MonoBehaviour
 {
-    public GameObject displayButton;
-    //public TextMeshProUGUI buttonText;
+    public GameObject displayButton; //button reference
     public TMP_Text buttonText;
-    public bool fadeIn;
-    public float displayRange;
-    public Color tempColor;
-    private bool displayOn = false;
 
-    public GameObject displayText;
+    public bool fadeIn; // yes/no for text fading as player moves away, currently unused
+    public float displayRange; //range cutoff for fading effect
+    public Color tempColor; //color used in fading effect
+
+    private bool displayOn = false;
+    public GameObject displayText; //info textbox
     private bool isOn = false;
 
-    private float fixedDeltaTime;
+    private float fixedDeltaTime; //time per frame
 
     public Transform player;
 
@@ -23,8 +23,8 @@ public class InfoDisplay : MonoBehaviour
     private string sortingLayer;
     private Canvas canvas;
 
-    GameObject manager;
-    string bgSortingLayer;
+    GameObject manager; //game manager reference
+    string bgSortingLayer; //sorting layer for background image
 
     void Awake()
     {
@@ -46,33 +46,31 @@ public class InfoDisplay : MonoBehaviour
         this.fixedDeltaTime = Time.fixedDeltaTime;
 
         manager = GameObject.Find("Game Manager");
+        manager.GetComponent<InfoManager>().AddButton(displayButton.GetComponent<Button>()); //adds button to manager
+
         GameObject BG = manager.GetComponent<InfoManager>().bgCover;
         if (BG.GetComponent<Renderer>() != null)
             bgSortingLayer = BG.GetComponent<Renderer>().sortingLayerName;
         else
             bgSortingLayer = BG.GetComponent<Canvas>().sortingLayerName;
 
-        bool displayTest = manager.GetComponent<GameManager>().IsDisplayOn();
-        Debug.Log("Is display mode on: "+displayTest);
-        if (displayTest)
-        {
+        if (manager.GetComponent<GameManager>().IsDisplayOn())
             displayButton.SetActive(true);
-        }else
+        else
             displayButton.SetActive(false);
 
         displayText.SetActive(false);
-
-        Debug.Log(transform.parent.gameObject.name + ": " + transform.parent.gameObject.GetInstanceID());
+        //Debug.Log(transform.parent.gameObject.name + ": " + transform.parent.gameObject.GetInstanceID());
     }
 
     void Update()
     {
-        float distToPlayer = Vector2.Distance(transform.position, player.position);
-        if (displayOn && fadeIn)
-        {
-            float dist = Mathf.Min(distToPlayer, displayRange); //- .2f * displayRange
-            tempColor = new Color(tempColor.r, tempColor.g, tempColor.g, (displayRange - dist)/displayRange);
-        }
+        //float distToPlayer = Vector2.Distance(transform.position, player.position);
+        //if (displayOn && fadeIn)
+        //{
+        //    float dist = Mathf.Min(distToPlayer, displayRange); //- .2f * displayRange
+        //    tempColor = new Color(tempColor.r, tempColor.g, tempColor.g, (displayRange - dist)/displayRange);
+        //}
 
         Time.fixedDeltaTime = this.fixedDeltaTime * Time.timeScale;
     }
@@ -91,16 +89,21 @@ public class InfoDisplay : MonoBehaviour
         displayText.SetActive(isOn);
         buttonText.text = (isOn) ? "Hide Info" : "See Info";
 
-        if (isOn) manager.GetComponent<InfoManager>().DisableButtons(transform.parent.gameObject.GetInstanceID());
-        //manager.SendMessage("DisableButtons", transform.parent.gameObject.name);
-        else manager.SendMessage("EnableButtons");
+        if (isOn)
+            manager.GetComponent<InfoManager>().DisableButtons(transform.parent.gameObject.GetInstanceID());
+        else 
+            manager.SendMessage("EnableButtons");
 
+        //sorting layer toggles
         objRenderer.sortingLayerName = (isOn) ? bgSortingLayer : sortingLayer;
         canvas.sortingLayerName = (isOn) ? bgSortingLayer : sortingLayer;
 
         Time.timeScale = (isOn) ? 0f : 1f;
         AudioListener.pause = isOn;
+    }
 
-        Debug.Log(objRenderer.gameObject.name+" --> new timescale: " + Time.timeScale);
+    public void RemoveMeFromInfo()
+    {
+        manager.SendMessage("RemoveFromInfoList", displayButton.GetInstanceID());
     }
 }
