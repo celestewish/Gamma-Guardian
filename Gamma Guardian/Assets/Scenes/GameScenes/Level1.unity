@@ -4941,8 +4941,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0015411, y: -0.00025368}
-  m_SizeDelta: {x: 800, y: 374.99}
+  m_AnchoredPosition: {x: -0.0015411, y: 0.001009}
+  m_SizeDelta: {x: 800, y: 450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &932651505
 MonoBehaviour:
@@ -5497,6 +5497,10 @@ PrefabInstance:
       propertyPath: InflammationVignette
       value: 
       objectReference: {fileID: 1352513189}
+    - target: {fileID: 2744704413688217792, guid: 97189d34c2e566e4087fd9e4636d15a8, type: 3}
+      propertyPath: InflammationWarningUI
+      value: 
+      objectReference: {fileID: 1348758217}
     - target: {fileID: 2744704413688217792, guid: 97189d34c2e566e4087fd9e4636d15a8, type: 3}
       propertyPath: inflammationRatePerCell
       value: 1
@@ -6735,6 +6739,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5132099538303582101, guid: 609c06aae54e4ca4e876b8821af39f2c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5239960185037691655, guid: 609c06aae54e4ca4e876b8821af39f2c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -6759,6 +6767,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: PlayerAbilitySFX, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 5596175485997697794, guid: 609c06aae54e4ca4e876b8821af39f2c, type: 3}
+      propertyPath: canvasGroup
+      value: 
+      objectReference: {fileID: 1348758216}
     - target: {fileID: 6422667858105276804, guid: 609c06aae54e4ca4e876b8821af39f2c, type: 3}
       propertyPath: m_Name
       value: UserInterface
@@ -6766,8 +6778,62 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5132099538303582101, guid: 609c06aae54e4ca4e876b8821af39f2c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1348758216}
+    - targetCorrespondingSourceObject: {fileID: 5132099538303582101, guid: 609c06aae54e4ca4e876b8821af39f2c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1348758215}
   m_SourcePrefab: {fileID: 100100000, guid: 609c06aae54e4ca4e876b8821af39f2c, type: 3}
+--- !u!1 &1348758214 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5132099538303582101, guid: 609c06aae54e4ca4e876b8821af39f2c, type: 3}
+  m_PrefabInstance: {fileID: 1348758213}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1348758215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348758214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d04dd517fd6e35f4293abc9e30d87d15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InflammationWarningUI
+  canvasGroup: {fileID: 1348758216}
+  fadeInTime: 0.3
+  flashTime: 0.12
+  flashCount: 3
+  holdTime: 0.2
+  fadeOutTime: 0.4
+  maxAlpha: 1
+  flashLowAlpha: 0.35
+--- !u!225 &1348758216
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348758214}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
+--- !u!114 &1348758217 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5596175485997697794, guid: 609c06aae54e4ca4e876b8821af39f2c, type: 3}
+  m_PrefabInstance: {fileID: 1348758213}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348758214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d04dd517fd6e35f4293abc9e30d87d15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InflammationWarningUI
 --- !u!1 &1352513184
 GameObject:
   m_ObjectHideFlags: 0
