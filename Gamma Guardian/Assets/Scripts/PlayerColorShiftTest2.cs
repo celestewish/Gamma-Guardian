@@ -40,23 +40,12 @@ public class PlayerColorShiftTest2 : MonoBehaviour
         {
             case "gun":
                 mat.SetFloat("_GunHue", (gun.value*5) );
-                //Debug.Log(nm + " val = " + (gun.value*5));
                 break;
             case "body":
-                //float gunVal = (mat.GetFloat("_GunHue") - mat.GetFloat("_BodyHue") + 360) % 360;
-                float diff = mat.GetFloat("_BodyHue") - body.value * 5;
-                //mat.SetFloat("_GunHue", mat.GetFloat("_GunHue") + .5f * diff);
-
-                //mat.SetFloat("_GunHue", gunVal);
                 mat.SetFloat("_BodyHue", body.value * 5);
-
-                //gunVal = (gunVal + mat.GetFloat("_BodyHue") + 360)%360;
-                //mat.SetFloat("_GunHue", gunVal);
-                //Debug.Log(nm + " val = " + (body.value * 5));
                 break;
             case "badge":
                 mat.SetFloat("_BadgeHue", badge.value * 5);
-                //Debug.Log(nm + " val = " + (badge.value * 5));
                 break;
         }
     }
