@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_Guardian_colorshift
+  m_Name: Guardian_colorshift
   m_Shader: {fileID: -6465566751694194690, guid: 9ebf41d6081de0d4f8af4d1b0ebb9646, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -42,7 +42,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Hue: 180
+    - _Hue: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
