@@ -44,8 +44,55 @@ public class PlayerMove : MonoBehaviour
 
     void OnMove(InputValue ip)
     {
-        move = ip.Get<Vector2>();
+        Vector2 newMove = ip.Get<Vector2>();
+        /*bool isMoving = newMove.magnitude > 0.3f; // threshold to count as intentional
+
+        if (isMoving && !wasMoving) // only fires on rising edge
+        {
+            Vector2 newDir = newMove.normalized;
+            bool sameDirection = Vector2.Dot(newDir, lastTapDir.normalized) > 0.8f;
+            bool withinWindow = (Time.time - lastTapTime) < doubleTapWindow;
+
+            if (sameDirection && withinWindow)
+            {
+                dashEndTime = Time.time + dashDuration;
+                dashDirection = newDir;
+            }
+
+            lastTapTime = Time.time;
+            lastTapDir = newDir;
+        }
+
+        wasMoving = isMoving;
+        */
+        move = newMove;
     }
+
+    private bool wasMoving = false;
+
+    [SerializeField] private float dashSpeed = 2.0f;    // multiplier of maxSpeed
+    [SerializeField] private float dashDuration = 0.5f;
+    [SerializeField] private float doubleTapWindow = 0.25f; // seconds between taps to count
+
+    private bool isDashing = false;
+    private Vector2 lastMoveDir = Vector2.zero;
+    private float lastTapTime = -1f;
+    private Vector2 lastTapDir = Vector2.zero;
+
+    private float dashEndTime = -1f;
+    private Vector2 dashDirection;
+
+    public void OnDashButton()
+    {
+        if (move.magnitude > 0.1f && Time.time >= dashEndTime)
+        {
+            dashEndTime = Time.time + dashDuration;
+            dashDirection = move.normalized;
+        }
+    }
+
+
+
 
     void OnAbility(InputValue value)
     {
@@ -73,7 +120,9 @@ public class PlayerMove : MonoBehaviour
                 if (actionSprite != null) actionSprite.flipX = !isFacingRight;
             }
         }
-
+        bool isDashing = Time.time < dashEndTime;
+        if (isDashing)
+            rb.linearVelocity = dashDirection * maxSpeed * dashSpeed;
         if (move.magnitude > 0)
         {
             rb.AddForce(move.normalized * speedMult);

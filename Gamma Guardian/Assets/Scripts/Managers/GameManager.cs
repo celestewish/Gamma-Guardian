@@ -119,6 +119,24 @@ public class GameManager : MonoBehaviour
     "That was a large area, but you handled it well.",
     "Let's keep moving and finish driving back the infection."
 };
+    [Header("Level 4 Dialogue")]
+    [SerializeField]
+    private string[] level4IntroDialogue =
+    {
+    "Guardian Explorer, there is a new option for you.",
+    "Going forward you are now able to dash.",
+    "To do this, press the new dash button while holding in a direction.",
+    "Push forward, good luck!"
+};
+
+    [SerializeField]
+    private string[] level4EndDialogue =
+    {
+    "Nicely done, Guardian!",
+    "Another region safe thanks to you.",
+    "Hopefully your new skill proved valuable.",
+    "On to the next one!"
+};
     #endregion
 
     private int currentCombo = 0;
@@ -347,6 +365,9 @@ public class GameManager : MonoBehaviour
             case "Level3":
                 return level3IntroDialogue;
 
+            case "Level4":
+                return level4IntroDialogue;
+
             default:
                 return level1IntroDialogue;
         }
@@ -364,6 +385,9 @@ public class GameManager : MonoBehaviour
 
             case "Level3":
                 return level3EndDialogue;
+
+            case "Level4":
+                return level4EndDialogue;
 
             default:
                 return level1EndDialogue;
