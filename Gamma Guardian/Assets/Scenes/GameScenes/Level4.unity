@@ -5815,6 +5815,16 @@ MonoBehaviour:
   - Another region safe thanks to you.
   - Hopefully your new skill proved valuable.
   - On to the next one!
+  level5IntroDialogue:
+  - We've made it to the epicenter of the infection Guardian.
+  - This is the largest area yet, and the paths twist and turn.
+  - We must be vigilant and work fast to clear through this area.
+  - Onwards!!!!
+  level5EndDialogue:
+  - Amazing work Guardian!
+  - That was the last of the infection!
+  - Let's celebrate!!!
+  quitAction: {fileID: 0}
 --- !u!4 &1050348328
 Transform:
   m_ObjectHideFlags: 0
@@ -7660,7 +7670,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7182518526825057111, guid: 40b9dc780f31cfe4c8f873bb7d822b9c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
