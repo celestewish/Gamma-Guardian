@@ -94,7 +94,7 @@ public class ImmuneCellScript : MonoBehaviour
                 {
                     MoveTowards(target.position);
                     timeNearTarget += Time.deltaTime;
-                    Debug.Log("time" + timeNearTarget);
+                    //Debug.Log("time" + timeNearTarget);
                     if (timeNearTarget >= spawnTime)
                     {
                         if (GameManager.Instance == null || !GameManager.Instance.timerStarted)

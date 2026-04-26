@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Rendering.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -137,12 +138,30 @@ public class GameManager : MonoBehaviour
     "Hopefully your new skill proved valuable.",
     "On to the next one!"
 };
+    [Header("Level 5 Dialogue")]
+    [SerializeField]
+    private string[] level5IntroDialogue =
+    {
+    "We've made it to the epicenter of the infection Guardian.",
+    "This is the largest area yet, and the paths twist and turn.",
+    "We must be vigilant and work fast to clear through this area.",
+    "Onwards!!!!"
+};
+
+    [SerializeField]
+    private string[] level5EndDialogue =
+    {
+    "Amazing work Guardian!",
+    "That was the last of the infection!",
+    "Let's celebrate!!!"
+};
     #endregion
 
     private int currentCombo = 0;
     private float lastKillTime;
     private float comboTimer;
     private string comboType = "Bacteria";
+    [SerializeField] private InputActionReference quitAction;
 
     void Awake()
     {
@@ -181,6 +200,24 @@ public class GameManager : MonoBehaviour
     void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnEnable()
+    {
+        if (quitAction != null)
+        {
+            quitAction.action.Enable();
+            quitAction.action.performed += OnQuitPerformed;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (quitAction != null)
+        {
+            quitAction.action.performed -= OnQuitPerformed;
+            quitAction.action.Disable();
+        }
     }
 
     void Update()
@@ -368,6 +405,9 @@ public class GameManager : MonoBehaviour
             case "Level4":
                 return level4IntroDialogue;
 
+            case "Level5":
+                return level5IntroDialogue;
+
             default:
                 return level1IntroDialogue;
         }
@@ -388,6 +428,9 @@ public class GameManager : MonoBehaviour
 
             case "Level4":
                 return level4EndDialogue;
+
+            case "Level5":
+                return level5EndDialogue;
 
             default:
                 return level1EndDialogue;
@@ -648,14 +691,38 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(ProgressionManager.Instance.GetCurrentLevelScene());
     }
 
-    public void SwitchMode()
+    private void OnQuitPerformed(InputAction.CallbackContext context)
     {
-        Debug.Log("mode switched");
-        foreach(BacteriaAI ba in Object.FindObjectsByType<BacteriaAI>(FindObjectsSortMode.None))
-        {
-            ba.gameObject.SendMessage("DisplayText");
-        }
+        QuitGame();
     }
+
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+
+public void SwitchMode()
+    {
+        InfoDisplay[] infoArr = Object.FindObjectsByType<InfoDisplay>(FindObjectsSortMode.None);
+        if(infoArr == null || infoArr.Length == 0)
+        {
+            Debug.LogWarning("No info objects found.");
+            return;
+        }
+
+        foreach (InfoDisplay info in infoArr)
+        {
+            info.gameObject.SendMessage("Display");
+        }
+        infoMode = !infoMode;
+        Debug.Log("Mode Switched.");
+    }
+
+    public bool IsDisplayOn() { return infoMode; }
 
     private IEnumerator fadeScene()
     {

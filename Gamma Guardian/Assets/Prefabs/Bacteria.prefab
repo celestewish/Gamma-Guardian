@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6944624050488756931}
   - component: {fileID: 6490139479702358406}
   - component: {fileID: 1509211612569786872}
+  - component: {fileID: 1615917249744059746}
   m_Layer: 0
   m_Name: Bacteria
   m_TagString: Untagged
@@ -149,6 +150,9 @@ MonoBehaviour:
   attackDamage: 10
   wanderSpeed: 1.5
   wanderChangeInterval: 2
+  swarmDetectRange: 6
+  swarmMoveSpeed: 3.5
+  swarmOffsetRadius: 1.5
   bodyLayerMask:
     serializedVersion: 2
     m_Bits: 8
@@ -156,6 +160,7 @@ MonoBehaviour:
   player: {fileID: 0}
   pulseRange: 6
   nearRadius: 2
+  textDisplay: {fileID: 0}
 --- !u!50 &1509211612569786872
 Rigidbody2D:
   serializedVersion: 5
@@ -183,6 +188,28 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!195 &1615917249744059746
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2856779496387707518}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1001 &5031363422183914777
 PrefabInstance:
   m_ObjectHideFlags: 0

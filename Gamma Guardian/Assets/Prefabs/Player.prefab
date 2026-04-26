@@ -205,7 +205,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: f34c8aa9901626c47958ef29abe4d329, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -256,6 +256,8 @@ MonoBehaviour:
   foMult: 0.05
   playerTrail: {fileID: 8108299731072982554}
   playerAbilitySFX: {fileID: 7146601134386753264}
+  bumpSound: {fileID: 0}
+  sfxAudio: {fileID: 0}
   playerSprite: {fileID: 3688605063155900463}
   actionSprite: {fileID: 4762185050931113201}
   actionShowTime: 0.5
@@ -365,6 +367,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   audioSource: {fileID: 4680105713450864381}
+  bacteriaDeathClip: {fileID: 0}
 --- !u!82 &4680105713450864381
 AudioSource:
   m_ObjectHideFlags: 0
@@ -374,7 +377,7 @@ AudioSource:
   m_GameObject: {fileID: 4429506477127064806}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 2967470661454568825, guid: e8803f3786e409a46a0e902445570c2a, type: 2}
+  OutputAudioMixerGroup: {fileID: -3993245016419636914, guid: 1bf0ab5e1c72f45448ac14141dc43d25, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 843a0064ab6aa8a489efc94e2008ba38, type: 3}
   m_PlayOnAwake: 1
@@ -475,6 +478,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAbilitySFX
   playerAbility: {fileID: 7774680273757035691, guid: b40f1c632098c2f4da938492e3ba7a4e, type: 3}
+  audioSource: {fileID: 0}
+  audioClip: {fileID: 0}
 --- !u!96 &8108299731072982554
 TrailRenderer:
   serializedVersion: 4

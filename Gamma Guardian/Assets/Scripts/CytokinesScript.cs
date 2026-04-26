@@ -17,6 +17,7 @@ public class CytokinesScript : MonoBehaviour
     public Transform player;
     public float pulseRange = 4f;
     private PulseEffect pulseEffect;
+    public float inflammationReduction = 5f;
 
 
     private NavMeshAgent agent;
@@ -48,6 +49,7 @@ public class CytokinesScript : MonoBehaviour
             if (!deactivated)
                 Instantiate(immuneCell, transform.position, Quaternion.identity);
             Instantiate(burst, transform.position, Quaternion.identity);
+            gameObject.BroadcastMessage("RemoveMeFromInfo");
             Destroy(gameObject);
         }
         float distToPlayer = Vector2.Distance(transform.position, player.position);
@@ -67,6 +69,8 @@ public class CytokinesScript : MonoBehaviour
             transform.Find("Neutral").gameObject.SetActive(true);
             pulseEffect?.SetPulseActive(false);
             Instantiate(healEffect, transform.position, Quaternion.identity);
+            deactivated = true;
+            InflammationManager.Instance?.ReduceInflammation(inflammationReduction);
         }
     }
 }
