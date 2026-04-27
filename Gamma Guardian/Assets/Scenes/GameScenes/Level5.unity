@@ -347,10 +347,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 304533067}
-  - {fileID: 1538157877}
-  - {fileID: 1764769796}
-  - {fileID: 1781063937}
-  - {fileID: 662166346}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &91430409
@@ -456,6 +452,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ViralBacteria (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5535836608039049688, guid: 80c5bf3550ab9f24f9be968cf43b2a1d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6478509727582156706, guid: 80c5bf3550ab9f24f9be968cf43b2a1d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 224.4
@@ -558,6 +558,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlobBacteria (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 4112754226846820390, guid: 579b6e623526151439caceba7b1c697b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -579,6 +583,10 @@ PrefabInstance:
     - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_Name
       value: PillBacteria (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8738967592643981994, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_LocalPosition.x
@@ -841,6 +849,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlobBacteria (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 4112754226846820390, guid: 579b6e623526151439caceba7b1c697b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -862,6 +874,10 @@ PrefabInstance:
     - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_Name
       value: PillBacteria (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8738967592643981994, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_LocalPosition.x
@@ -990,6 +1006,10 @@ PrefabInstance:
     - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_Name
       value: PillBacteria (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8738967592643981994, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1207,37 +1227,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4549100498485828449, guid: 36f3c28100c03134fa3a05bc246ca124, type: 3}
   m_PrefabInstance: {fileID: 255935733}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &270056902
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 270056903}
-  m_Layer: 0
-  m_Name: ImmuneCellSpawn (2)
-  m_TagString: Spawn
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &270056903
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 270056902}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 174.9, y: 76.1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1088877088}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &277897920
 GameObject:
   m_ObjectHideFlags: 0
@@ -1402,6 +1391,10 @@ PrefabInstance:
     - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_Name
       value: PillBacteria (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8738967592643981994, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1597,6 +1590,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PillBacteria (16)
       objectReference: {fileID: 0}
+    - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8738967592643981994, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_LocalPosition.x
       value: 176.4
@@ -1768,6 +1765,10 @@ PrefabInstance:
     - target: {fileID: 4112754226846820390, guid: 579b6e623526151439caceba7b1c697b, type: 3}
       propertyPath: m_Name
       value: BlobBacteria (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4112754226846820390, guid: 579b6e623526151439caceba7b1c697b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2365,6 +2366,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PillBacteria (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8738967592643981994, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_LocalPosition.x
       value: 255.8
@@ -2427,6 +2432,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PillBacteria (15)
       objectReference: {fileID: 0}
+    - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8738967592643981994, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_LocalPosition.x
       value: 161.4
@@ -2476,68 +2485,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 8738967592643981994, guid: a39b54118fd167a44b152d0290492335, type: 3}
   m_PrefabInstance: {fileID: 645588828}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &662166345
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 83972414}
-    m_Modifications:
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 16.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -131.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9146980313616056455, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_Name
-      value: ImmuneCells (4)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
---- !u!4 &662166346 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-  m_PrefabInstance: {fileID: 662166345}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &699556510
 PrefabInstance:
@@ -2747,6 +2694,10 @@ PrefabInstance:
     - target: {fileID: 4112754226846820390, guid: 579b6e623526151439caceba7b1c697b, type: 3}
       propertyPath: m_Name
       value: BlobBacteria (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4112754226846820390, guid: 579b6e623526151439caceba7b1c697b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3033,6 +2984,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlobBacteria (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4112754226846820390, guid: 579b6e623526151439caceba7b1c697b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3054,6 +3009,10 @@ PrefabInstance:
     - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_Name
       value: PillBacteria (19)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8738967592643981994, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3354,6 +3313,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ViralBacteria (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 5535836608039049688, guid: 80c5bf3550ab9f24f9be968cf43b2a1d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6478509727582156706, guid: 80c5bf3550ab9f24f9be968cf43b2a1d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 184.6
@@ -3627,6 +3590,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PillBacteria (18)
       objectReference: {fileID: 0}
+    - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8738967592643981994, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_LocalPosition.x
       value: 103.8
@@ -3755,6 +3722,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PillBacteria (17)
       objectReference: {fileID: 0}
+    - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8738967592643981994, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_LocalPosition.x
       value: 211.9
@@ -3856,6 +3827,10 @@ PrefabInstance:
     - target: {fileID: 4112754226846820390, guid: 579b6e623526151439caceba7b1c697b, type: 3}
       propertyPath: m_Name
       value: BlobBacteria (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4112754226846820390, guid: 579b6e623526151439caceba7b1c697b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4639,6 +4614,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PillBacteria (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8738967592643981994, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_LocalPosition.x
       value: 146.9
@@ -5111,10 +5090,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 108154324}
-  - {fileID: 1950147765}
-  - {fileID: 270056903}
   - {fileID: 1497086140}
-  - {fileID: 1801807948}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1093922464
@@ -5397,6 +5373,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlobBacteria (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 4112754226846820390, guid: 579b6e623526151439caceba7b1c697b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5556,6 +5536,10 @@ PrefabInstance:
     - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_Name
       value: PillBacteria (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8738967592643981994, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5815,6 +5799,10 @@ PrefabInstance:
     - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_Name
       value: PillBacteria (21)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8738967592643981994, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6176,6 +6164,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlobBacteria (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4112754226846820390, guid: 579b6e623526151439caceba7b1c697b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6237,6 +6229,10 @@ PrefabInstance:
     - target: {fileID: 4112754226846820390, guid: 579b6e623526151439caceba7b1c697b, type: 3}
       propertyPath: m_Name
       value: BlobBacteria (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4112754226846820390, guid: 579b6e623526151439caceba7b1c697b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6416,6 +6412,10 @@ PrefabInstance:
     - target: {fileID: 5535836608039049688, guid: 80c5bf3550ab9f24f9be968cf43b2a1d, type: 3}
       propertyPath: m_Name
       value: ViralBacteria (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5535836608039049688, guid: 80c5bf3550ab9f24f9be968cf43b2a1d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6478509727582156706, guid: 80c5bf3550ab9f24f9be968cf43b2a1d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6792,6 +6792,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PillBacteria (20)
       objectReference: {fileID: 0}
+    - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8738967592643981994, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_LocalPosition.x
       value: 44.7
@@ -6890,6 +6894,10 @@ PrefabInstance:
       propertyPath: bumpSound
       value: 
       objectReference: {fileID: 8300000, guid: 3a7c29232f1c24d48b71605f982ddfa1, type: 3}
+    - target: {fileID: 5887741873894603475, guid: f69ad9d59989db4478746abe1b885c3f, type: 3}
+      propertyPath: dashSpeed
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5887741873894603475, guid: f69ad9d59989db4478746abe1b885c3f, type: 3}
       propertyPath: speedMult
       value: 20
@@ -7037,6 +7045,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlobBacteria (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 4112754226846820390, guid: 579b6e623526151439caceba7b1c697b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7058,6 +7070,10 @@ PrefabInstance:
     - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_Name
       value: PillBacteria (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8738967592643981994, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7357,7 +7373,7 @@ Transform:
   m_GameObject: {fileID: 1497086139}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 245.1, y: -153.8, z: 0}
+  m_LocalPosition: {x: 13, y: -143, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7436,6 +7452,10 @@ PrefabInstance:
     - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_Name
       value: PillBacteria (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8738967592643981994, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7697,6 +7717,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PillBacteria (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8738967592643981994, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_LocalPosition.x
       value: 172.4
@@ -7879,68 +7903,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5633198427320155218, guid: c280ee1abab5f134c94967de29983bf7, type: 3}
   m_PrefabInstance: {fileID: 1537372676}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1538157876
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 83972414}
-    m_Modifications:
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 63.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -122.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9146980313616056455, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_Name
-      value: ImmuneCells (1)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
---- !u!4 &1538157877 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-  m_PrefabInstance: {fileID: 1538157876}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1578910649
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7952,6 +7914,10 @@ PrefabInstance:
     - target: {fileID: 5535836608039049688, guid: 80c5bf3550ab9f24f9be968cf43b2a1d, type: 3}
       propertyPath: m_Name
       value: ViralBacteria (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5535836608039049688, guid: 80c5bf3550ab9f24f9be968cf43b2a1d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6478509727582156706, guid: 80c5bf3550ab9f24f9be968cf43b2a1d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8238,6 +8204,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PillBacteria (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8738967592643981994, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_LocalPosition.x
       value: 80
@@ -8299,6 +8269,10 @@ PrefabInstance:
     - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_Name
       value: PillBacteria (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8738967592643981994, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8868,68 +8842,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!1001 &1764769795
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 83972414}
-    m_Modifications:
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 14.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -130.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9146980313616056455, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_Name
-      value: ImmuneCells (2)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
---- !u!4 &1764769796 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-  m_PrefabInstance: {fileID: 1764769795}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1769552972
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9062,68 +8974,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5633198427320155218, guid: c280ee1abab5f134c94967de29983bf7, type: 3}
   m_PrefabInstance: {fileID: 1780443608}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1781063936
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 83972414}
-    m_Modifications:
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 17.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -147.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9146980313616056455, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-      propertyPath: m_Name
-      value: ImmuneCells (3)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
---- !u!4 &1781063937 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
-  m_PrefabInstance: {fileID: 1781063936}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1783988005
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9135,6 +8985,10 @@ PrefabInstance:
     - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_Name
       value: PillBacteria (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8738967592643981994, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9186,37 +9040,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8738967592643981994, guid: a39b54118fd167a44b152d0290492335, type: 3}
   m_PrefabInstance: {fileID: 1783988005}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1801807947
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1801807948}
-  m_Layer: 0
-  m_Name: ImmuneCellSpawn (4)
-  m_TagString: Spawn
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1801807948
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1801807947}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 134.2, y: -93.1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1088877088}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1815238464
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9228,6 +9051,10 @@ PrefabInstance:
     - target: {fileID: 5535836608039049688, guid: 80c5bf3550ab9f24f9be968cf43b2a1d, type: 3}
       propertyPath: m_Name
       value: ViralBacteria (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5535836608039049688, guid: 80c5bf3550ab9f24f9be968cf43b2a1d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6478509727582156706, guid: 80c5bf3550ab9f24f9be968cf43b2a1d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9412,37 +9239,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6478509727582156706, guid: 80c5bf3550ab9f24f9be968cf43b2a1d, type: 3}
   m_PrefabInstance: {fileID: 1895585800}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1950147764
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1950147765}
-  m_Layer: 0
-  m_Name: ImmuneCellSpawn (1)
-  m_TagString: Spawn
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1950147765
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1950147764}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 134, y: -18.3, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1088877088}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1972582945
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9560,6 +9356,10 @@ PrefabInstance:
     - target: {fileID: 4112754226846820390, guid: 579b6e623526151439caceba7b1c697b, type: 3}
       propertyPath: m_Name
       value: BlobBacteria (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4112754226846820390, guid: 579b6e623526151439caceba7b1c697b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9818,6 +9618,10 @@ PrefabInstance:
     - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_Name
       value: PillBacteria (14)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8738967592643981994, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10313,6 +10117,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlobBacteria
       objectReference: {fileID: 0}
+    - target: {fileID: 4112754226846820390, guid: 579b6e623526151439caceba7b1c697b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10449,6 +10257,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PillBacteria
       objectReference: {fileID: 0}
+    - target: {fileID: 7817256008778439888, guid: a39b54118fd167a44b152d0290492335, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8738967592643981994, guid: a39b54118fd167a44b152d0290492335, type: 3}
       propertyPath: m_LocalPosition.x
       value: 40
@@ -10505,6 +10317,10 @@ PrefabInstance:
     - target: {fileID: 5535836608039049688, guid: 80c5bf3550ab9f24f9be968cf43b2a1d, type: 3}
       propertyPath: m_Name
       value: ViralBacteria
+      objectReference: {fileID: 0}
+    - target: {fileID: 5535836608039049688, guid: 80c5bf3550ab9f24f9be968cf43b2a1d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6478509727582156706, guid: 80c5bf3550ab9f24f9be968cf43b2a1d, type: 3}
       propertyPath: m_LocalPosition.x
