@@ -372,6 +372,15 @@ public class GameManager : MonoBehaviour
     {
         if (!waitingForEndDialogue) return;
 
+        Debug.Log("HandleEndDialogueFinished START");
+        if (ProgressionManager.Instance == null)
+        {
+            Debug.LogError("Recreating ProgressionManager");
+            GameObject progObj = new GameObject("ProgressionManager");
+            ProgressionManager prog = progObj.AddComponent<ProgressionManager>();
+            DontDestroyOnLoad(progObj);
+        }
+
         waitingForEndDialogue = false;
 
         if (dialogueManager != null)
@@ -682,9 +691,12 @@ public class GameManager : MonoBehaviour
         ResetGameState();
         Time.timeScale = 1f;
 
+        Debug.Log($"Scene: {currentSceneName}, Index: {completedLevelIndex}, Max: {ProgressionManager.Instance.MaxLevelCount}, isLast: {isLastLevel}");
+        if (!isLastLevel) Debug.Log($"Loading next: {ProgressionManager.Instance.GetCurrentLevelScene()}");
+
         if (isLastLevel)
         {
-            SceneManager.LoadScene(mainMenuScene);
+            SceneManager.LoadScene("Ending");
             return;
         }
 
