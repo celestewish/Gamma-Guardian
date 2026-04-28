@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 1015786773023937461}
   - component: {fileID: 1996692008483752431}
   m_Layer: 0
-  m_Name: mode
+  m_Name: InfoToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -179,14 +179,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.65346277, g: 1, b: 0.5377357, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0d217c4e574dfcf40aced609de5904ae, type: 3}
+  m_Sprite: {fileID: -931536985104938637, guid: 2b89d7bea1baf724baa95d019c5652e3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -554,6 +554,7 @@ GameObject:
   - component: {fileID: 1334990870169520730}
   - component: {fileID: 2139679089816049451}
   - component: {fileID: 1534337833170584072}
+  - component: {fileID: 302416861923675950}
   m_Layer: 0
   m_Name: PauseCanvas
   m_TagString: Untagged
@@ -577,6 +578,7 @@ RectTransform:
   - {fileID: 843440749239824006}
   - {fileID: 5028981774290438551}
   - {fileID: 7502265281175913682}
+  - {fileID: 3383775899120905210}
   m_Father: {fileID: 4165640608383488494}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -647,6 +649,49 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &302416861923675950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4411612571548955012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6096864ef44f9444196a1f4da793891e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PauseMenuTutorial
+  tutorialOverlay: {fileID: 1765519806364129989}
+  titleText: {fileID: 4955703875721208982}
+  messageText: {fileID: 38083773933338266}
+  stepText: {fileID: 3030427794072173080}
+  nextButton: {fileID: 2902476425655173854}
+  backButton: {fileID: 5398600868848968081}
+  skipButton: {fileID: 99860590538612228}
+  highlightBox: {fileID: 4023773656594299037}
+  pulseHighlight: {fileID: 8849747241214281867}
+  highlightPadding: {x: 30, y: 20}
+  steps:
+  - title: Welcome
+    message: It's me again! The central body command. Let's quickly go over the pause
+      menu.
+    target: {fileID: 0}
+  - title: Home
+    message: This is the home button. Press it to return to the menu.
+    target: {fileID: 843440749239824006}
+  - title: Play
+    message: This is the play button. Press it to return back to the action!
+    target: {fileID: 5028981774290438551}
+  - title: Info Toggle
+    message: This is the info toggle. This will activate your scanner beam so you
+      can see all the info about each cell in the game.
+    target: {fileID: 7502265281175913682}
+  - title: End
+    message: That's it for now. Okay, I'll leave you to it!
+    target: {fileID: 7502265281175913682}
+  showOnlyFirstTime: 1
+  playerPrefsKey: PauseMenuTutorialShown
+  allowRestartWithR: 1
 --- !u!1 &4784863394133736726
 GameObject:
   m_ObjectHideFlags: 0
@@ -2056,3 +2101,217 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7763014092205985543, guid: 6e074abadb519a14f9b60408041632fc, type: 3}
   m_PrefabInstance: {fileID: 6793254278137630864}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8297521831284675634
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4487313793853506228}
+    m_Modifications:
+    - target: {fileID: 4026370141219860644, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_text
+      value: Welcome
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586430026640825326, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 213
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 1080
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 960
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 540
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7757127979301703415, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_Name
+      value: TutorialOverlay
+      objectReference: {fileID: 0}
+    - target: {fileID: 8332209999208327848, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_text
+      value: It's me again! The central body command. Let's quickly go over the pause
+        menu.
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+--- !u!114 &38083773933338266 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8332209999208327848, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+  m_PrefabInstance: {fileID: 8297521831284675634}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!114 &99860590538612228 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8233845146284247606, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+  m_PrefabInstance: {fileID: 8297521831284675634}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+--- !u!1 &1765519806364129989 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7757127979301703415, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+  m_PrefabInstance: {fileID: 8297521831284675634}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2902476425655173854 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6584564792572958444, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+  m_PrefabInstance: {fileID: 8297521831284675634}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+--- !u!114 &3030427794072173080 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6424532346395029034, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+  m_PrefabInstance: {fileID: 8297521831284675634}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!224 &3383775899120905210 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+  m_PrefabInstance: {fileID: 8297521831284675634}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &4023773656594299037 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4968008010785172655, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+  m_PrefabInstance: {fileID: 8297521831284675634}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4955703875721208982 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4026370141219860644, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+  m_PrefabInstance: {fileID: 8297521831284675634}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!114 &5398600868848968081 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4165010277195986339, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+  m_PrefabInstance: {fileID: 8297521831284675634}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+--- !u!114 &8849747241214281867 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 717803104884989113, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+  m_PrefabInstance: {fileID: 8297521831284675634}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c888a49709d03254884904a6a9d4305c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIPulseHighlight
