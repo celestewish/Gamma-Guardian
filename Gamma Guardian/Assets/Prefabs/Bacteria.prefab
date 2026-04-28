@@ -153,6 +153,12 @@ MonoBehaviour:
   swarmDetectRange: 6
   swarmMoveSpeed: 3.5
   swarmOffsetRadius: 1.5
+  evadeTriggerRange: 4
+  evadeSpeed: 4.5
+  evadeDuration: 1.25
+  aggressionSpeed: 4
+  aggressionDuration: 2.5
+  aggressionStopDistance: 1.2
   bodyLayerMask:
     serializedVersion: 2
     m_Bits: 8

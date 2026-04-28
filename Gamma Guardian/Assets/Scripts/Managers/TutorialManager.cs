@@ -28,7 +28,7 @@ public class TutorialManager : MonoBehaviour
 
     [Header("Tutorial Settings")]
     public Transform player;
-    public float detectionDistance = 0.1f; // Small distance to detect movement
+    public float detectionDistance = 0.1f;
 
     private Vector3 initialPlayerPos;
     private HashSet<Vector2> movedDirections = new HashSet<Vector2>();
@@ -37,9 +37,9 @@ public class TutorialManager : MonoBehaviour
     private bool hasDefeatedBacteria = false;
 
     private string[] welcomeDialogue = {
-        "Welcome to the body, Guardian Explorer!",
+        "Welcome to the body, Guardian Explorer! This is Central Body Command here and I have a new mission.",
         "Your goal is to help the immune system defeat the infection.",
-        "This will allow us to defend the body."
+        "This will allow us to defend the body against these invaders."
     };
 
     private string[] immuneCell =

@@ -309,6 +309,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6676747217678261205, guid: 0c3c3a0e13fef6f46a935c452142f70f, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7383247072557008003, guid: 0c3c3a0e13fef6f46a935c452142f70f, type: 3}
       propertyPath: m_text
       value: Immune cell info will go here.
