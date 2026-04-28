@@ -586,40 +586,35 @@ MonoBehaviour:
   entries:
   - image: {fileID: -1680877705835521684, guid: 43b8b9ff3a683364895f3fafc8d2f009, type: 3}
     title: Bacilli
-    description: 'Pill-shaped or rod-shaped bacteria are formally known as bacilli
-      (singular: bacillus). These bacteria are straight, elongated, and often resemble
-      the appearance of a capsule pill, occurring as single cells, pairs (diplobacilli),
-      or chains (streptobacilli).'
+    description: Bacilli are bacteria that are shaped like tiny rods or pills. They
+      can be found alone, in pairs, or in groups connected like a chain.
   - image: {fileID: -2531176253003870966, guid: 3bee0e84268d3264bb24890a297739f1, type: 3}
     title: Icosahedron Virus
-    description: Spherical viruses are commonly shaped particles characterized by
-      a protein shell (capsid) or outer envelope that is roughly spherical or icosahedral
-      in appearance. They are often not perfect spheres but are highly symmetrical,
-      utilizing icosahedral symmetry to protect the viral genome efficiently, such
-      as in adenovirus, poliovirus, and measles.
+    description: Spherical viruses have round shapes, like balls. They have a protein
+      shell or outer cover that's super symmetric to protect their inner parts, like
+      in adenovirus, poliovirus, and measles. They aren't always perfect spheres
+      but look neat and tidy.
   - image: {fileID: -6059336636965133244, guid: ed6f161d4d6e3ca448b148670eb518f5, type: 3}
     title: Mycoplasma
-    description: "Mycoplasma is a unique genus of bacteria distinguished by the complete
-      absence of a cell wall. They are the smallest known free-living organisms,
-      often measuring only 0.2 to 0.3 micrometers\u2014small enough to pass through
-      filters that trap most other bacteria."
+    description: Mycoplasma are special bacteria with no outer wall. They are the
+      tiniest free-living germs, super small at just 0.2 to 0.3 micrometers. So tiny
+      they slip through filters that catch other bacteria.
   - image: {fileID: 21300000, guid: 217e4d3837569f447a73f61da185a57b, type: 3}
     title: Immune Cell
-    description: 'Immune cells, also known as white blood cells or leukocytes, are
-      the "soldiers" of your body''s defense network. They constantly patrol your
-      blood and tissues to identify and destroy "non-self" invaders like the viruses
-      and bacteria.
+    description: 'Immune cells, also called white blood cells, act like soldiers
+      in your body. They travel through your blood and tissues to spot and fight
+      bad germs like viruses and bacteria.
 
-      The immune cells in this patient do not work properly
-      and can''t kill bacteria on their own, so they call cytokines to help them.'
+      In this patient, the immune cells
+      don''t work right and can''t kill bacteria alone, so they call for cytokines
+      to help.'
   - image: {fileID: 21300000, guid: a593654a343828f4db55ca447875bd65, type: 3}
     title: Cytokine
-    description: "Interferon gamma (IFN-\u03B3) is a powerful signaling protein (cytokine)
-      that acts as the primary \"activator\" for your immune system's heavy hitters.
-      While other interferons are mainly famous for fighting viruses, Interferon
-      Gamma is the only Type II interferon and is essential for killing intracellular
-      bacteria.\nIn our patient, the gammas are malfunctioning and causing the immune
-      cells to become hyperactive."
+    description: "Interferon gamma, or IFN-\u03B3, is a strong message protein called
+      a cytokine. It turns on your immune system's strongest fighters and is key
+      for killing bacteria hiding inside cells, unlike other interferons that mostly
+      battle viruses.\nIn our patient, the gammas are broken and make the immune
+      cells way too active."
   uiAudioSource: {fileID: 400523131}
   navSfx: {fileID: 8300000, guid: 41b1dff1d67040e4dae6bd4f7ceb1ee2, type: 3}
   closeSfx: {fileID: 8300000, guid: a9aed93da3a6c814f83507b737396685, type: 3}

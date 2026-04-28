@@ -28,7 +28,7 @@ public class TutorialManager : MonoBehaviour
 
     [Header("Tutorial Settings")]
     public Transform player;
-    public float detectionDistance = 0.1f; // Small distance to detect movement
+    public float detectionDistance = 0.1f;
 
     private Vector3 initialPlayerPos;
     private HashSet<Vector2> movedDirections = new HashSet<Vector2>();
