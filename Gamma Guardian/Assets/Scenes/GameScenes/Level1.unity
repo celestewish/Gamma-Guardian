@@ -301,6 +301,7 @@ GameObject:
   - component: {fileID: 47692067}
   - component: {fileID: 47692066}
   - component: {fileID: 47692068}
+  - component: {fileID: 47692069}
   m_Layer: 0
   m_Name: Barrier (16)
   m_TagString: Untagged
@@ -441,6 +442,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForceStartingAlpha
   startingAlpha: 0
+--- !u!114 &47692069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 47692064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &83972413
 GameObject:
   m_ObjectHideFlags: 0
@@ -783,6 +800,7 @@ GameObject:
   - component: {fileID: 211256856}
   - component: {fileID: 211256855}
   - component: {fileID: 211256857}
+  - component: {fileID: 211256858}
   m_Layer: 0
   m_Name: Barrier (7)
   m_TagString: Untagged
@@ -923,6 +941,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForceStartingAlpha
   startingAlpha: 0
+--- !u!114 &211256858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 211256853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &242987448
 GameObject:
   m_ObjectHideFlags: 0
@@ -2388,6 +2422,7 @@ GameObject:
   - component: {fileID: 577754164}
   - component: {fileID: 577754163}
   - component: {fileID: 577754165}
+  - component: {fileID: 577754166}
   m_Layer: 0
   m_Name: Barrier (21)
   m_TagString: Untagged
@@ -2528,6 +2563,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForceStartingAlpha
   startingAlpha: 0
+--- !u!114 &577754166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 577754161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1001 &580469346
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2602,6 +2653,7 @@ GameObject:
   - component: {fileID: 592687470}
   - component: {fileID: 592687469}
   - component: {fileID: 592687471}
+  - component: {fileID: 592687472}
   m_Layer: 0
   m_Name: Barrier (8)
   m_TagString: Untagged
@@ -2742,6 +2794,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForceStartingAlpha
   startingAlpha: 0
+--- !u!114 &592687472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 592687467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1001 &612425424
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2921,6 +2989,7 @@ GameObject:
   - component: {fileID: 627384514}
   - component: {fileID: 627384513}
   - component: {fileID: 627384515}
+  - component: {fileID: 627384516}
   m_Layer: 0
   m_Name: Barrier (9)
   m_TagString: Untagged
@@ -3061,6 +3130,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForceStartingAlpha
   startingAlpha: 0
+--- !u!114 &627384516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627384511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &634788452
 GameObject:
   m_ObjectHideFlags: 0
@@ -3738,6 +3823,7 @@ GameObject:
   - component: {fileID: 760448627}
   - component: {fileID: 760448626}
   - component: {fileID: 760448628}
+  - component: {fileID: 760448629}
   m_Layer: 0
   m_Name: Barrier (19)
   m_TagString: Untagged
@@ -3878,6 +3964,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForceStartingAlpha
   startingAlpha: 0
+--- !u!114 &760448629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 760448624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &767450923
 GameObject:
   m_ObjectHideFlags: 0
@@ -4313,6 +4415,7 @@ GameObject:
   - component: {fileID: 848235986}
   - component: {fileID: 848235985}
   - component: {fileID: 848235987}
+  - component: {fileID: 848235988}
   m_Layer: 0
   m_Name: Barrier (18)
   m_TagString: Untagged
@@ -4453,6 +4556,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForceStartingAlpha
   startingAlpha: 0
+--- !u!114 &848235988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848235983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1001 &850312012
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4534,6 +4653,7 @@ GameObject:
   - component: {fileID: 864472847}
   - component: {fileID: 864472846}
   - component: {fileID: 864472848}
+  - component: {fileID: 864472849}
   m_Layer: 0
   m_Name: Barrier (15)
   m_TagString: Untagged
@@ -4674,6 +4794,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForceStartingAlpha
   startingAlpha: 0
+--- !u!114 &864472849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864472844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1001 &882455012
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4945,8 +5081,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0015411, y: -0.00025368}
-  m_SizeDelta: {x: 800, y: 374.99}
+  m_AnchoredPosition: {x: -0.0015411, y: 0.001009}
+  m_SizeDelta: {x: 800, y: 450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &932651505
 MonoBehaviour:
@@ -5243,6 +5379,7 @@ GameObject:
   - component: {fileID: 1052394398}
   - component: {fileID: 1052394397}
   - component: {fileID: 1052394399}
+  - component: {fileID: 1052394400}
   m_Layer: 0
   m_Name: Barrier (20)
   m_TagString: Untagged
@@ -5383,6 +5520,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForceStartingAlpha
   startingAlpha: 0
+--- !u!114 &1052394400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1052394395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &1065752201 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4056761762472122365, guid: 1c76f333db7ee914f8b3e8b08c1b2b2e, type: 3}
@@ -5501,6 +5654,10 @@ PrefabInstance:
       propertyPath: InflammationVignette
       value: 
       objectReference: {fileID: 1352513189}
+    - target: {fileID: 2744704413688217792, guid: 97189d34c2e566e4087fd9e4636d15a8, type: 3}
+      propertyPath: InflammationWarningUI
+      value: 
+      objectReference: {fileID: 1348758217}
     - target: {fileID: 2744704413688217792, guid: 97189d34c2e566e4087fd9e4636d15a8, type: 3}
       propertyPath: inflammationRatePerCell
       value: 1
@@ -6062,6 +6219,7 @@ GameObject:
   - component: {fileID: 1185753311}
   - component: {fileID: 1185753310}
   - component: {fileID: 1185753312}
+  - component: {fileID: 1185753313}
   m_Layer: 0
   m_Name: Barrier (11)
   m_TagString: Untagged
@@ -6202,6 +6360,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForceStartingAlpha
   startingAlpha: 0
+--- !u!114 &1185753313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1185753308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!114 &1193158478 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8924647699287054498, guid: 40b9dc780f31cfe4c8f873bb7d822b9c, type: 3}
@@ -6830,6 +7004,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5132099538303582101, guid: 609c06aae54e4ca4e876b8821af39f2c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5239960185037691655, guid: 609c06aae54e4ca4e876b8821af39f2c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -6854,6 +7032,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: PlayerAbilitySFX, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 5596175485997697794, guid: 609c06aae54e4ca4e876b8821af39f2c, type: 3}
+      propertyPath: canvasGroup
+      value: 
+      objectReference: {fileID: 1348758216}
     - target: {fileID: 6422667858105276804, guid: 609c06aae54e4ca4e876b8821af39f2c, type: 3}
       propertyPath: m_Name
       value: UserInterface
@@ -6861,8 +7043,62 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5132099538303582101, guid: 609c06aae54e4ca4e876b8821af39f2c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1348758216}
+    - targetCorrespondingSourceObject: {fileID: 5132099538303582101, guid: 609c06aae54e4ca4e876b8821af39f2c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1348758215}
   m_SourcePrefab: {fileID: 100100000, guid: 609c06aae54e4ca4e876b8821af39f2c, type: 3}
+--- !u!1 &1348758214 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5132099538303582101, guid: 609c06aae54e4ca4e876b8821af39f2c, type: 3}
+  m_PrefabInstance: {fileID: 1348758213}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1348758215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348758214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d04dd517fd6e35f4293abc9e30d87d15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InflammationWarningUI
+  canvasGroup: {fileID: 1348758216}
+  fadeInTime: 0.3
+  flashTime: 0.12
+  flashCount: 3
+  holdTime: 0.2
+  fadeOutTime: 0.4
+  maxAlpha: 1
+  flashLowAlpha: 0.35
+--- !u!225 &1348758216
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348758214}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
+--- !u!114 &1348758217 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5596175485997697794, guid: 609c06aae54e4ca4e876b8821af39f2c, type: 3}
+  m_PrefabInstance: {fileID: 1348758213}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348758214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d04dd517fd6e35f4293abc9e30d87d15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InflammationWarningUI
 --- !u!1 &1352513184
 GameObject:
   m_ObjectHideFlags: 0
@@ -6992,6 +7228,7 @@ GameObject:
   - component: {fileID: 1356516704}
   - component: {fileID: 1356516703}
   - component: {fileID: 1356516705}
+  - component: {fileID: 1356516706}
   m_Layer: 0
   m_Name: Barrier (12)
   m_TagString: Untagged
@@ -7132,6 +7369,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForceStartingAlpha
   startingAlpha: 0
+--- !u!114 &1356516706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1356516701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1001 &1365146783
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7825,6 +8078,7 @@ GameObject:
   - component: {fileID: 1429475567}
   - component: {fileID: 1429475566}
   - component: {fileID: 1429475568}
+  - component: {fileID: 1429475569}
   m_Layer: 0
   m_Name: Barrier (6)
   m_TagString: Untagged
@@ -7965,6 +8219,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForceStartingAlpha
   startingAlpha: 0
+--- !u!114 &1429475569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1429475564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &1429575129
 GameObject:
   m_ObjectHideFlags: 0
@@ -8243,6 +8513,7 @@ GameObject:
   - component: {fileID: 1462312267}
   - component: {fileID: 1462312266}
   - component: {fileID: 1462312268}
+  - component: {fileID: 1462312269}
   m_Layer: 0
   m_Name: Barrier (22)
   m_TagString: Untagged
@@ -8383,6 +8654,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForceStartingAlpha
   startingAlpha: 0
+--- !u!114 &1462312269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1462312264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &1497086139
 GameObject:
   m_ObjectHideFlags: 0
@@ -8426,6 +8713,7 @@ GameObject:
   - component: {fileID: 1498980912}
   - component: {fileID: 1498980911}
   - component: {fileID: 1498980913}
+  - component: {fileID: 1498980914}
   m_Layer: 0
   m_Name: Barrier (5)
   m_TagString: Untagged
@@ -8566,6 +8854,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForceStartingAlpha
   startingAlpha: 0
+--- !u!114 &1498980914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1498980909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &1500824931
 GameObject:
   m_ObjectHideFlags: 0
@@ -8815,6 +9119,7 @@ GameObject:
   - component: {fileID: 1523567925}
   - component: {fileID: 1523567927}
   - component: {fileID: 1523567928}
+  - component: {fileID: 1523567929}
   m_Layer: 0
   m_Name: Barrier
   m_TagString: Untagged
@@ -8955,6 +9260,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForceStartingAlpha
   startingAlpha: 0
+--- !u!114 &1523567929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523567924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1001 &1527591657
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9948,6 +10269,7 @@ GameObject:
   - component: {fileID: 1740544135}
   - component: {fileID: 1740544134}
   - component: {fileID: 1740544136}
+  - component: {fileID: 1740544137}
   m_Layer: 0
   m_Name: Barrier (4)
   m_TagString: Untagged
@@ -10088,6 +10410,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForceStartingAlpha
   startingAlpha: 0
+--- !u!114 &1740544137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1740544132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &1754348721
 GameObject:
   m_ObjectHideFlags: 0
@@ -10329,6 +10667,7 @@ GameObject:
   - component: {fileID: 1796623769}
   - component: {fileID: 1796623768}
   - component: {fileID: 1796623770}
+  - component: {fileID: 1796623771}
   m_Layer: 0
   m_Name: Barrier (10)
   m_TagString: Untagged
@@ -10469,6 +10808,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForceStartingAlpha
   startingAlpha: 0
+--- !u!114 &1796623771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1796623766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &1801807947
 GameObject:
   m_ObjectHideFlags: 0
@@ -10579,6 +10934,7 @@ GameObject:
   - component: {fileID: 1855818230}
   - component: {fileID: 1855818229}
   - component: {fileID: 1855818231}
+  - component: {fileID: 1855818232}
   m_Layer: 0
   m_Name: Barrier (17)
   m_TagString: Untagged
@@ -10719,6 +11075,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForceStartingAlpha
   startingAlpha: 0
+--- !u!114 &1855818232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855818227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1001 &1859176670
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10917,6 +11289,7 @@ GameObject:
   - component: {fileID: 1905268498}
   - component: {fileID: 1905268497}
   - component: {fileID: 1905268500}
+  - component: {fileID: 1905268501}
   m_Layer: 0
   m_Name: Barrier (2)
   m_TagString: Untagged
@@ -11057,6 +11430,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForceStartingAlpha
   startingAlpha: 0
+--- !u!114 &1905268501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1905268496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1001 &1911777391
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11131,6 +11520,7 @@ GameObject:
   - component: {fileID: 1926093764}
   - component: {fileID: 1926093763}
   - component: {fileID: 1926093766}
+  - component: {fileID: 1926093767}
   m_Layer: 0
   m_Name: Barrier (3)
   m_TagString: Untagged
@@ -11271,6 +11661,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForceStartingAlpha
   startingAlpha: 0
+--- !u!114 &1926093767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1926093762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &1950147764
 GameObject:
   m_ObjectHideFlags: 0
@@ -11489,6 +11895,7 @@ GameObject:
   - component: {fileID: 2041400777}
   - component: {fileID: 2041400776}
   - component: {fileID: 2041400778}
+  - component: {fileID: 2041400779}
   m_Layer: 0
   m_Name: Barrier (14)
   m_TagString: Untagged
@@ -11629,6 +12036,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForceStartingAlpha
   startingAlpha: 0
+--- !u!114 &2041400779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2041400774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &2046009386
 GameObject:
   m_ObjectHideFlags: 0
@@ -11720,6 +12143,7 @@ GameObject:
   - component: {fileID: 2080211220}
   - component: {fileID: 2080211219}
   - component: {fileID: 2080211221}
+  - component: {fileID: 2080211222}
   m_Layer: 0
   m_Name: Barrier (13)
   m_TagString: Untagged
@@ -11860,6 +12284,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForceStartingAlpha
   startingAlpha: 0
+--- !u!114 &2080211222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2080211217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &2081744514
 GameObject:
   m_ObjectHideFlags: 0
@@ -12305,6 +12745,7 @@ GameObject:
   - component: {fileID: 2117388037}
   - component: {fileID: 2117388036}
   - component: {fileID: 2117388039}
+  - component: {fileID: 2117388040}
   m_Layer: 0
   m_Name: Barrier (1)
   m_TagString: Untagged
@@ -12445,6 +12886,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForceStartingAlpha
   startingAlpha: 0
+--- !u!114 &2117388040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2117388035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &2129979139
 GameObject:
   m_ObjectHideFlags: 0
@@ -12677,11 +13134,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4511773039350480848, guid: 1bc83ed7419830e4f9ab9534aa04d183, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.1698
+      value: -5.1
       objectReference: {fileID: 0}
     - target: {fileID: 4511773039350480848, guid: 1bc83ed7419830e4f9ab9534aa04d183, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -9.0239
+      value: -13.2
       objectReference: {fileID: 0}
     - target: {fileID: 4511773039350480848, guid: 1bc83ed7419830e4f9ab9534aa04d183, type: 3}
       propertyPath: m_LocalPosition.z

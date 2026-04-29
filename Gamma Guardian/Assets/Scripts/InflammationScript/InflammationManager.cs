@@ -17,6 +17,11 @@ public class InflammationManager : MonoBehaviour
 
     private bool failTriggered = false;
 
+    public InflammationWarningUI InflammationWarningUI;
+    [Range(0f, 1f)] public float intenseWarningThreshold = 0.50f;
+
+    private bool warningTriggered = false;
+
     void Awake()
     {
         if (Instance == null) Instance = this;
@@ -38,6 +43,12 @@ public class InflammationManager : MonoBehaviour
             GameObject barObj = GameObject.Find("completionFill");
             InflammationBar = barObj?.GetComponent<InflammationBar>();
             Debug.Log($"Bar: {InflammationBar}");  // Test
+        }
+        if (InflammationWarningUI == null)
+        {
+            GameObject warningObj = GameObject.Find("warningPopup");
+            InflammationWarningUI = warningObj?.GetComponent<InflammationWarningUI>();
+            Debug.Log($"Warning UI: {InflammationWarningUI}");
         }
     }
 
@@ -67,6 +78,21 @@ public class InflammationManager : MonoBehaviour
             {
                 GameManager.Instance.gameLost = true;
                 GameManager.Instance.StartFailDialogue();
+            }
+        }
+        float inflammationPercent = currentInflammation / maxInflammation;
+
+        if (InflammationWarningUI != null)
+        {
+            if (inflammationPercent >= intenseWarningThreshold && !warningTriggered)
+            {
+                InflammationWarningUI.PlayWarning();
+                warningTriggered = true;
+            }
+            else if (inflammationPercent < intenseWarningThreshold)
+            {
+                warningTriggered = false;
+                InflammationWarningUI.HideInstant();
             }
         }
     }

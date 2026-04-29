@@ -120,10 +120,28 @@ public class GameManager : MonoBehaviour
     "That was a large area, but you handled it well.",
     "Let's keep moving and finish driving back the infection."
 };
+    [Header("Level 4 Dialogue")]
+    [SerializeField]
+    private string[] level4IntroDialogue =
+    {
+    "Guardian Explorer, there is a new option for you.",
+    "Going forward you are now able to dash.",
+    "To do this, press the new dash button while holding in a direction.",
+    "Push forward, good luck!"
+};
+
+    [SerializeField]
+    private string[] level4EndDialogue =
+    {
+    "Nicely done, Guardian!",
+    "Another region safe thanks to you.",
+    "Hopefully your new skill proved valuable.",
+    "On to the next one!"
+};
     [Header("Level 5 Dialogue")]
     [SerializeField]
     private string[] level5IntroDialogue =
-{
+    {
     "We've made it to the epicenter of the infection Guardian.",
     "This is the largest area yet, and the paths twist and turn.",
     "We must be vigilant and work fast to clear through this area.",
@@ -354,6 +372,15 @@ public class GameManager : MonoBehaviour
     {
         if (!waitingForEndDialogue) return;
 
+        Debug.Log("HandleEndDialogueFinished START");
+        if (ProgressionManager.Instance == null)
+        {
+            Debug.LogError("Recreating ProgressionManager");
+            GameObject progObj = new GameObject("ProgressionManager");
+            ProgressionManager prog = progObj.AddComponent<ProgressionManager>();
+            DontDestroyOnLoad(progObj);
+        }
+
         waitingForEndDialogue = false;
 
         if (dialogueManager != null)
@@ -384,6 +411,9 @@ public class GameManager : MonoBehaviour
             case "Level3":
                 return level3IntroDialogue;
 
+            case "Level4":
+                return level4IntroDialogue;
+
             case "Level5":
                 return level5IntroDialogue;
 
@@ -404,6 +434,9 @@ public class GameManager : MonoBehaviour
 
             case "Level3":
                 return level3EndDialogue;
+
+            case "Level4":
+                return level4EndDialogue;
 
             case "Level5":
                 return level5EndDialogue;
@@ -658,9 +691,12 @@ public class GameManager : MonoBehaviour
         ResetGameState();
         Time.timeScale = 1f;
 
+        Debug.Log($"Scene: {currentSceneName}, Index: {completedLevelIndex}, Max: {ProgressionManager.Instance.MaxLevelCount}, isLast: {isLastLevel}");
+        if (!isLastLevel) Debug.Log($"Loading next: {ProgressionManager.Instance.GetCurrentLevelScene()}");
+
         if (isLastLevel)
         {
-            SceneManager.LoadScene(mainMenuScene);
+            SceneManager.LoadScene("Ending");
             return;
         }
 

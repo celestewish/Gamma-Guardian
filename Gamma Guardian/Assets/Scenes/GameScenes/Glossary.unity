@@ -469,6 +469,7 @@ GameObject:
   - component: {fileID: 400523126}
   - component: {fileID: 400523130}
   - component: {fileID: 400523131}
+  - component: {fileID: 400523132}
   m_Layer: 5
   m_Name: GlossaryCanvas
   m_TagString: Untagged
@@ -558,6 +559,7 @@ RectTransform:
   - {fileID: 37362546}
   - {fileID: 634497773}
   - {fileID: 2015982933}
+  - {fileID: 842531252}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -586,40 +588,35 @@ MonoBehaviour:
   entries:
   - image: {fileID: -1680877705835521684, guid: 43b8b9ff3a683364895f3fafc8d2f009, type: 3}
     title: Bacilli
-    description: 'Pill-shaped or rod-shaped bacteria are formally known as bacilli
-      (singular: bacillus). These bacteria are straight, elongated, and often resemble
-      the appearance of a capsule pill, occurring as single cells, pairs (diplobacilli),
-      or chains (streptobacilli).'
+    description: Bacilli are bacteria that are shaped like tiny rods or pills. They
+      can be found alone, in pairs, or in groups connected like a chain.
   - image: {fileID: -2531176253003870966, guid: 3bee0e84268d3264bb24890a297739f1, type: 3}
     title: Icosahedron Virus
-    description: Spherical viruses are commonly shaped particles characterized by
-      a protein shell (capsid) or outer envelope that is roughly spherical or icosahedral
-      in appearance. They are often not perfect spheres but are highly symmetrical,
-      utilizing icosahedral symmetry to protect the viral genome efficiently, such
-      as in adenovirus, poliovirus, and measles.
+    description: Spherical viruses have round shapes, like balls. They have a protein
+      shell or outer cover that's super symmetric to protect their inner parts, like
+      in adenovirus, poliovirus, and measles. They aren't always perfect spheres
+      but look neat and tidy.
   - image: {fileID: -6059336636965133244, guid: ed6f161d4d6e3ca448b148670eb518f5, type: 3}
     title: Mycoplasma
-    description: "Mycoplasma is a unique genus of bacteria distinguished by the complete
-      absence of a cell wall. They are the smallest known free-living organisms,
-      often measuring only 0.2 to 0.3 micrometers\u2014small enough to pass through
-      filters that trap most other bacteria."
+    description: Mycoplasma are special bacteria with no outer wall. They are the
+      tiniest free-living germs, super small at just 0.2 to 0.3 micrometers. So tiny
+      they slip through filters that catch other bacteria.
   - image: {fileID: 21300000, guid: 217e4d3837569f447a73f61da185a57b, type: 3}
     title: Immune Cell
-    description: 'Immune cells, also known as white blood cells or leukocytes, are
-      the "soldiers" of your body''s defense network. They constantly patrol your
-      blood and tissues to identify and destroy "non-self" invaders like the viruses
-      and bacteria.
+    description: 'Immune cells, also called white blood cells, act like soldiers
+      in your body. They travel through your blood and tissues to spot and fight
+      bad germs like viruses and bacteria.
 
-      The immune cells in this patient do not work properly
-      and can''t kill bacteria on their own, so they call cytokines to help them.'
+      In this patient, the immune cells
+      don''t work right and can''t kill bacteria alone, so they call for cytokines
+      to help.'
   - image: {fileID: 21300000, guid: a593654a343828f4db55ca447875bd65, type: 3}
     title: Cytokine
-    description: "Interferon gamma (IFN-\u03B3) is a powerful signaling protein (cytokine)
-      that acts as the primary \"activator\" for your immune system's heavy hitters.
-      While other interferons are mainly famous for fighting viruses, Interferon
-      Gamma is the only Type II interferon and is essential for killing intracellular
-      bacteria.\nIn our patient, the gammas are malfunctioning and causing the immune
-      cells to become hyperactive."
+    description: "Interferon gamma, or IFN-\u03B3, is a strong message protein called
+      a cytokine. It turns on your immune system's strongest fighters and is key
+      for killing bacteria hiding inside cells, unlike other interferons that mostly
+      battle viruses.\nIn our patient, the gammas are broken and make the immune
+      cells way too active."
   uiAudioSource: {fileID: 400523131}
   navSfx: {fileID: 8300000, guid: 41b1dff1d67040e4dae6bd4f7ceb1ee2, type: 3}
   closeSfx: {fileID: 8300000, guid: a9aed93da3a6c814f83507b737396685, type: 3}
@@ -720,6 +717,56 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &400523132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400523125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: deced7ba815998648bdaa98b4d78d2af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MainMenuTutorial
+  tutorialOverlay: {fileID: 842531263}
+  titleText: {fileID: 842531262}
+  messageText: {fileID: 842531261}
+  stepText: {fileID: 842531260}
+  nextButton: {fileID: 842531259}
+  backButton: {fileID: 842531258}
+  skipButton: {fileID: 842531257}
+  highlightBox: {fileID: 842531256}
+  pulseHighlight: {fileID: 842531255}
+  highlightPadding: {x: 30, y: 20}
+  steps:
+  - title: Welcome
+    message: 'Hello Guardian, this is Central Body Command speaking, let me introduce
+      you to the Glossary.
+
+      Here is where you can get all of the important
+      details about the cells we interact with during our mission.'
+    target: {fileID: 0}
+  - title: Image
+    message: Here is where you can see the image of each cell.
+    target: {fileID: 1249979309}
+  - title: Name
+    message: Here is the name of each cell.
+    target: {fileID: 37362546}
+  - title: Description
+    message: Here is where you can find all the details about each cell.
+    target: {fileID: 634497773}
+  - title: Next
+    message: Click this to go forwards!
+    target: {fileID: 842531254}
+  - title: Back
+    message: And click this to go back!
+    target: {fileID: 842531253}
+  - title: Back
+    message: And that's it! Go ahead and explore the glossary freely.
+    target: {fileID: 842531253}
+  showOnlyFirstTime: 1
+  playerPrefsKey: GlossaryTutorialShown
 --- !u!1 &634497772
 GameObject:
   m_ObjectHideFlags: 0
@@ -977,6 +1024,233 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 650756446}
   m_CullTransparentMesh: 1
+--- !u!1001 &842531251
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 400523129}
+    m_Modifications:
+    - target: {fileID: 4026370141219860644, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_text
+      value: Welcome
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586430026640825326, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 124
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 1080
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 960
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 540
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7757127979301703415, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_Name
+      value: TutorialOverlay
+      objectReference: {fileID: 0}
+    - target: {fileID: 8332209999208327848, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+      propertyPath: m_text
+      value: 'Hello Guardian, this is Central Body Command speaking, let me introduce
+        you to the Glossary.
+
+        Here is where you can get all of the important
+        details about the cells we interact with during our mission.'
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+--- !u!224 &842531252 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6760798473305767880, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+  m_PrefabInstance: {fileID: 842531251}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &842531253 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6116908152496969429, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+  m_PrefabInstance: {fileID: 842531251}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &842531254 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2318062241868829634, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+  m_PrefabInstance: {fileID: 842531251}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &842531255 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 717803104884989113, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+  m_PrefabInstance: {fileID: 842531251}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c888a49709d03254884904a6a9d4305c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIPulseHighlight
+--- !u!224 &842531256 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4968008010785172655, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+  m_PrefabInstance: {fileID: 842531251}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &842531257 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8233845146284247606, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+  m_PrefabInstance: {fileID: 842531251}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+--- !u!114 &842531258 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4165010277195986339, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+  m_PrefabInstance: {fileID: 842531251}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+--- !u!114 &842531259 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6584564792572958444, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+  m_PrefabInstance: {fileID: 842531251}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+--- !u!114 &842531260 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6424532346395029034, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+  m_PrefabInstance: {fileID: 842531251}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!114 &842531261 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8332209999208327848, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+  m_PrefabInstance: {fileID: 842531251}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!114 &842531262 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4026370141219860644, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+  m_PrefabInstance: {fileID: 842531251}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!1 &842531263 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7757127979301703415, guid: b163996ff8adce34aa7e301333a30f42, type: 3}
+  m_PrefabInstance: {fileID: 842531251}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1249979308
 GameObject:
   m_ObjectHideFlags: 0
