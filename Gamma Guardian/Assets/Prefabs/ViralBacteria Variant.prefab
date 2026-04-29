@@ -362,7 +362,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7383247072557008003, guid: 0c3c3a0e13fef6f46a935c452142f70f, type: 3}
       propertyPath: m_text
-      value: Viral bacteria info will go here.
+      value: Spherical viruses have round shapes, like balls. They have a protein
+        shell or outer cover that's super symmetric to protect their inner parts.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7383247072557008003, guid: 0c3c3a0e13fef6f46a935c452142f70f, type: 3}
+      propertyPath: m_fontSize
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7383247072557008003, guid: 0c3c3a0e13fef6f46a935c452142f70f, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

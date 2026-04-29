@@ -333,7 +333,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7383247072557008003, guid: 0c3c3a0e13fef6f46a935c452142f70f, type: 3}
       propertyPath: m_text
-      value: Blob bacteria info will go here.
+      value: Mycoplasma are special bacteria with no outer wall. They are the tiniest
+        free-living germs at just 0.2 to 0.3 micrometers.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

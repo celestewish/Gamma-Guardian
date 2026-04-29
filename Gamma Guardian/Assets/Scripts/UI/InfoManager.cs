@@ -7,42 +7,56 @@ using UnityEngine.UI;
 public class InfoManager : MonoBehaviour
 {
     List<Button> displayButtons;
-    public GameObject bgCover; //mask that hides bg elements when an object is selected
-    
+    //public GameObject infoMask; //mask that hides bg elements when an object is selected
+    public GameObject bgCover; 
+    [HideInInspector] public string bgSortingLayer;
+
     private Transform playerCam;
     private Vector3 targetDir; //direction to move camera
     private bool isCameraMoving=false;
     private float camMoveDist = 0;
     private float timeDelta;
 
+    [HideInInspector] bool isOn;
+
     void Awake()
     {
         displayButtons = new List<Button>();
 
-        bgCover = GameObject.FindGameObjectWithTag("InfoMask");
-        if (bgCover != null && bgCover.activeSelf)
-            bgCover.SetActive(false);
-
         timeDelta = Time.fixedDeltaTime; //time per frame
+
+        isOn = false;
     }
 
     void Start()
     {
         playerCam = GameObject.FindGameObjectWithTag("MainCamera").transform;
 
-        Debug.LogWarning("timedelta: " + timeDelta);
-
         StartCoroutine(LateStart());
     }
 
+    public bool IsDisplayUp() { return isOn; }
+
     IEnumerator LateStart()
     {
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.1f);
         Debug.Log("Info Manager: " + displayButtons.Count + " buttons detected");
+
+        if (bgCover == null)
+            bgCover = GameObject.FindGameObjectWithTag("InfoMask");
+
+        bgSortingLayer = bgCover.GetComponent<Renderer>().sortingLayerName;
+        if (bgCover != null && bgCover.activeSelf)
+            bgCover.SetActive(false);
     }
 
     void Update()
     {
+        if (playerCam == null)
+        {
+            playerCam = GameObject.FindGameObjectWithTag("MainCamera").transform;
+        }
+
         if (isCameraMoving)
         {
             if(camMoveDist >= targetDir.magnitude)
@@ -89,6 +103,8 @@ public class InfoManager : MonoBehaviour
             }
         }
 
+        isOn = true;
+
         //enables background
         bgCover.SetActive(true);
 
@@ -104,12 +120,14 @@ public class InfoManager : MonoBehaviour
             bt.interactable = true;
         }
 
+        isOn = false;
+
         //disables background
         bgCover.SetActive(false);
 
         //reverses cam shift
         targetDir = -targetDir;
-        Debug.Log("(II) Camera targetDirection -> " + targetDir);
+        //Debug.Log("(II) Camera targetDirection -> " + targetDir);
 
         //reset
         camMoveDist = 0f;
@@ -123,12 +141,12 @@ public class InfoManager : MonoBehaviour
 
     public void RemoveFromInfoList(int id) //id of button
     {
-        Debug.Log("Looking for id " + id + " to remove");
+        //Debug.Log("Looking for id " + id + " to remove");
         for (int i = 0;  i < displayButtons.Count; i++)
         {
             if(displayButtons[i].gameObject.GetInstanceID() == id)
             {
-                Debug.Log("Found id: " + id);
+                //Debug.Log("Found id: " + id);
                 displayButtons.RemoveAt(i);
                 break;
             }

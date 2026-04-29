@@ -324,7 +324,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7383247072557008003, guid: 0c3c3a0e13fef6f46a935c452142f70f, type: 3}
       propertyPath: m_text
-      value: 'Cytokine info will go here. '
+      value: "Interferon gamma (IFN-\u03B3) or a cytokine is a strong message protein
+        that turns on your immune system's strongest fighters and is key for killing
+        bacteria hiding inside cells."
+      objectReference: {fileID: 0}
+    - target: {fileID: 7383247072557008003, guid: 0c3c3a0e13fef6f46a935c452142f70f, type: 3}
+      propertyPath: m_fontSize
+      value: 2.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7383247072557008003, guid: 0c3c3a0e13fef6f46a935c452142f70f, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 2.8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

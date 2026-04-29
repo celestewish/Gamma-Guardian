@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class PlayerSpriteColorShift : MonoBehaviour
+public class PlayerColorShift : MonoBehaviour
 {
     public GameObject obj;
     private Material mat;

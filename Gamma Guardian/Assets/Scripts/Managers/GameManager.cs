@@ -163,6 +163,8 @@ public class GameManager : MonoBehaviour
     private string comboType = "Bacteria";
     [SerializeField] private InputActionReference quitAction;
 
+    [HideInInspector] public bool displayUp;
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -174,6 +176,8 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         SceneManager.sceneLoaded += OnSceneLoaded;
+
+        displayUp = GetComponent<InfoManager>().IsDisplayUp();
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -195,6 +199,8 @@ public class GameManager : MonoBehaviour
 
         if (isGameplayLevel && !levelRunning)
             StartLevel();
+
+        GetComponent<InfoManager>().enabled = true;
     }
 
     void OnDestroy()
@@ -234,6 +240,8 @@ public class GameManager : MonoBehaviour
             currentCombo = 0;
             comboTimer = 0f;
         }
+
+        displayUp = GetComponent<InfoManager>().IsDisplayUp();
     }
 
     public void StartLevel()
@@ -648,10 +656,14 @@ public class GameManager : MonoBehaviour
     {
         if (!isPaused) return;
         isPaused = false;
-        Time.timeScale = 1f;
-        AudioListener.pause = false;
         if (pauseMenuUI != null) pauseMenuUI.SetActive(false);
         Debug.Log("Game Unpaused");
+
+        if (!displayUp)
+        {
+            Time.timeScale = 1f;
+            AudioListener.pause = false;
+        }
     }
 
     public void TogglePause()
@@ -717,9 +729,11 @@ public class GameManager : MonoBehaviour
 #endif
     }
 
-public void SwitchMode()
+    public void SwitchMode()
     {
         InfoDisplay[] infoArr = Object.FindObjectsByType<InfoDisplay>(FindObjectsSortMode.None);
+        Debug.Log(infoArr.Length + " info displays were found");
+
         if(infoArr == null || infoArr.Length == 0)
         {
             Debug.LogWarning("No info objects found.");
