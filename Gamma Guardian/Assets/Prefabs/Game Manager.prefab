@@ -103,6 +103,16 @@ MonoBehaviour:
   - You cleared both paths and secured this entire region.
   - That was a large area, but you handled it well.
   - Let's keep moving and finish driving back the infection.
+  level4IntroDialogue:
+  - Guardian Explorer, there is a new option for you.
+  - Going forward you are now able to dash.
+  - To do this, press the new dash button while holding in a direction.
+  - Push forward, good luck!
+  level4EndDialogue:
+  - Nicely done, Guardian!
+  - Another region safe thanks to you.
+  - Hopefully your new skill proved valuable.
+  - On to the next one!
   level5IntroDialogue:
   - We've made it to the epicenter of the infection Guardian.
   - This is the largest area yet, and the paths twist and turn.
@@ -112,6 +122,7 @@ MonoBehaviour:
   - Amazing work Guardian!
   - That was the last of the infection!
   - Let's celebrate!!!
+  quitAction: {fileID: 0}
 --- !u!114 &95491399776250747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,3 +136,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   bgCover: {fileID: 0}
+  bgSortingLayer: 

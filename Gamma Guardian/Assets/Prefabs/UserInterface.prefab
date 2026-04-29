@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 2693847556784562886}
   - component: {fileID: 1015786773023937461}
   - component: {fileID: 1996692008483752431}
+  - component: {fileID: 1378627103232091165}
   m_Layer: 0
   m_Name: InfoToggle
   m_TagString: Untagged
@@ -240,6 +241,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1378627103232091165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1927259618116826824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96573e21a06fba744a4296c67ccd2936, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AddInfoToggle
+  button: {fileID: 0}
 --- !u!1 &2541583252686602172
 GameObject:
   m_ObjectHideFlags: 0

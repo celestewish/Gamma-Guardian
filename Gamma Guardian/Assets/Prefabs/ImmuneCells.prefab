@@ -315,7 +315,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7383247072557008003, guid: 0c3c3a0e13fef6f46a935c452142f70f, type: 3}
       propertyPath: m_text
-      value: Immune cell info will go here.
+      value: Immune cells - A.K.A. white blood cells - travel through your blood
+        and tissues to spot and fight harmful viruses and bacteria.
       objectReference: {fileID: 0}
     - target: {fileID: 9214308852765605568, guid: 0c3c3a0e13fef6f46a935c452142f70f, type: 3}
       propertyPath: fadeIn

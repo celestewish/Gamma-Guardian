@@ -1,6 +1,8 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections;
+//using System.Collections.Generic;
 
 public class InfoDisplay : MonoBehaviour
 {
@@ -13,7 +15,7 @@ public class InfoDisplay : MonoBehaviour
 
     private bool displayOn = false;
     public GameObject displayText; //info textbox
-    private bool isOn = false;
+    private bool isOn;
 
     private float fixedDeltaTime; //time per frame
 
@@ -45,22 +47,28 @@ public class InfoDisplay : MonoBehaviour
 
         this.fixedDeltaTime = Time.fixedDeltaTime;
 
-        manager = GameObject.Find("Game Manager");
-        manager.GetComponent<InfoManager>().AddButton(displayButton.GetComponent<Button>()); //adds button to manager
+        manager = GameObject.Find("Game Manager"); //adds button to manager\
 
-        GameObject BG = manager.GetComponent<InfoManager>().bgCover;
-        if (BG.GetComponent<Renderer>() != null)
-            bgSortingLayer = BG.GetComponent<Renderer>().sortingLayerName;
-        else
-            bgSortingLayer = BG.GetComponent<Canvas>().sortingLayerName;
-
-        if (manager.GetComponent<GameManager>().IsDisplayOn())
-            displayButton.SetActive(true);
-        else
-            displayButton.SetActive(false);
+        displayOn = manager.GetComponent<GameManager>().IsDisplayOn();
+        displayButton.SetActive(displayOn);
+        //if (manager.GetComponent<GameManager>().IsDisplayOn())
+        //    displayButton.SetActive(isOn = true);
+        //else
+        //    displayButton.SetActive(isOn = false);
 
         displayText.SetActive(false);
         //Debug.Log(transform.parent.gameObject.name + ": " + transform.parent.gameObject.GetInstanceID());
+
+        StartCoroutine(LateStart());
+    }
+
+    IEnumerator LateStart()
+    {
+        yield return new WaitForSeconds(.25f);
+
+        this.bgSortingLayer = manager.GetComponent<InfoManager>().bgSortingLayer;
+
+        manager.GetComponent<InfoManager>().AddButton(displayButton.GetComponent<Button>());
     }
 
     void Update()
