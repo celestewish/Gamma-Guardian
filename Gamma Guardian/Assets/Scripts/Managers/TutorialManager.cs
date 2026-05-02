@@ -14,6 +14,7 @@ public class TutorialManager : MonoBehaviour
     public DialogueManager dialogueManager;
     public GameObject medicineButton;
     public GameObject completionBar;
+    public GameObject completionBarFill;
     public GameObject map;
 
     public GameObject cytokine;
@@ -30,6 +31,10 @@ public class TutorialManager : MonoBehaviour
     public Transform player;
     public float detectionDistance = 0.1f;
 
+    [Header("Demo UI")]
+    public TutorialMinimap minimap;
+    public Vector2[] demoBacteriaPositions = { new Vector2(20, 10), new Vector2(-15, 25), new Vector2(10, -20) };
+
     private Vector3 initialPlayerPos;
     private HashSet<Vector2> movedDirections = new HashSet<Vector2>();
     private bool hasCalmedGamma = false;
@@ -42,55 +47,34 @@ public class TutorialManager : MonoBehaviour
         "This will allow us to defend the body against these invaders."
     };
 
-    private string[] immuneCell =
-    {
-        "Nice work! Let's learn about the immune cells now.",
-        "This is an immune cell.",
-        "Their job is to defend the body against pathogens.",
-        "However the immune cells in this patient struggle to kill pathogens.",
-        "To try and stop the infection, they call a cytokine.",
-        "They are like little messengers who call for more immune cells."
-    };
+    private string[] immuneCell = {
+    "Nice work! This is an immune cell. They fight invaders.",
+    "They call cytokines for backup, but too many cause chaos."
+};
 
     private string[] bacteriaDialogue = {
         "Excellent work! Now let's tackle defeating the bacteria.",
-        "The immune cells in this patient do not respond correctly to infection.",
-        "They try super hard! But they can't defeat the bacteria on their own.",
+        "The immune cells in this patient can't defeat the bacteria on their own.",
         "We have to help them. Fly up to the bacteria and use the medicine button."
     };
 
-    private string[] barDialogue1 =
-    {
-        "Perfect! Now that the bacteria is gone the body will be safe.",
-        "If we don't defeat the bacteria, the patient won't be able to heal.",
-        "Now, there's couple more things you need to know."
-    };
+    private string[] barDialogue1 = {
+    "Perfect! Clear all bacteria to heal the patient."
+};
 
-    private string[] barDialogue2 =
-    {
-        "This flashing bar is the inflammation bar. It tells us how badly the body has inflammed.",
-        "It will gradually increase and decrease as inflammation changes.",
-        "Keep track of this bar, if it gets too full, it's game over.",
-    };
+    private string[] barDialogue2 = {
+    "Watch the inflammation bar. It rises quickly when inflammation does.",
+    "Too full? Game over."
+};
 
-    private string[] mapDialogue =
-    {
-        "This here is the map",
-        "When there's bacteria on the map, they will show up as red dots.",
-        "You can use the map to tell where enemies are"
-    };
+    private string[] mapDialogue = {
+    "Red dots on map = bacteria. Clear them all to win!"
+};
 
-    private string[] endingDialogue =
-    {
-        "Here is a final tip for you Guardian Explorer.",
-        "To get through the levels, you have to make sure to clear all the bacteria on the map.",
-        "If all the bacteria are eliminated, then you can move on to the next section of the body.",
-        "To help slow the inflammation down, keep cytokine levels at bay",
-        "This will give you more time to defeat all of the bacteria",
-        "Make sure not to take too long though! Time is limited, and you need to work quickly.",
-        "Now Guardian Explorer, you have all you need to take on the infection and save the patient.",
-        "Fly onwards and save them!"
-    };
+    private string[] endingDialogue = {
+    "<b>Don't miss any bacteria in an area before flying on<b>",
+    "Good luck Guardian! Only you can save the body!"
+};
 
     void Start()
     {
@@ -148,22 +132,14 @@ public class TutorialManager : MonoBehaviour
     {
 #if UNITY_ANDROID || UNITY_IOS
         return new string[] {
-            "This is a interferon gamma. A special type of cytokine that helps call the immune cells to attack infections,",
-        "You see, the gammas are trying to help the body, but they get the immune cells too excited!",
-        "When that happens, the cells get confused and start attacking the body instead!",
-        "We have to make sure that there aren't too many cytokines in the body",
-        "If there are too many, they will make the immune cells hyperactive and cause chaos!",
-        "To calm the interferon gamma, fly up to the gamma and press the medicine button.",
+            "This is a interferon gamma. A special type of cytokine.",
+        "To calm the gamma, fly up to the gamma and press the medicine button.",
         "The medicine button is the square on the right."
     };
 #else
 return new string[] {
-            "This is a interferon gamma. A special type of cytokine that helps call the immune cells to attack infections,",
-        "You see, the gammas are trying to help the body, but they get the immune cells too excited!",
-        "When that happens, the cells get confused and start attacking the body instead!",
-        "We have to make sure that there aren't too many cytokines in the body",
-        "If there are too many, they will make the immune cells hyperactive and cause chaos!",
-        "To calm the interferon gamma, fly up to the gamma and press the medicine button or press space.",
+            "This is a interferon gamma. A special type of cytokine.",
+        "To calm the gamma, fly up to the gamma and press the medicine button or press space.",
         "The medicine button is the square on the right."
     };
 #endif
@@ -307,9 +283,28 @@ return new string[] {
         dialogueManager.onDialogueEnd.RemoveListener(EndBarTutorial);
         dialogueManager.SetDialogueLines(barDialogue2);
         dialogueManager.StartDialogue();
-        dialogueManager.onDialogueEnd.AddListener(MapTutorial);
         completionBar.SetActive(true);
         FlashUIColor(completionBar);
+        dialogueManager.onDialogueEnd.AddListener(() => StartCoroutine(BarThenMap()));
+    }
+
+    IEnumerator BarThenMap()
+    {
+
+        InflammationBar barScript = completionBarFill.GetComponent<InflammationBar>();
+
+        // Smooth rise (0.2 ? 0.7, cytokines bad)
+        barScript.SetInflammation(0.2f);
+        DOTween.To(() => 0.2f, barScript.SetInflammation, 0.7f, 1.2f)
+            .SetEase(Ease.InOutSine);
+        yield return new WaitForSeconds(1.5f);
+
+        // Smooth fall (0.7 ? 0.1, safe)
+        DOTween.To(() => 0.7f, barScript.SetInflammation, 0.1f, 1.2f)
+            .SetEase(Ease.InOutSine);
+        yield return new WaitForSeconds(1.5f);
+
+        MapTutorial();
     }
 
     void MapTutorial()
@@ -320,6 +315,7 @@ return new string[] {
         dialogueManager.onDialogueEnd.AddListener(OnTutorialComplete);
         map.SetActive(true);
         FlashUIColor(map);
+        minimap.SpawnDemoDots(demoBacteriaPositions);
     }
 
     void OnTutorialComplete()
