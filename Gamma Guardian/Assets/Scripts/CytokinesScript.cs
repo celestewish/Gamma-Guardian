@@ -19,21 +19,39 @@ public class CytokinesScript : MonoBehaviour
     private PulseEffect pulseEffect;
     public float inflammationReduction = 5f;
 
+    public bool isTutorialMode = false;
+    public Transform tutorialTarget;
+
 
     private NavMeshAgent agent;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        agent = GetComponent<NavMeshAgent>();
+        if (agent == null)
+            Debug.LogError("NavMeshAgent component missing!");
+        else if (!agent.isOnNavMesh)
+            Debug.LogError("Agent is NOT on NavMesh! Position: " + transform.position);
+        if (isTutorialMode)
+        {
+            target = tutorialTarget;
+            return;
+        }
         List<GameObject> allSpawns = GameObject.FindGameObjectsWithTag("Spawn").ToList();
-        int randomIndex = Random.Range(0, allSpawns.Count);
-        target = allSpawns[randomIndex].transform;
+        if (allSpawns.Count > 0)
+        {
+            int randomIndex = Random.Range(0, allSpawns.Count);
+            target = allSpawns[randomIndex].transform;
+        }
+        else
+        {
+            Debug.LogWarning("CytokinesScript: No Spawn points found in scene.");
+        }
         pulseEffect = GetComponentInChildren<PulseEffect>();
         pulseEffect = GetComponentInChildren<PulseEffect>();
         if (pulseEffect != null)
             pulseEffect.SetPulseActive(false);
         if (player == null) player = GameObject.FindGameObjectWithTag("Player").transform;
-
-        agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
     }
@@ -41,6 +59,11 @@ public class CytokinesScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (target == null) return;
+        Debug.Log(target);
+        if (!agent.pathPending && agent.remainingDistance < 0.5f)
+            agent.SetDestination(target.position);
+
         //transform.position = Vector2.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
         agent.SetDestination(target.position);
 

@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6365061087889493169, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
+      propertyPath: cytokines
+      value: 
+      objectReference: {fileID: 7712188891335693651, guid: 1a2847858bc21b045af1aa497035331f, type: 3}
     - target: {fileID: 6532060925714999908, guid: 0f71a51b5c59ed9408a824edbab181c5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.1742117

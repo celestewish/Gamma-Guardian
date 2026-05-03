@@ -10,7 +10,6 @@ public class TutorialPointer : MonoBehaviour
 
     [Header("Settings")]
     public float minDistanceToHide = 5f;
-    public LayerMask bacteriaLayer = 1 << 8; // Set to your Bacteria layer in Inspector
 
     [Header("References")]
     public Transform player;
@@ -18,6 +17,8 @@ public class TutorialPointer : MonoBehaviour
     private RectTransform rectTransform;
     private Camera cam;
     private CanvasGroup canvasGroup;
+
+    private static readonly string[] targetTags = { "Bacteria", "Cytokines", "ImmuneCell" };
 
     void Awake()
     {
@@ -34,13 +35,12 @@ public class TutorialPointer : MonoBehaviour
             canvasGroup.alpha = 0f;
             return;
         }
-
         UpdateArrow();
     }
 
     void UpdateArrow()
     {
-        Transform nearest = GetNearestBacteria();
+        Transform nearest = GetNearestTarget();
         if (nearest == null)
         {
             canvasGroup.alpha = 0f;
@@ -61,19 +61,17 @@ public class TutorialPointer : MonoBehaviour
 
         canvasGroup.alpha = 1f;
 
-        // Move locator toward edge in target direction
         Vector2 viewportDir = new Vector2(screenPos.x - 0.5f, screenPos.y - 0.5f).normalized;
         RectTransform parentRect = (RectTransform)transform.parent;
         float screenRadius = Mathf.Min(parentRect.rect.width, parentRect.rect.height) * 0.45f;
         Vector2 edgeOffset = viewportDir * (screenRadius - edgePadding);
         rectTransform.anchoredPosition = edgeOffset;
 
-        // Rotate circle so arrow points toward bacteria
         float angle = Mathf.Atan2(dirToTarget.y, dirToTarget.x) * Mathf.Rad2Deg - 90f;
         circleImage.rectTransform.localEulerAngles = new Vector3(0, 0, angle);
     }
 
-    Transform GetNearestBacteria()
+    Transform GetNearestTarget()
     {
         Collider2D[] allColliders = Physics2D.OverlapCircleAll(player.position, 20f);
         Transform nearest = null;
@@ -81,13 +79,17 @@ public class TutorialPointer : MonoBehaviour
 
         foreach (var col in allColliders)
         {
-            if (col.CompareTag("Bacteria")) // Tag instead of layer
+            foreach (string tag in targetTags)
             {
-                float dist = Vector3.Distance(player.position, col.transform.position);
-                if (dist < closestDist)
+                if (col.CompareTag(tag))
                 {
-                    closestDist = dist;
-                    nearest = col.transform;
+                    float dist = Vector3.Distance(player.position, col.transform.position);
+                    if (dist < closestDist)
+                    {
+                        closestDist = dist;
+                        nearest = col.transform;
+                    }
+                    break;
                 }
             }
         }

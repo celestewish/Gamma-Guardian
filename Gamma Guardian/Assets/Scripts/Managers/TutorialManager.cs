@@ -56,7 +56,7 @@ public class TutorialManager : MonoBehaviour
     // --- Dialogue ---
 
     private string[] welcomeDialogue = {
-        "Welcome to the body, Guardian Explorer! This is Central Body Command here and I have a new mission.",
+        "Welcome to the body, Guardian Explorer! This is Central Body Command here. Let's do some training.",
         "Your goal is to help the immune system defeat the infection.",
         "This will allow us to defend the body against these invaders."
     };
@@ -74,18 +74,18 @@ public class TutorialManager : MonoBehaviour
     };
 
     private string[] immuneCellDialogue = {
-        "Nice work! This is an immune cell. They fight invaders.",
+        "Nice work! This is an immune cell. They fight invaders. They are <b>green<b> on the map.",
         "They call cytokines for backup, but too many cause chaos."
     };
 
     private string[] gammaPhaseDialogue = {
         "This is an interferon gamma - a cytokine that excites immune cells.",
         "Too many and the cells go haywire! Calm them with the medicine button.",
-        "Watch the <b>inflammation bar</b> - it rises with cytokines!"
+        "Watch the <b>inflammation bar</b> - it rises with inflammation!"
     };
 
     private string[] gammaCalmedDialogue = {
-        "Nice! Bar dropped. Keep cytokines in check!"
+        "Nice! Find the next cytokine! They are <b>blue<b> on the map."
     };
 
     private string[] bacteriaPhaseDialogue = {
@@ -106,13 +106,11 @@ public class TutorialManager : MonoBehaviour
     };
 
     private string[] calmGammaDialogueAndroid = {
-        "This is a interferon gamma. A special type of cytokine.",
         "To calm the gamma, fly up to it and press the medicine button.",
         "The medicine button is the square on the right."
     };
 
     private string[] calmGammaDialoguePC = {
-        "This is a interferon gamma. A special type of cytokine.",
         "To calm the gamma, fly up to it and press the medicine button or press space.",
         "The medicine button is the square on the right."
     };
@@ -201,6 +199,8 @@ public class TutorialManager : MonoBehaviour
     {
         tutorialStep = 0;
         dialogueManager.onDialogueEnd.RemoveAllListeners();
+        map.SetActive(true);
+        FlashUIColor(map);
         dialogueManager.SetDialogueLines(immuneCellDialogue);
         dialogueManager.StartDialogue();
         dialogueManager.onDialogueEnd.AddListener(StartGammaPhase);
@@ -213,7 +213,7 @@ public class TutorialManager : MonoBehaviour
         dialogueManager.onDialogueEnd.RemoveAllListeners();
         phase = TutorialPhase.Gammas;
         phaseKills = 0;
-
+        cytokine.SetActive(true);
         medicineButton.SetActive(true);
         FlashUIColor(medicineButton);
 
@@ -231,7 +231,6 @@ public class TutorialManager : MonoBehaviour
         dialogueManager.onDialogueEnd.RemoveListener(OnGammaDialogueEnd);
         StartCoroutine(BarDemo(() =>
         {
-            SpawnEnemies("gamma", 1);
 #if UNITY_ANDROID || UNITY_IOS
             dialogueManager.SetDialogueLines(calmGammaDialogueAndroid);
 #else
@@ -276,10 +275,6 @@ public class TutorialManager : MonoBehaviour
         phaseKills = 0;
         killCounterUI.text = "Bacteria Defeated: 0/3";
 
-        map.SetActive(true);
-        FlashUIColor(map);
-        minimap.SpawnDemoDots(demoBacteriaPositions);
-
         dialogueManager.onDialogueEnd.RemoveAllListeners();
         dialogueManager.SetDialogueLines(bacteriaPhaseDialogue);
         dialogueManager.StartDialogue();
@@ -289,7 +284,7 @@ public class TutorialManager : MonoBehaviour
     void OnBacteriaDialogueEnd()
     {
         dialogueManager.onDialogueEnd.RemoveListener(OnBacteriaDialogueEnd);
-        SpawnEnemies("bacteria", 2);
+        SpawnEnemies("bacteria", 1);
     }
 
     public void OnBacteriaDefeated()

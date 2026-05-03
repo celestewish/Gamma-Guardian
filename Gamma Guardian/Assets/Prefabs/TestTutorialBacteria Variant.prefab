@@ -52,9 +52,37 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestTutorialBacteria Variant
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4947127797393531870, guid: 579b6e623526151439caceba7b1c697b, type: 3}
+    - {fileID: 638039795998938938, guid: 579b6e623526151439caceba7b1c697b, type: 3}
     m_RemovedGameObjects:
     - {fileID: 2590153302681245513, guid: 579b6e623526151439caceba7b1c697b, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4112754226846820390, guid: 579b6e623526151439caceba7b1c697b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2575200211840508294}
   m_SourcePrefab: {fileID: 100100000, guid: 579b6e623526151439caceba7b1c697b, type: 3}
+--- !u!1 &2236091653066877125 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4112754226846820390, guid: 579b6e623526151439caceba7b1c697b, type: 3}
+  m_PrefabInstance: {fileID: 2745860617854550243}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2575200211840508294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2236091653066877125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e196f2a20a29b14fb5bf9182da60786, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialBacteria
+  wanderSpeed: 1.5
+  wanderChangeInterval: 2
+  pulseRange: 6
+  nearRadius: 2
+  bacteriaPuffPrefab: {fileID: 2735249694781336584, guid: 49bfaeb1de0e526418eefce937e334b3, type: 3}
+  player: {fileID: 0}
