@@ -2,11 +2,12 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Sequence = DG.Tweening.Sequence;
+
+public enum TutorialPhase { Movement = 1, Gammas = 2, Bacteria = 3, Mixed = 4 }
 
 public class TutorialManager : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class TutorialManager : MonoBehaviour
     public GameObject completionBar;
     public GameObject completionBarFill;
     public GameObject map;
+    public TextMeshProUGUI killCounterUI;
+    public ParticleSystem starEffect;
 
     public GameObject cytokine;
     public FadeController fadeController;
@@ -35,11 +38,22 @@ public class TutorialManager : MonoBehaviour
     public TutorialMinimap minimap;
     public Vector2[] demoBacteriaPositions = { new Vector2(20, 10), new Vector2(-15, 25), new Vector2(10, -20) };
 
+    [Header("Mini-Level Spawning")]
+    public GameObject gammaPrefab;
+    public GameObject bacteriaPrefab;
+    public Transform[] spawnPoints;
+
     private Vector3 initialPlayerPos;
     private HashSet<Vector2> movedDirections = new HashSet<Vector2>();
     private bool hasCalmedGamma = false;
-    public int tutorialStep = 0;
     private bool hasDefeatedBacteria = false;
+
+    public TutorialPhase phase = TutorialPhase.Movement;
+    private int phaseKills = 0;
+    private int totalKills = 0;
+    private int tutorialStep = 0;
+
+    // --- Dialogue ---
 
     private string[] welcomeDialogue = {
         "Welcome to the body, Guardian Explorer! This is Central Body Command here and I have a new mission.",
@@ -47,34 +61,63 @@ public class TutorialManager : MonoBehaviour
         "This will allow us to defend the body against these invaders."
     };
 
-    private string[] immuneCell = {
-    "Nice work! This is an immune cell. They fight invaders.",
-    "They call cytokines for backup, but too many cause chaos."
-};
-
-    private string[] bacteriaDialogue = {
-        "Excellent work! Now let's tackle defeating the bacteria.",
-        "The immune cells in this patient can't defeat the bacteria on their own.",
-        "We have to help them. Fly up to the bacteria and use the medicine button."
+    private string[] movementDialogueAndroid = {
+        "First, learn to move: try forwards, backwards, up, and down.",
+        "Use the joystick to move around!",
+        "Try flying in a circle!"
     };
 
-    private string[] barDialogue1 = {
-    "Perfect! Clear all bacteria to heal the patient."
-};
+    private string[] movementDialoguePC = {
+        "First, learn to move: try forwards, backwards, up, and down.",
+        "Use W for up, A for left, D for right, and S for down.",
+        "Try flying in a circle!"
+    };
 
-    private string[] barDialogue2 = {
-    "Watch the inflammation bar. It rises quickly when inflammation does.",
-    "Too full? Game over."
-};
+    private string[] immuneCellDialogue = {
+        "Nice work! This is an immune cell. They fight invaders.",
+        "They call cytokines for backup, but too many cause chaos."
+    };
 
-    private string[] mapDialogue = {
-    "Red dots on map = bacteria. Clear them all to win!"
-};
+    private string[] gammaPhaseDialogue = {
+        "This is an interferon gamma - a cytokine that excites immune cells.",
+        "Too many and the cells go haywire! Calm them with the medicine button.",
+        "Watch the <b>inflammation bar</b> - it rises with cytokines!"
+    };
+
+    private string[] gammaCalmedDialogue = {
+        "Nice! Bar dropped. Keep cytokines in check!"
+    };
+
+    private string[] bacteriaPhaseDialogue = {
+        "Bacteria incoming! Immune cells need your help.",
+        "Check the <b>map</b> - red dots show bacteria locations.",
+        "Fly to each red dot and use the medicine button to defeat them!"
+    };
+
+    private string[] mixedPhaseDialogue = {
+        "Final test - gammas AND bacteria at once!",
+        "Balance calming cytokines and defeating bacteria.",
+        "You've got this, Guardian Explorer!"
+    };
 
     private string[] endingDialogue = {
-    "<b>Don't miss any bacteria in an area before flying on<b>",
-    "Good luck Guardian! Only you can save the body!"
-};
+        "<b>Hunt red dots, watch the bar - that's how you win!</b>",
+        "Good luck Guardian! Only you can save the body!"
+    };
+
+    private string[] calmGammaDialogueAndroid = {
+        "This is a interferon gamma. A special type of cytokine.",
+        "To calm the gamma, fly up to it and press the medicine button.",
+        "The medicine button is the square on the right."
+    };
+
+    private string[] calmGammaDialoguePC = {
+        "This is a interferon gamma. A special type of cytokine.",
+        "To calm the gamma, fly up to it and press the medicine button or press space.",
+        "The medicine button is the square on the right."
+    };
+
+    // --- Start ---
 
     void Start()
     {
@@ -84,71 +127,37 @@ public class TutorialManager : MonoBehaviour
         medicineButton.SetActive(false);
         completionBar.SetActive(false);
         map.SetActive(false);
+        killCounterUI.gameObject.SetActive(false);
+
         initialPlayerPos = player.position;
+        player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+
         dialogueManager.SetDialogueLines(welcomeDialogue);
         dialogueManager.StartDialogue();
         dialogueManager.onDialogueEnd.AddListener(OnWelcomeEnd);
-        player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
     }
+
+    // --- Update ---
 
     void Update()
     {
-        if (tutorialStep == 1) // Movement tutorial
-        {
+        if (tutorialStep == 1)
             CheckMovement();
-        }
-        else if (tutorialStep == 2) // Calm gamma
-        {
-            CheckCalmedGamma();
-        }
-        else if (tutorialStep == 3) // Bacteria tutorial
-        {
-            CheckBacteriaDefeated();
-        }
-        else if (tutorialStep == 6) // Immune cell approach
-        {
+        else if (tutorialStep == 6)
             CheckImmuneCellApproach();
-        }
     }
 
-    private string[] GetMovementDialogue()
-    {
-#if UNITY_ANDROID || UNITY_IOS
-        return new string[]
-        {
-        "First, learn to move: try forwards, backwards, up, and down.",
-        "Use the joystick to move around!",
-        "Try flying in a circle!" };
-#else
-        return new string[]
-        {
-        "First, learn to move: try forwards, backwards, up, and down.",
-        "Use W for up, A for left, D for right, and S for down.",
-        "Try flying in a circle!" };
-#endif
-    }
+    // --- Phase 1: Movement ---
 
-    private string[] GetCalmGammaDialogue()
-    {
-#if UNITY_ANDROID || UNITY_IOS
-        return new string[] {
-            "This is a interferon gamma. A special type of cytokine.",
-        "To calm the gamma, fly up to the gamma and press the medicine button.",
-        "The medicine button is the square on the right."
-    };
-#else
-return new string[] {
-            "This is a interferon gamma. A special type of cytokine.",
-        "To calm the gamma, fly up to the gamma and press the medicine button or press space.",
-        "The medicine button is the square on the right."
-    };
-#endif
-    }
     void OnWelcomeEnd()
     {
         tutorialStep = 1;
         dialogueManager.onDialogueEnd.RemoveListener(OnWelcomeEnd);
-        dialogueManager.SetDialogueLines(GetMovementDialogue());
+#if UNITY_ANDROID || UNITY_IOS
+        dialogueManager.SetDialogueLines(movementDialogueAndroid);
+#else
+        dialogueManager.SetDialogueLines(movementDialoguePC);
+#endif
         dialogueManager.StartDialogue();
     }
 
@@ -162,35 +171,15 @@ return new string[] {
                 Mathf.RoundToInt(Mathf.Sign(currentPos.x - initialPlayerPos.x)),
                 Mathf.RoundToInt(Mathf.Sign(currentPos.y - initialPlayerPos.y))
             );
-            if (dir != Vector2.zero)
-            {
-                movedDirections.Add(dir);
-            }
-            initialPlayerPos = currentPos; // Update to detect new movements
+            if (dir != Vector2.zero) movedDirections.Add(dir);
+            initialPlayerPos = currentPos;
 
-            if (movedDirections.Count >= 4) // Assume 4 directions detected
-            {
-                ImmuneCell();
-            }
+            if (movedDirections.Count >= 4)
+                SpawnImmuneCellApproach();
         }
     }
 
-    void FlashUIColor(GameObject uiElement)
-    {
-        Graphic[] graphics = uiElement.GetComponentsInChildren<Graphic>();
-        Sequence flashSeq = DOTween.Sequence();
-
-        foreach (Graphic g in graphics)
-        {
-            Color originalColor = g.color;
-            flashSeq.Join(DOTween.To(() => g.color, x => g.color = x, flashColor, flashDuration / 2)
-                .SetLoops(flashLoops * 2, LoopType.Yoyo)
-                .SetEase(Ease.InOutSine));
-        }
-        flashSeq.Play();
-    }
-
-    void ImmuneCell()
+    void SpawnImmuneCellApproach()
     {
         tutorialStep = 6;
         immuneCellPrefab.SetActive(true);
@@ -198,133 +187,209 @@ return new string[] {
         dialogueManager.StartDialogue();
         dialogueManager.onDialogueEnd.AddListener(OnImmuneApproachDialogueEnd);
     }
-    void OnImmuneApproachDialogueEnd()
-    {
-        // Keep listening for approach completion
-    }
+
+    void OnImmuneApproachDialogueEnd() { }
 
     void CheckImmuneCellApproach()
     {
-        float distanceToImmune = Vector3.Distance(player.position, immuneCellPrefab.transform.position);
-
-        if (distanceToImmune <= immuneCellApproachDistance)
-        {
+        float dist = Vector3.Distance(player.position, immuneCellPrefab.transform.position);
+        if (dist <= immuneCellApproachDistance)
             OnImmuneCellReached();
-        }
     }
+
     void OnImmuneCellReached()
     {
-        tutorialStep = 0; // Reset for next phase
-        dialogueManager.SetDialogueLines(immuneCell); // Full immune cell dialogue
+        tutorialStep = 0;
+        dialogueManager.onDialogueEnd.RemoveAllListeners();
+        dialogueManager.SetDialogueLines(immuneCellDialogue);
         dialogueManager.StartDialogue();
-        dialogueManager.onDialogueEnd.AddListener(OnMovementComplete);
+        dialogueManager.onDialogueEnd.AddListener(StartGammaPhase);
     }
 
-    void OnMovementComplete()
+    // --- Phase 2: Gammas ---
+
+    void StartGammaPhase()
     {
         dialogueManager.onDialogueEnd.RemoveAllListeners();
-        tutorialStep = 2;
-        cytokine.SetActive(true);
-        dialogueManager.SetDialogueLines(GetCalmGammaDialogue());
-        dialogueManager.StartDialogue();
+        phase = TutorialPhase.Gammas;
+        phaseKills = 0;
+
         medicineButton.SetActive(true);
         FlashUIColor(medicineButton);
-    }
 
-    public void OnGammaCalmed() // Call this from CytokinesScript.Deactivate or wherever calming happens
-    {
-        if (tutorialStep == 2)
-        {
-            hasCalmedGamma = true;
-        }
-    }
-
-    void CheckCalmedGamma()
-    {
-        if (hasCalmedGamma)
-        {
-            OnGammaComplete();
-        }
-    }
-
-    void OnGammaComplete()
-    {
-        tutorialStep = 3;
-        dialogueManager.SetDialogueLines(bacteriaDialogue);
-        dialogueManager.StartDialogue();
-    }
-    public void OnBacteriaDefeated()
-    {
-        if (tutorialStep == 3)
-        {
-            hasDefeatedBacteria = true;
-        }
-    }
-
-    void CheckBacteriaDefeated()
-    {
-        if (hasDefeatedBacteria)
-        {
-            StartBarTutorial();
-        }
-    }
-
-    void StartBarTutorial()
-    {
-        tutorialStep = 4;
-        dialogueManager.onDialogueEnd.RemoveAllListeners();
-        dialogueManager.SetDialogueLines(barDialogue1);
-        dialogueManager.StartDialogue();
-        dialogueManager.onDialogueEnd.AddListener(EndBarTutorial);
-    }
-
-    void EndBarTutorial()
-    {
-        dialogueManager.onDialogueEnd.RemoveListener(EndBarTutorial);
-        dialogueManager.SetDialogueLines(barDialogue2);
-        dialogueManager.StartDialogue();
         completionBar.SetActive(true);
-        FlashUIColor(completionBar);
-        dialogueManager.onDialogueEnd.AddListener(() => StartCoroutine(BarThenMap()));
-    }
+        killCounterUI.gameObject.SetActive(true);
+        killCounterUI.text = "Gammas Calmed: 0/2";
 
-    IEnumerator BarThenMap()
-    {
-
-        InflammationBar barScript = completionBarFill.GetComponent<InflammationBar>();
-
-        // Smooth rise (0.2 ? 0.7, cytokines bad)
-        barScript.SetInflammation(0.2f);
-        DOTween.To(() => 0.2f, barScript.SetInflammation, 0.7f, 1.2f)
-            .SetEase(Ease.InOutSine);
-        yield return new WaitForSeconds(1.5f);
-
-        // Smooth fall (0.7 ? 0.1, safe)
-        DOTween.To(() => 0.7f, barScript.SetInflammation, 0.1f, 1.2f)
-            .SetEase(Ease.InOutSine);
-        yield return new WaitForSeconds(1.5f);
-
-        MapTutorial();
-    }
-
-    void MapTutorial()
-    {
-        dialogueManager.onDialogueEnd.RemoveAllListeners();
-        dialogueManager.SetDialogueLines(mapDialogue);
+        dialogueManager.SetDialogueLines(gammaPhaseDialogue);
         dialogueManager.StartDialogue();
-        dialogueManager.onDialogueEnd.AddListener(OnTutorialComplete);
+        dialogueManager.onDialogueEnd.AddListener(OnGammaDialogueEnd);
+    }
+
+    void OnGammaDialogueEnd()
+    {
+        dialogueManager.onDialogueEnd.RemoveListener(OnGammaDialogueEnd);
+        StartCoroutine(BarDemo(() =>
+        {
+            SpawnEnemies("gamma", 1);
+#if UNITY_ANDROID || UNITY_IOS
+            dialogueManager.SetDialogueLines(calmGammaDialogueAndroid);
+#else
+            dialogueManager.SetDialogueLines(calmGammaDialoguePC);
+#endif
+            dialogueManager.StartDialogue();
+        }));
+    }
+
+    IEnumerator BarDemo(System.Action onComplete)
+    {
+        InflammationBar barScript = completionBarFill.GetComponent<InflammationBar>();
+        barScript.SetInflammation(0.1f);
+        yield return new WaitForSeconds(0.5f);
+        DOTween.To(() => 0.1f, barScript.SetInflammation, 0.7f, 1.2f).SetEase(Ease.InOutSine);
+        yield return new WaitForSeconds(1.5f);
+        DOTween.To(() => 0.7f, barScript.SetInflammation, 0.1f, 1.2f).SetEase(Ease.InOutSine);
+        yield return new WaitForSeconds(1.5f);
+        onComplete?.Invoke();
+    }
+
+    public void OnGammaCalmed()
+    {
+        if (phase != TutorialPhase.Gammas && phase != TutorialPhase.Mixed) return;
+        OnEnemyKilled();
+
+        if (phase == TutorialPhase.Gammas)
+        {
+            dialogueManager.SetDialogueLines(gammaCalmedDialogue);
+            dialogueManager.StartDialogue();
+
+            if (phaseKills < 2)
+                SpawnEnemies("gamma", 1);
+        }
+    }
+
+    // --- Phase 3: Bacteria ---
+
+    void StartBacteriaPhase()
+    {
+        phase = TutorialPhase.Bacteria;
+        phaseKills = 0;
+        killCounterUI.text = "Bacteria Defeated: 0/3";
+
         map.SetActive(true);
         FlashUIColor(map);
         minimap.SpawnDemoDots(demoBacteriaPositions);
+
+        dialogueManager.onDialogueEnd.RemoveAllListeners();
+        dialogueManager.SetDialogueLines(bacteriaPhaseDialogue);
+        dialogueManager.StartDialogue();
+        dialogueManager.onDialogueEnd.AddListener(OnBacteriaDialogueEnd);
     }
 
-    void OnTutorialComplete()
+    void OnBacteriaDialogueEnd()
     {
-        tutorialStep = 5;
+        dialogueManager.onDialogueEnd.RemoveListener(OnBacteriaDialogueEnd);
+        SpawnEnemies("bacteria", 2);
+    }
+
+    public void OnBacteriaDefeated()
+    {
+        if (phase != TutorialPhase.Bacteria && phase != TutorialPhase.Mixed) return;
+        OnEnemyKilled();
+
+        if (phase == TutorialPhase.Bacteria && phaseKills < 3)
+            SpawnEnemies("bacteria", 1);
+    }
+
+    // --- Phase 4: Mixed ---
+
+    void StartMixedPhase()
+    {
+        phase = TutorialPhase.Mixed;
+        phaseKills = 0;
+        killCounterUI.text = $"Total Kills: {totalKills}/9";
+
+        dialogueManager.onDialogueEnd.RemoveAllListeners();
+        dialogueManager.SetDialogueLines(mixedPhaseDialogue);
+        dialogueManager.StartDialogue();
+        dialogueManager.onDialogueEnd.AddListener(OnMixedDialogueEnd);
+    }
+
+    void OnMixedDialogueEnd()
+    {
+        dialogueManager.onDialogueEnd.RemoveListener(OnMixedDialogueEnd);
+        SpawnEnemies("gamma", 2);
+        SpawnEnemies("bacteria", 2);
+    }
+
+    // --- Kill Tracking ---
+
+    void OnEnemyKilled()
+    {
+        phaseKills++;
+        totalKills++;
+        if (starEffect != null) starEffect.Play();
+        UpdateKillCounter();
+        CheckPhaseComplete();
+    }
+
+    void UpdateKillCounter()
+    {
+        if (phase == TutorialPhase.Gammas)
+            killCounterUI.text = $"Gammas Calmed: {phaseKills}/2";
+        else if (phase == TutorialPhase.Bacteria)
+            killCounterUI.text = $"Bacteria Defeated: {phaseKills}/3";
+        else if (phase == TutorialPhase.Mixed)
+            killCounterUI.text = $"Total Kills: {totalKills}/9";
+    }
+
+    void CheckPhaseComplete()
+    {
+        if (phase == TutorialPhase.Gammas && phaseKills >= 2)
+            StartBacteriaPhase();
+        else if (phase == TutorialPhase.Bacteria && phaseKills >= 3)
+            StartMixedPhase();
+        else if (phase == TutorialPhase.Mixed && totalKills >= 9)
+            Victory();
+    }
+
+    // --- Spawning ---
+
+    void SpawnEnemies(string type, int count)
+    {
+        GameObject prefab = type == "gamma" ? gammaPrefab : bacteriaPrefab;
+        for (int i = 0; i < count; i++)
+        {
+            Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
+            Instantiate(prefab, spawnPoint.position, Quaternion.identity);
+        }
+    }
+
+    // --- Helpers ---
+
+    void FlashUIColor(GameObject uiElement)
+    {
+        Graphic[] graphics = uiElement.GetComponentsInChildren<Graphic>();
+        Sequence flashSeq = DOTween.Sequence();
+        foreach (Graphic g in graphics)
+        {
+            flashSeq.Join(DOTween.To(() => g.color, x => g.color = x, flashColor, flashDuration / 2)
+                .SetLoops(flashLoops * 2, LoopType.Yoyo)
+                .SetEase(Ease.InOutSine));
+        }
+        flashSeq.Play();
+    }
+
+    // --- Victory & Load ---
+
+    void Victory()
+    {
+        dialogueManager.onDialogueEnd.RemoveAllListeners();
         dialogueManager.SetDialogueLines(endingDialogue);
         dialogueManager.StartDialogue();
         dialogueManager.onDialogueEnd.AddListener(LoadLevel);
     }
+
     void LoadLevel()
     {
         dialogueManager.SetDialogueLines(new string[] { "" });
@@ -336,10 +401,8 @@ return new string[] {
     {
         fadeController.FadeIn();
         yield return new WaitForSeconds(2f);
-
         if (ProgressionManager.Instance != null)
             ProgressionManager.Instance.MarkTutorialCompleted();
-
         SceneManager.LoadScene("Level1");
     }
 }
