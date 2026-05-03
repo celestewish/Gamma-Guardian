@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    #region Variables
     public static GameManager Instance;
 
     [Header("Level State")]
@@ -61,8 +62,7 @@ public class GameManager : MonoBehaviour
 {
     "Welcome to the first vessel Guardian Explorer",
     "The infection is swarming this part of the body.",
-    "Take out all the bacteria to save the patient!",
-    "Make sure to take out cytokines too to slow infection."
+    "<b>Take out all the bacteria to save the patient!<b>"
 };
 
     [SerializeField]
@@ -80,8 +80,7 @@ public class GameManager : MonoBehaviour
     {
     "We've made it deeper into the body, Guardian Explorer.",
     "This region is more dangerous than the last.",
-    "Clear the bacteria here and keep the inflammation under control.",
-    "Stay sharp and keep moving!"
+    "Clear the bacteria here and keep the inflammation under control."
 };
 
     [SerializeField]
@@ -99,7 +98,7 @@ public class GameManager : MonoBehaviour
     {
     "Don't give up, Guardian!",
     "That infection was tough, but you can beat it.",
-    "Here's a tip. Prioritize the bacteria, but make sure to calm cytokines when flying by them!",
+    "Here's a tip. <b>Clear bacteria in an area before moving on.<b>",
     "Take a breath and try again!"
 };
     [Header("Level 3 Dialogue")]
@@ -164,7 +163,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private InputActionReference quitAction;
 
     [HideInInspector] public bool displayUp;
-
+    #endregion
+    #region Unity Methods
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -208,24 +208,6 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    private void OnEnable()
-    {
-        if (quitAction != null)
-        {
-            quitAction.action.Enable();
-            quitAction.action.performed += OnQuitPerformed;
-        }
-    }
-
-    private void OnDisable()
-    {
-        if (quitAction != null)
-        {
-            quitAction.action.performed -= OnQuitPerformed;
-            quitAction.action.Disable();
-        }
-    }
-
     void Update()
     {
         if (completionBar != null && inflammationManager != null)
@@ -243,7 +225,8 @@ public class GameManager : MonoBehaviour
 
         displayUp = GetComponent<InfoManager>().IsDisplayUp();
     }
-
+    #endregion
+    #region Helper Methods
     public void StartLevel()
     {
         if (levelRunning) return;
@@ -715,20 +698,6 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(ProgressionManager.Instance.GetCurrentLevelScene());
     }
 
-    private void OnQuitPerformed(InputAction.CallbackContext context)
-    {
-        QuitGame();
-    }
-
-    public void QuitGame()
-    {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
-    }
-
     public void SwitchMode()
     {
         InfoDisplay[] infoArr = Object.FindObjectsByType<InfoDisplay>(FindObjectsSortMode.None);
@@ -755,5 +724,6 @@ public class GameManager : MonoBehaviour
         fadeController.FadeIn();
         yield return new WaitForSeconds(5f);
     }
+    #endregion
 }
 

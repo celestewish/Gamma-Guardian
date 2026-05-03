@@ -166,6 +166,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MinimapRadar
   playerDot: {fileID: 6107864375539033719}
   bacteriaDotPrefab: {fileID: 7169612997844894783, guid: a91267214ba27e94ebb5f49255efd5a2, type: 3}
+  cytokineDotPrefab: {fileID: 4260476137001180466, guid: 142be2c34c72f4644a906c62c8fc0f7b, type: 3}
+  immuneCellDotPrefab: {fileID: 3501774629829732837, guid: b5baac83f2d903f4a8ca249d035c9204, type: 3}
   player: {fileID: 0}
   radarRadius: 50
   uiScale: 1

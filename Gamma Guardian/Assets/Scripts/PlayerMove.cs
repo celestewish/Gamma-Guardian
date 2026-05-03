@@ -169,11 +169,19 @@ public class PlayerMove : MonoBehaviour
         }
         if (closestCytokine != null && closestDistance < 2f)
         {
+            // Try normal cytokine first
             CytokinesScript cytokineScript = closestCytokine.GetComponent<CytokinesScript>();
             if (cytokineScript != null)
             {
-                cytokineScript.deactivated = true;
                 cytokineScript.Deactivate();
+                return;
+            }
+
+            // Fall back to tutorial cytokine
+            TutorialCytokine tutorialCytokine = closestCytokine.GetComponent<TutorialCytokine>();
+            if (tutorialCytokine != null)
+            {
+                tutorialCytokine.Deactivate();
             }
         }
         else
@@ -193,10 +201,10 @@ public class PlayerMove : MonoBehaviour
             if (closestBacteria != null && closestDistance < 2f)
             {
                 BacteriaAI bacteriaScript = closestBacteria.GetComponent<BacteriaAI>();
-                if (bacteriaScript != null)
-                {
-                    bacteriaScript.Die();
-                }
+                if (bacteriaScript != null) { bacteriaScript.Die(); return; }
+
+                TutorialBacteria tutBacteria = closestBacteria.GetComponent<TutorialBacteria>();
+                if (tutBacteria != null) tutBacteria.Die();
             }
         }
 

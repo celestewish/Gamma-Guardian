@@ -1,66 +1,98 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.AI;
 
 public class TutorialBacteria : MonoBehaviour
 {
-    [Header("Tutorial Settings")]
-    public float moveSpeed = 2f;
-    public float stationaryTime = 3f; // Seconds to stay still before "vulnerable"
+
+    [Header("Wander Settings")]
+    public float wanderSpeed = 1.5f;
+    public float wanderChangeInterval = 2f;
+
+    [Header("Pulse Settings")]
+    public float pulseRange = 6f;
+    public float nearRadius = 2f;
 
     [Header("VFX")]
     public GameObject bacteriaPuffPrefab;
 
-    private bool isVulnerable = false;
-    private Vector3 wanderTarget;
-    private TutorialManager tutorialManager;
+    public Transform player;
+    private PulseEffect pulseEffect;
+    private Rigidbody2D rb;
+    private NavMeshAgent agent;
+    private Vector2 wanderDirection;
+    private float wanderTimer;
+    private bool isDead = false;
 
     void Start()
     {
-        tutorialManager = FindFirstObjectByType<TutorialManager>();
-        StartCoroutine(WanderBehavior());
+        rb = GetComponent<Rigidbody2D>();
+        PickNewWanderDirection();
+        wanderTimer = wanderChangeInterval;
+
+        pulseEffect = GetComponentInChildren<PulseEffect>();
+        if (pulseEffect != null) pulseEffect.SetPulseActive(false);
+
+        if (player == null)
+            player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        agent = GetComponent<NavMeshAgent>();
+        if (agent != null)
+        {
+            agent.updateRotation = false;
+            agent.updateUpAxis = false;
+        }
     }
 
     void Update()
     {
-        if (isVulnerable)
+        if (player == null || isDead) return;
+
+        float distToPlayer = Vector2.Distance(transform.position, player.position);
+        Wander();
+
+        // Pulse effect
+        bool shouldPulse = distToPlayer < pulseRange && distToPlayer > nearRadius;
+        if (pulseEffect != null)
         {
-            transform.position = Vector2.MoveTowards(transform.position, wanderTarget, moveSpeed * 0.3f * Time.deltaTime);
-        }
-        else
-        {
-            // Normal wandering
-            transform.position = Vector2.MoveTowards(transform.position, wanderTarget, moveSpeed * Time.deltaTime);
-            if (Vector2.Distance(transform.position, wanderTarget) < 0.1f)
-            {
-                PickNewTarget();
-            }
-        }
-        if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
-        {
-            Deactivate();
+            if (shouldPulse && !pulseEffect.isPulsing) pulseEffect.SetPulseActive(true);
+            else if (!shouldPulse && pulseEffect.isPulsing) pulseEffect.SetPulseActive(false);
         }
     }
 
-    IEnumerator WanderBehavior()
+    void Wander()
     {
-        while (!isVulnerable)
+        wanderTimer -= Time.deltaTime;
+        if (wanderTimer <= 0f)
         {
-            yield return new WaitForSeconds(stationaryTime);
-            isVulnerable = true;
+            PickNewWanderDirection();
+            wanderTimer = wanderChangeInterval;
         }
+        if (rb != null)
+            rb.linearVelocity = wanderDirection * wanderSpeed;
     }
 
-    void PickNewTarget()
+    void PickNewWanderDirection()
     {
-        wanderTarget = (Vector2)transform.position + Random.insideUnitCircle * 5f;
+        float angle = Random.Range(0f, 360f);
+        float rad = angle * Mathf.Deg2Rad;
+        wanderDirection = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)).normalized;
     }
 
-    public void Deactivate()
+    public void Die()
     {
+        if (isDead) return;
+        isDead = true;
+
         if (bacteriaPuffPrefab != null)
             Instantiate(bacteriaPuffPrefab, transform.position, transform.rotation);
-        tutorialManager?.OnBacteriaDefeated();
+
+        if (player != null)
+            player.gameObject.SendMessage("PlayBactDeath", SendMessageOptions.DontRequireReceiver);
+
+        // Notify TutorialManager
+        TutorialManager tutManager = Object.FindFirstObjectByType<TutorialManager>();
+        if (tutManager != null) tutManager.OnBacteriaDefeated();
+
         Destroy(gameObject);
     }
 }
