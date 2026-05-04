@@ -59,21 +59,25 @@ public class DialogueManager : MonoBehaviour
     IEnumerator TypeText(string fullText)
     {
         isTyping = true;
-        dialogueText.maxVisibleCharacters = 0;
+        dialogueText.text = fullText;
+        dialogueText.ForceMeshUpdate();
 
-        foreach (char c in fullText)
+        int totalVisibleChars = dialogueText.textInfo.characterCount;
+        int visibleCount = 0;
+
+        while (visibleCount < totalVisibleChars)
         {
-            // Play sound effect
-            if (sfxSource != null && c != ' ')
+            visibleCount++;
+            dialogueText.maxVisibleCharacters = visibleCount;
+
+            if (sfxSource != null)
             {
                 sfxSource.PlayOneShot(sfxSource.clip);
             }
 
-            dialogueText.maxVisibleCharacters++;
             yield return new WaitForSeconds(charInterval);
         }
 
-        dialogueText.maxVisibleCharacters = fullText.Length;
         isTyping = false;
     }
 
@@ -83,6 +87,7 @@ public class DialogueManager : MonoBehaviour
         {
             // Show full text instantly
             if (typeCoroutine != null) StopCoroutine(typeCoroutine);
+            dialogueText.ForceMeshUpdate();
             dialogueText.maxVisibleCharacters = dialogueText.textInfo.characterCount;
             isTyping = false;
         }
@@ -103,6 +108,7 @@ public class DialogueManager : MonoBehaviour
         if (isTyping)
         {
             if (typeCoroutine != null) StopCoroutine(typeCoroutine);
+            dialogueText.ForceMeshUpdate();
             dialogueText.maxVisibleCharacters = dialogueText.textInfo.characterCount;
             isTyping = false;
         }
