@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 31.2715, y: 8.346}
+  m_AnchoredPosition: {x: 113, y: -119}
   m_SizeDelta: {x: 140.4645, y: 110.7997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &9208501565329681759
@@ -52,7 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ArrowPointer
   circleImage: {fileID: 7879693468952287079}
   arrowImage: {fileID: 1482983293962181057}
-  edgePadding: 50
+  edgePadding: 250
   minDistanceToHide: 5
   bacteriaLayer:
     serializedVersion: 2

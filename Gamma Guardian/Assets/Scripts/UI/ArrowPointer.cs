@@ -6,7 +6,7 @@ public class ArrowPointer : MonoBehaviour
     [Header("UI References")]
     public Image circleImage;
     public Image arrowImage;
-    public float edgePadding = 50f;
+    public float edgePadding = 250f;
 
     [Header("Settings")]
     public float minDistanceToHide = 5f;
@@ -52,7 +52,6 @@ public class ArrowPointer : MonoBehaviour
             return;
         }
 
-        Vector3 dirToTarget = (nearest.position - player.position).normalized;
         Vector3 screenPos = cam.WorldToViewportPoint(nearest.position);
         float distToPlayer = Vector3.Distance(player.position, nearest.position);
 
@@ -66,24 +65,30 @@ public class ArrowPointer : MonoBehaviour
 
         canvasGroup.alpha = 1f;
 
-        // MOVE the whole locator (parent) toward the edge in the target direction
-        Vector2 viewportDir = new Vector2(screenPos.x - 0.5f, screenPos.y - 0.5f).normalized;
+        // Compute direction in viewport space (centered at 0.5, 0.5)
+        Vector2 viewportDir = new Vector2(screenPos.x - 0.5f, screenPos.y - 0.5f);
+
+        // If the target is behind the camera, flip the direction
+        if (screenPos.z < 0) viewportDir = -viewportDir;
+
+        viewportDir.Normalize();
+
+        // MOVE the whole locator toward the edge in the viewport direction
         RectTransform parentRect = (RectTransform)transform.parent;
         float screenRadius = Mathf.Min(parentRect.rect.width, parentRect.rect.height) * 0.45f;
         Vector2 edgeOffset = viewportDir * (screenRadius - edgePadding);
-        rectTransform.anchoredPosition = edgeOffset;   // parent moves; circle + arrow move with it
+        rectTransform.anchoredPosition = edgeOffset;
 
-        // ROTATE circle so that arrow child (anchored on circle edge) points toward bacteria
-        float angle = Mathf.Atan2(dirToTarget.y, dirToTarget.x) * Mathf.Rad2Deg - 90f;
+        // ROTATE circle using the same viewport-space direction so the arrow
+        // consistently points toward the target from the player's screen center
+        float angle = Mathf.Atan2(viewportDir.y, viewportDir.x) * Mathf.Rad2Deg - 90f;
         circleImage.rectTransform.localEulerAngles = new Vector3(0, 0, angle);
 
         // IMPORTANT (done in Inspector, not code):
         // - Arrow is child of circleImage
-        // - Arrow RectTransform anchoredPosition = (radius, 0)
-        // - Arrow localEulerAngles = (0,0,0)
+        // - Arrow RectTransform anchoredPosition = (0, radius) so it sits at top of circle
+        // - Arrow localEulerAngles = (0, 0, 0)
     }
-
-
 
     Transform GetNearestBacteria()
     {
