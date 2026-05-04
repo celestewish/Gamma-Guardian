@@ -160,7 +160,8 @@ public class GameManager : MonoBehaviour
     private float lastKillTime;
     private float comboTimer;
     private string comboType = "Bacteria";
-    [SerializeField] private InputActionReference quitAction;
+
+    private PlayerMove playerMove;
 
     [HideInInspector] public bool displayUp;
     #endregion
@@ -230,6 +231,12 @@ public class GameManager : MonoBehaviour
     public void StartLevel()
     {
         if (levelRunning) return;
+
+        if (playerMove == null)
+            playerMove = FindFirstObjectByType<PlayerMove>();
+
+        if (playerMove != null)
+            playerMove.canMove = false;
 
         uiCanvas = GameObject.Find("UserInterface");
         if (uiCanvas != null)
@@ -326,6 +333,8 @@ public class GameManager : MonoBehaviour
         timerStarted = true;
         introDialogueFinished = true;
         InvokeRepeating(nameof(TickTimer), 1f, 1f);
+        if (playerMove != null)
+            playerMove.canMove = true;
 
         Debug.Log("Gameplay started after dialogue.");
     }
@@ -335,6 +344,8 @@ public class GameManager : MonoBehaviour
         levelRunning = false;
         timerStarted = false;
         CancelInvoke(nameof(TickTimer));
+        if (playerMove != null)
+            playerMove.canMove = false;
 
         if (dialogueManager == null)
             dialogueManager = FindFirstObjectByType<DialogueManager>();

@@ -7,6 +7,7 @@ public class PlayerMove : MonoBehaviour
 
     [SerializeField] private float speedMult;
     [SerializeField] private float maxSpeed;
+    public bool canMove = false; // Starts locked; LevelManager will unlock it
 
     [SerializeField] private FalloffType foType;
     [SerializeField] private float foMult;
@@ -26,6 +27,10 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float actionShowTime = 1f;       // Seconds to show action
     private bool isFacingRight = true;
 
+    [SerializeField] private Color afterimageColor = new Color(0.4f, 0.8f, 1f, 0.5f);
+    [SerializeField] private float afterimageFadeDuration = 0.2f;
+
+
     void Start()
     {
         if (actionSprite != null) actionSprite.gameObject.SetActive(false);
@@ -38,12 +43,20 @@ public class PlayerMove : MonoBehaviour
         if (foMult > .1f) foMult = .1f;
         foVal = foMult;
 
-        //Time.fixedDeltaTime = 0.02f;
         Application.targetFrameRate = 60;
-    }
 
+        // If no LevelManager is present (e.g. Tutorial), unlock movement immediately
+        GameManager lm = FindFirstObjectByType<GameManager>();
+        if (lm == null || !lm.levelRunning)
+            canMove = true;
+    }
     void OnMove(InputValue ip)
     {
+        if (!canMove)
+        {
+            move = Vector2.zero;
+            return;
+        }
         Vector2 newMove = ip.Get<Vector2>();
         /*bool isMoving = newMove.magnitude > 0.3f; // threshold to count as intentional
 
@@ -70,32 +83,89 @@ public class PlayerMove : MonoBehaviour
 
     private bool wasMoving = false;
 
-    [SerializeField] private float dashSpeed = 2.0f;    // multiplier of maxSpeed
-    [SerializeField] private float dashDuration = 0.5f;
-    [SerializeField] private float doubleTapWindow = 0.25f; // seconds between taps to count
-
-    private bool isDashing = false;
-    private Vector2 lastMoveDir = Vector2.zero;
-    private float lastTapTime = -1f;
-    private Vector2 lastTapDir = Vector2.zero;
-
-    private float dashEndTime = -1f;
-    private Vector2 dashDirection;
+    [SerializeField] private float dashImpulse = 50f;   // Impulse force magnitude
+    [SerializeField] private float dashCooldown = 0f; // Seconds before dashing again
+    private float lastDashTime = -999f;
+    [SerializeField] private AudioClip dashSound;
+    [SerializeField] private float dashPitchMin = 0.9f;
+    [SerializeField] private float dashPitchMax = 1.15f;
 
     public void OnDashButton()
     {
-        if (move.magnitude > 0.1f && Time.time >= dashEndTime)
+        if (!canMove) return;
+        if (move.magnitude > 0.1f && Time.time >= lastDashTime + dashCooldown)
         {
-            dashEndTime = Time.time + dashDuration;
-            dashDirection = move.normalized;
+            lastDashTime = Time.time;
+            Vector2 dashDir = move.normalized;
+
+            if (rb.linearVelocity.magnitude > maxSpeed)
+                rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
+
+            rb.AddForce(dashDir * dashImpulse, ForceMode2D.Impulse);
+
+            // Audio: random pitch so repeated dashes don't sound robotic
+            if (dashSound != null)
+            {
+                sfxAudio.pitch = Random.Range(dashPitchMin, dashPitchMax);
+                sfxAudio.PlayOneShot(dashSound);
+            }
+
+            // Visuals: trail flare
+            StartCoroutine(TrailFlare());
+            StartCoroutine(SpawnAfterimage());
         }
     }
 
+    private IEnumerator TrailFlare()
+    {
+        float originalWidth = playerTrail.startWidth;
+        playerTrail.startWidth = originalWidth * 3f;
 
+        float elapsed = 0f;
+        float fadeDuration = 0.15f;
+        while (elapsed < fadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            playerTrail.startWidth = Mathf.Lerp(originalWidth * 3f, originalWidth, elapsed / fadeDuration);
+            yield return null;
+        }
+
+        playerTrail.startWidth = originalWidth;
+    }
+
+    private IEnumerator SpawnAfterimage()
+    {
+        // Create a ghost object at the player's current position/rotation
+        GameObject ghost = new GameObject("DashAfterimage");
+        ghost.transform.position = transform.position;
+        ghost.transform.rotation = transform.rotation;
+        ghost.transform.localScale = transform.localScale;
+
+        // Copy the sprite renderer
+        SpriteRenderer ghostRenderer = ghost.AddComponent<SpriteRenderer>();
+        ghostRenderer.sprite = playerSprite.sprite;
+        ghostRenderer.flipX = playerSprite.flipX;
+        ghostRenderer.sortingLayerName = playerSprite.sortingLayerName;
+        ghostRenderer.sortingOrder = playerSprite.sortingOrder - 1; // render behind player
+        ghostRenderer.color = afterimageColor;
+
+        // Fade out
+        float elapsed = 0f;
+        while (elapsed < afterimageFadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            float alpha = Mathf.Lerp(afterimageColor.a, 0f, elapsed / afterimageFadeDuration);
+            ghostRenderer.color = new Color(afterimageColor.r, afterimageColor.g, afterimageColor.b, alpha);
+            yield return null;
+        }
+
+        Destroy(ghost);
+    }
 
 
     void OnAbility(InputValue value)
     {
+        if (!canMove) return;
         if (value.isPressed)
         {
             PlayerAction();
@@ -105,6 +175,13 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
+        if (!canMove)
+        {
+            move = Vector2.zero;
+            rb.linearVelocity = Vector2.zero;
+            playerTrail.emitting = false;
+            return; // Skip all movement logic below
+        }
         if (rb.linearVelocity.magnitude > 0.1f)
             playerTrail.emitting = true;
         else
@@ -120,9 +197,6 @@ public class PlayerMove : MonoBehaviour
                 if (actionSprite != null) actionSprite.flipX = !isFacingRight;
             }
         }
-        bool isDashing = Time.time < dashEndTime;
-        if (isDashing)
-            rb.linearVelocity = dashDirection * maxSpeed * dashSpeed;
         if (move.magnitude > 0)
         {
             rb.AddForce(move.normalized * speedMult);

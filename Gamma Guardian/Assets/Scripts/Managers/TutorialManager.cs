@@ -74,7 +74,7 @@ public class TutorialManager : MonoBehaviour
     };
 
     private string[] immuneCellDialogue = {
-        "Nice work! This is an immune cell. They fight invaders. They are <b>green<b> on the map.",
+        "Nice work! This is an immune cell. They fight invaders. They are <b>green</b> on the map.",
         "They call cytokines for backup, but too many cause chaos."
     };
 
@@ -85,23 +85,23 @@ public class TutorialManager : MonoBehaviour
     };
 
     private string[] gammaCalmedDialogue = {
-        "Nice! Find the next cytokine! They are <b>blue<b> on the map."
+        "Nice! Find the next cytokine! They are <b>blue</b> on the map."
     };
 
     private string[] bacteriaPhaseDialogue = {
         "Bacteria incoming! Immune cells need your help.",
-        "Check the <b>map</b> - red dots show bacteria locations.",
+        "Check the <b>map</b>! <b>Red dots</b> show bacteria locations.",
         "Fly to each red dot and use the medicine button to defeat them!"
     };
 
     private string[] mixedPhaseDialogue = {
-        "Final test - gammas AND bacteria at once!",
+        "Final test: gammas AND bacteria at once!",
         "Balance calming cytokines and defeating bacteria.",
         "You've got this, Guardian Explorer!"
     };
 
     private string[] endingDialogue = {
-        "<b>Hunt red dots, watch the bar - that's how you win!</b>",
+        "<b>Hunt red dots, watch the bar, and don't miss any bacteria!</b>",
         "Good luck Guardian! Only you can save the body!"
     };
 
