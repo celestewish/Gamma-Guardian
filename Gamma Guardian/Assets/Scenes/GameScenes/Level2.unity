@@ -195,7 +195,7 @@ GameObject:
   m_Component:
   - component: {fileID: 23645687}
   - component: {fileID: 23645688}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TiledForeground_0 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -286,7 +286,7 @@ GameObject:
   m_Component:
   - component: {fileID: 26287133}
   - component: {fileID: 26287134}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TiledForeground_0 (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -673,7 +673,7 @@ GameObject:
   m_Component:
   - component: {fileID: 84730278}
   - component: {fileID: 84730279}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TiledForeground_0 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -857,7 +857,7 @@ GameObject:
   m_Component:
   - component: {fileID: 143675452}
   - component: {fileID: 143675453}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TiledForeground_0 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1085,7 +1085,7 @@ GameObject:
   m_Component:
   - component: {fileID: 220366505}
   - component: {fileID: 220366506}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TiledForeground_0 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1471,7 +1471,7 @@ GameObject:
   m_Component:
   - component: {fileID: 287211592}
   - component: {fileID: 287211593}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TiledForeground_0 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3491,7 +3491,7 @@ MonoBehaviour:
   - Amazing work Guardian!
   - That was the last of the infection!
   - Let's celebrate!!!
-  quitAction: {fileID: 0}
+  displayUp: 0
 --- !u!4 &1050348328
 Transform:
   m_ObjectHideFlags: 0
@@ -3856,7 +3856,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1120701328}
   - component: {fileID: 1120701329}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TiledForeground_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4177,7 +4177,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1212180751}
   - component: {fileID: 1212180752}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TiledForeground_0 (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4387,7 +4387,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1252775349}
   - component: {fileID: 1252775350}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TiledForeground_0 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6463,6 +6463,10 @@ PrefabInstance:
     - target: {fileID: 1108039976956676082, guid: 1bc83ed7419830e4f9ab9534aa04d183, type: 3}
       propertyPath: m_Name
       value: Background
+      objectReference: {fileID: 0}
+    - target: {fileID: 1108039976956676082, guid: 1bc83ed7419830e4f9ab9534aa04d183, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4511773039350480848, guid: 1bc83ed7419830e4f9ab9534aa04d183, type: 3}
       propertyPath: m_LocalPosition.x

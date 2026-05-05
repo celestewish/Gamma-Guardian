@@ -10,6 +10,8 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     #region Variables
+    public event System.Action onGameplayBegin;
+    public event System.Action onGameplayEnd;
     public static GameManager Instance;
 
     [Header("Level State")]
@@ -179,11 +181,6 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         displayUp = GetComponent<InfoManager>().IsDisplayUp();
-        if (playerMove == null)
-            playerMove = FindFirstObjectByType<PlayerMove>();
-
-        if (playerMove != null)
-            playerMove.LockMovement();
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -338,8 +335,8 @@ public class GameManager : MonoBehaviour
         timerStarted = true;
         introDialogueFinished = true;
         InvokeRepeating(nameof(TickTimer), 1f, 1f);
-        if (playerMove != null)
-            playerMove.UnlockMovement();
+
+        onGameplayBegin?.Invoke();
 
         Debug.Log("Gameplay started after dialogue.");
     }
@@ -349,8 +346,7 @@ public class GameManager : MonoBehaviour
         levelRunning = false;
         timerStarted = false;
         CancelInvoke(nameof(TickTimer));
-        if (playerMove != null)
-            playerMove.LockMovement();
+        onGameplayEnd?.Invoke();
 
         if (dialogueManager == null)
             dialogueManager = FindFirstObjectByType<DialogueManager>();

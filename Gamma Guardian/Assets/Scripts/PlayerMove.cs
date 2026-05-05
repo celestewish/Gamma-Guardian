@@ -31,25 +31,47 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float afterimageFadeDuration = 0.2f;
 
 
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        canMove = false;
+
+        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        if (sceneName == "Tutorial")
+            canMove = true;
+    }
+
     void Start()
     {
         if (actionSprite != null) actionSprite.gameObject.SetActive(false);
 
         if (speedMult <= 0) speedMult = 5f;
         move = new Vector2(0, 0);
-        rb = GetComponent<Rigidbody2D>();
+        // rb is already set in Awake, but keep this as safety
+        if (rb == null) rb = GetComponent<Rigidbody2D>();
         playerAudio = GetComponent<PlayerAudioScript>();
 
         if (foMult > .1f) foMult = .1f;
         foVal = foMult;
 
         Application.targetFrameRate = 60;
-
-        canMove = false;
-
-        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-        if (sceneName == "Tutorial")
-            canMove = true;
+        GameManager lm = FindFirstObjectByType<GameManager>();
+        if (lm != null)
+        {
+            lm.onGameplayBegin += UnlockMovement;
+            lm.onGameplayEnd += LockMovement;
+        }
+        baseTrailWidth = playerTrail.startWidth;
+    }
+    void OnDestroy()
+    {
+        // Always unsubscribe to avoid memory leaks
+        GameManager lm = FindFirstObjectByType<GameManager>();
+        if (lm != null)
+        {
+            lm.onGameplayBegin -= UnlockMovement;
+            lm.onGameplayEnd -= LockMovement;
+        }
     }
     public void UnlockMovement()
     {
@@ -99,6 +121,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private AudioClip dashSound;
     [SerializeField] private float dashPitchMin = 0.9f;
     [SerializeField] private float dashPitchMax = 1.15f;
+    private float baseTrailWidth;
 
     public void OnDashButton()
     {
@@ -128,19 +151,18 @@ public class PlayerMove : MonoBehaviour
 
     private IEnumerator TrailFlare()
     {
-        float originalWidth = playerTrail.startWidth;
-        playerTrail.startWidth = originalWidth * 3f;
+        playerTrail.startWidth = baseTrailWidth * 3f;
 
         float elapsed = 0f;
         float fadeDuration = 0.15f;
         while (elapsed < fadeDuration)
         {
             elapsed += Time.deltaTime;
-            playerTrail.startWidth = Mathf.Lerp(originalWidth * 3f, originalWidth, elapsed / fadeDuration);
+            playerTrail.startWidth = Mathf.Lerp(baseTrailWidth * 3f, baseTrailWidth, elapsed / fadeDuration);
             yield return null;
         }
 
-        playerTrail.startWidth = originalWidth;
+        playerTrail.startWidth = baseTrailWidth;
     }
 
     private IEnumerator SpawnAfterimage()
