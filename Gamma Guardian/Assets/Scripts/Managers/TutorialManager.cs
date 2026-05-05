@@ -134,7 +134,6 @@ public class TutorialManager : MonoBehaviour
         killCounterUI.gameObject.SetActive(false);
 
         initialPlayerPos = player.position;
-        player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         if (pauseMenu != null)
             pauseMenu.SetActive(false);
 
@@ -151,6 +150,11 @@ public class TutorialManager : MonoBehaviour
             CheckMovement();
         else if (tutorialStep == 6)
             CheckImmuneCellApproach();
+        if ((Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
+                     || (Gamepad.current != null && Gamepad.current.startButton.wasPressedThisFrame))
+        {
+            TogglePause();
+        }
     }
 
     // --- Phase 1: Movement ---
@@ -169,7 +173,6 @@ public class TutorialManager : MonoBehaviour
 
     void CheckMovement()
     {
-        player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         Vector3 currentPos = player.position;
         if (Vector3.Distance(initialPlayerPos, currentPos) > detectionDistance)
         {
@@ -425,6 +428,7 @@ public class TutorialManager : MonoBehaviour
             pauseMenu.SetActive(isPaused);
 
         Time.timeScale = isPaused ? 0f : 1f;
+        AudioListener.pause = isPaused;
     }
 
     // Hook these to your pause menu buttons

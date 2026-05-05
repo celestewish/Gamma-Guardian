@@ -507,7 +507,7 @@
                     "name": "",
                     "id": "e13b56fa-74c6-48b7-8d95-75490715f4c7",
                     "path": "<Keyboard>/escape",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Pause",

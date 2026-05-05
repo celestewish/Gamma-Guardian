@@ -179,6 +179,11 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         displayUp = GetComponent<InfoManager>().IsDisplayUp();
+        if (playerMove == null)
+            playerMove = FindFirstObjectByType<PlayerMove>();
+
+        if (playerMove != null)
+            playerMove.LockMovement();
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -188,6 +193,12 @@ public class GameManager : MonoBehaviour
         if (sname == mainMenuScene)
         {
             ResetGameState();
+            Button endGame = GameObject.Find("Confirm")?.GetComponent<Button>();
+            if (endGame != null)
+            {
+                endGame.onClick.RemoveAllListeners();
+                endGame.onClick.AddListener(CloseGame);
+            }
             return;
         }
 
@@ -231,12 +242,6 @@ public class GameManager : MonoBehaviour
     public void StartLevel()
     {
         if (levelRunning) return;
-
-        if (playerMove == null)
-            playerMove = FindFirstObjectByType<PlayerMove>();
-
-        if (playerMove != null)
-            playerMove.canMove = false;
 
         uiCanvas = GameObject.Find("UserInterface");
         if (uiCanvas != null)
@@ -334,7 +339,7 @@ public class GameManager : MonoBehaviour
         introDialogueFinished = true;
         InvokeRepeating(nameof(TickTimer), 1f, 1f);
         if (playerMove != null)
-            playerMove.canMove = true;
+            playerMove.UnlockMovement();
 
         Debug.Log("Gameplay started after dialogue.");
     }
@@ -345,7 +350,7 @@ public class GameManager : MonoBehaviour
         timerStarted = false;
         CancelInvoke(nameof(TickTimer));
         if (playerMove != null)
-            playerMove.canMove = false;
+            playerMove.LockMovement();
 
         if (dialogueManager == null)
             dialogueManager = FindFirstObjectByType<DialogueManager>();
@@ -662,6 +667,7 @@ public class GameManager : MonoBehaviour
 
     public void TogglePause()
     {
+        if (SceneManager.GetActiveScene().name == "Tutorial") return;
         if (isPaused) UnpauseGame();
         else PauseGame();
     }

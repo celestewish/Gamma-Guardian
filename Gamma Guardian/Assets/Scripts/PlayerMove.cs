@@ -45,10 +45,20 @@ public class PlayerMove : MonoBehaviour
 
         Application.targetFrameRate = 60;
 
-        // If no LevelManager is present (e.g. Tutorial), unlock movement immediately
-        GameManager lm = FindFirstObjectByType<GameManager>();
-        if (lm == null || !lm.levelRunning)
+        canMove = false;
+
+        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        if (sceneName == "Tutorial")
             canMove = true;
+    }
+    public void UnlockMovement()
+    {
+        canMove = true;
+    }
+
+    public void LockMovement()
+    {
+        canMove = false;
     }
     void OnMove(InputValue ip)
     {
@@ -306,9 +316,9 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    public void OnExit()
+    public void OnPause()
     {
-        GameObject.Find("Game Manager").SendMessage("TogglePause");
+        GameObject.Find("Game Manager").SendMessage("PauseGame");
     }
 
     //enum FalloffLevel
