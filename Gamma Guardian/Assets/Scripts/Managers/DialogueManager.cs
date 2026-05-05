@@ -49,9 +49,20 @@ public class DialogueManager : MonoBehaviour
     // Added public method to start dialogue externally
     public void StartDialogue()
     {
+        // Always stop any current typing first
+        if (typeCoroutine != null)
+        {
+            StopCoroutine(typeCoroutine);
+            typeCoroutine = null;
+        }
+
         if (currentLineIndex < dialogueLines.Count)
         {
+            // Set text once here
             dialogueText.text = dialogueLines[currentLineIndex];
+            dialogueText.maxVisibleCharacters = 0;
+
+            // Now start typing
             typeCoroutine = StartCoroutine(TypeText(dialogueLines[currentLineIndex]));
         }
     }
@@ -59,9 +70,9 @@ public class DialogueManager : MonoBehaviour
     IEnumerator TypeText(string fullText)
     {
         isTyping = true;
-        dialogueText.text = fullText;
-        dialogueText.ForceMeshUpdate();
 
+        // Text is already set in StartDialogue
+        dialogueText.ForceMeshUpdate();
         int totalVisibleChars = dialogueText.textInfo.characterCount;
         int visibleCount = 0;
 
@@ -79,21 +90,32 @@ public class DialogueManager : MonoBehaviour
         }
 
         isTyping = false;
+        typeCoroutine = null;
+    }
+
+    void ShowAllCurrentText()
+    {
+        if (typeCoroutine != null)
+        {
+            StopCoroutine(typeCoroutine);
+            typeCoroutine = null;
+        }
+
+        dialogueText.ForceMeshUpdate();
+        dialogueText.maxVisibleCharacters = dialogueText.textInfo.characterCount;
+        isTyping = false;
     }
 
     void OnNextPressed()
     {
         if (isTyping)
         {
-            // Show full text instantly
-            if (typeCoroutine != null) StopCoroutine(typeCoroutine);
-            dialogueText.ForceMeshUpdate();
-            dialogueText.maxVisibleCharacters = dialogueText.textInfo.characterCount;
-            isTyping = false;
+            ShowAllCurrentText();
+            return;
         }
-        else if (currentLineIndex < dialogueLines.Count - 1)
+
+        if (currentLineIndex < dialogueLines.Count - 1)
         {
-            // Next line
             currentLineIndex++;
             StartDialogue();
         }
@@ -107,12 +129,11 @@ public class DialogueManager : MonoBehaviour
     {
         if (isTyping)
         {
-            if (typeCoroutine != null) StopCoroutine(typeCoroutine);
-            dialogueText.ForceMeshUpdate();
-            dialogueText.maxVisibleCharacters = dialogueText.textInfo.characterCount;
-            isTyping = false;
+            ShowAllCurrentText();
+            return;
         }
-        else if (currentLineIndex > 0)
+
+        if (currentLineIndex > 0)
         {
             currentLineIndex--;
             StartDialogue();

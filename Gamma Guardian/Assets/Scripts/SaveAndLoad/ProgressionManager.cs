@@ -5,6 +5,7 @@ public class ProgressionManager : MonoBehaviour
 {
     public static ProgressionManager Instance;
 
+    private const string IntroSeenKey = "IntroSeen";
     private const string TutorialCompletedKey = "TutorialCompleted";
     private const string CurrentLevelKey = "CurrentLevel";
     private const string HighestUnlockedLevelKey = "HighestUnlockedLevel";
@@ -12,10 +13,11 @@ public class ProgressionManager : MonoBehaviour
     [Header("Scene Names")]
     public string mainMenuSceneName = "MainMenu";
     public string tutorialSceneName = "Tutorial";
+    public string introCutscene = "Intro";
 
     [Header("Level Order")]
     public string[] levelSceneNames = { "Level1", "Level2", "Level3", "Level4", "Level5" };
-
+    public bool IntroSeen => PlayerPrefs.GetInt(IntroSeenKey, 0) == 1;
     public bool TutorialCompleted => PlayerPrefs.GetInt(TutorialCompletedKey, 0) == 1;
     public int CurrentLevel => PlayerPrefs.GetInt(CurrentLevelKey, 1);
     public int HighestUnlockedLevel => PlayerPrefs.GetInt(HighestUnlockedLevelKey, 1);
@@ -36,6 +38,9 @@ public class ProgressionManager : MonoBehaviour
 
     private void InitializeDefaults()
     {
+        if (!PlayerPrefs.HasKey(IntroSeenKey))
+            PlayerPrefs.SetInt(IntroSeenKey, 0);
+
         if (!PlayerPrefs.HasKey(TutorialCompletedKey))
             PlayerPrefs.SetInt(TutorialCompletedKey, 0);
 
@@ -45,6 +50,12 @@ public class ProgressionManager : MonoBehaviour
         if (!PlayerPrefs.HasKey(HighestUnlockedLevelKey))
             PlayerPrefs.SetInt(HighestUnlockedLevelKey, 1);
 
+        PlayerPrefs.Save();
+    }
+
+    public void MarkIntroSeen()
+    {
+        PlayerPrefs.SetInt(IntroSeenKey, 1);
         PlayerPrefs.Save();
     }
 
@@ -94,6 +105,8 @@ public class ProgressionManager : MonoBehaviour
 
     public string GetPlayScene()
     {
+        if (!IntroSeen)
+            return introCutscene;
         if (!TutorialCompleted)
             return tutorialSceneName;
 
@@ -115,6 +128,7 @@ public class ProgressionManager : MonoBehaviour
 
     public void ResetProgress()
     {
+        PlayerPrefs.SetInt(IntroSeenKey, 0);
         PlayerPrefs.SetInt(TutorialCompletedKey, 0);
         PlayerPrefs.SetInt(CurrentLevelKey, 1);
         PlayerPrefs.SetInt(HighestUnlockedLevelKey, 1);
@@ -124,7 +138,7 @@ public class ProgressionManager : MonoBehaviour
     public void ResetProgressAndLoadStart()
     {
         ResetProgress();
-        LoadPlayScene();
+        SceneManager.LoadScene(introCutscene);
     }
 
     public void ClearAllProgressAndSettings()

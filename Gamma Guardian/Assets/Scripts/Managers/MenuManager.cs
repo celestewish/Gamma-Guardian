@@ -269,7 +269,6 @@ public class MenuManager : MonoBehaviour
 
         if (ProgressionManager.Instance == null)
             return;
-
         ProgressionManager.Instance.ResetProgress();
         StartCoroutine(LoadLevelCoroutine(ProgressionManager.Instance.GetPlayScene()));
     }
