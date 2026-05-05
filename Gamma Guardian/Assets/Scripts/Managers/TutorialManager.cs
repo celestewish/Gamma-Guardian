@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Sequence = DG.Tweening.Sequence;
@@ -19,6 +20,10 @@ public class TutorialManager : MonoBehaviour
     public GameObject map;
     public TextMeshProUGUI killCounterUI;
     public ParticleSystem starEffect;
+    [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private Button homeButton;
+    [SerializeField] private Button playButton;
+    [SerializeField] private PlayerInput playerInput;
 
     public GameObject cytokine;
     public FadeController fadeController;
@@ -52,6 +57,7 @@ public class TutorialManager : MonoBehaviour
     private int phaseKills = 0;
     private int totalKills = 0;
     private int tutorialStep = 0;
+    private bool isPaused = false;
 
     // --- Dialogue ---
 
@@ -129,6 +135,8 @@ public class TutorialManager : MonoBehaviour
 
         initialPlayerPos = player.position;
         player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        if (pauseMenu != null)
+            pauseMenu.SetActive(false);
 
         dialogueManager.SetDialogueLines(welcomeDialogue);
         dialogueManager.StartDialogue();
@@ -399,5 +407,36 @@ public class TutorialManager : MonoBehaviour
         if (ProgressionManager.Instance != null)
             ProgressionManager.Instance.MarkTutorialCompleted();
         SceneManager.LoadScene("Level1");
+    }
+
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        // Only react on performed, not started/canceled
+        if (!context.performed) return;
+
+        TogglePause();
+    }
+
+    private void TogglePause()
+    {
+        isPaused = !isPaused;
+
+        if (pauseMenu != null)
+            pauseMenu.SetActive(isPaused);
+
+        Time.timeScale = isPaused ? 0f : 1f;
+    }
+
+    // Hook these to your pause menu buttons
+    public void OnResumeButton()
+    {
+        if (!isPaused) return;
+        TogglePause();
+    }
+
+    public void OnQuitToMainMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu");
     }
 }
