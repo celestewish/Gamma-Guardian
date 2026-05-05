@@ -306,6 +306,11 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    public void OnExit()
+    {
+        GameObject.Find("Game Manager").SendMessage("TogglePause");
+    }
+
     //enum FalloffLevel
     //{
     //    _0 = 0,
