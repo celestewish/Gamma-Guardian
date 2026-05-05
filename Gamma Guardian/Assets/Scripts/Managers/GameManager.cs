@@ -736,5 +736,13 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(5f);
     }
     #endregion
+
+    public void CloseGame()
+    {
+#if UNITY_EDITOR
+UnityEditor.EditorApplication.isPlaying = false;
+#endif
+        Application.Quit();
+    }
 }
 
