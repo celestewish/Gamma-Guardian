@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System.Collections;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -162,6 +163,7 @@ public class GameManager : MonoBehaviour
     private string comboType = "Bacteria";
 
     private PlayerMove playerMove;
+    [HideInInspector] public float timeDelta;
 
     [HideInInspector] public bool displayUp;
     #endregion
@@ -179,6 +181,11 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         displayUp = GetComponent<InfoManager>().IsDisplayUp();
+
+        timeDelta = Time.fixedDeltaTime;
+        timeDelta = (float)Math.Round(timeDelta, 2);
+
+        Debug.Log("TIM DELT: " + timeDelta);
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -276,7 +283,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        BacteriaAI[] bacteria = Object.FindObjectsByType<BacteriaAI>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+        BacteriaAI[] bacteria = GameObject.FindObjectsByType<BacteriaAI>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
         bacteriaCount = bacteria.Length;
 
         inflammationManager = InflammationManager.Instance;
@@ -711,7 +718,7 @@ public class GameManager : MonoBehaviour
 
     public void SwitchMode()
     {
-        InfoDisplay[] infoArr = Object.FindObjectsByType<InfoDisplay>(FindObjectsSortMode.None);
+        InfoDisplay[] infoArr = GameObject.FindObjectsByType<InfoDisplay>(FindObjectsSortMode.None);
         Debug.Log(infoArr.Length + " info displays were found");
 
         if(infoArr == null || infoArr.Length == 0)

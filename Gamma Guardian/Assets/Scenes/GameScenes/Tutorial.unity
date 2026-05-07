@@ -1765,6 +1765,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: InfoMask
       objectReference: {fileID: 0}
+    - target: {fileID: 8010826830848465927, guid: a5f90e7cd8a595942b52f5330d70a2be, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
