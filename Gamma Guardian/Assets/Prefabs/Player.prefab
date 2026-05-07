@@ -709,7 +709,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2824419990811282900}
   - component: {fileID: 558494190495273034}
-  - component: {fileID: 7802655709410301303}
   - component: {fileID: 1047557330125586188}
   m_Layer: 0
   m_Name: MinimapCamera
