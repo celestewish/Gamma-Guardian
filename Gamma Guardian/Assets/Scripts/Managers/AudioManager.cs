@@ -20,7 +20,8 @@ public class AudioManager : MonoBehaviour
     [Header("Scene Names")]
     [SerializeField] private string mainMenuScene = "MainMenu";
     [SerializeField] private string tutorialScene = "Tutorial";
-    [SerializeField] private string introCutsceneScene = "IntroCutscene";
+    [SerializeField] private string glossaryScene = "Glossary";
+    [SerializeField] private string introCutsceneScene = "Intro";
     [SerializeField] private string outroCutsceneScene = "OutroCutscene";
 
     [Header("Level Scenes")]
@@ -33,6 +34,8 @@ public class AudioManager : MonoBehaviour
     [Header("Cutscene Tracks")]
     [SerializeField] private AudioClip introCutsceneTrack;
     [SerializeField] private AudioClip outroCutsceneTrack;
+    [SerializeField] private AudioClip tutorialTrack;
+    [SerializeField] private AudioClip glossaryTrack;
 
     [Header("Music Settings")]
     [SerializeField] private float musicVolume = 1f;
@@ -48,7 +51,8 @@ public class AudioManager : MonoBehaviour
         Level,
         IntroCutscene,
         OutroCutscene,
-        Tutorial
+        Tutorial,
+        Glossary
     }
 
     private MusicMode currentMode = MusicMode.None;
@@ -121,13 +125,24 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
+        if (sceneName == glossaryScene)
+        {
+            if (currentMode != MusicMode.Glossary)
+            {
+                currentMode = MusicMode.Glossary;
+                PlaySingleTrack(glossaryTrack);
+            }
+            return;
+        }
+
         if (sceneName == tutorialScene)
         {
             if (currentMode != MusicMode.Tutorial)
             {
                 currentMode = MusicMode.Tutorial;
-                StartPlaylist(mainMenuPlaylist, mainMenuQueue, shuffleMainMenuPlaylist);
+                PlaySingleTrack(tutorialTrack);
             }
+            return;
         }
 
         if (sceneName == introCutsceneScene)

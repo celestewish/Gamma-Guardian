@@ -1249,7 +1249,8 @@ MonoBehaviour:
   sfxGroup: {fileID: -3993245016419636914, guid: 1bf0ab5e1c72f45448ac14141dc43d25, type: 2}
   mainMenuScene: MainMenu
   tutorialScene: Tutorial
-  introCutsceneScene: IntroCutscene
+  glossaryScene: Glossary
+  introCutsceneScene: Intro
   outroCutsceneScene: OutroCutscene
   levelScenes:
   - Level1
@@ -1265,8 +1266,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e4e76f524607db2408d07e75ddc030e6, type: 3}
   - {fileID: 8300000, guid: 80d9f3045e64db349900bb97d678d3ca, type: 3}
   - {fileID: 8300000, guid: c7d805e835c39d844a3d05b107d142f9, type: 3}
-  introCutsceneTrack: {fileID: 0}
+  introCutsceneTrack: {fileID: 8300000, guid: bd60c55ac3aac154080c8a4edf4a0081, type: 3}
   outroCutsceneTrack: {fileID: 0}
+  tutorialTrack: {fileID: 8300000, guid: 029d324d808840445ae280ed5cd688cc, type: 3}
+  glossaryTrack: {fileID: 8300000, guid: 4be8fc00fc4d4c34490066379f3d04cd, type: 3}
   musicVolume: 0.5
   crossfadeDuration: 1.25
   nextTrackLeadTime: 0.15
@@ -3264,6 +3267,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ProgressionManager
   mainMenuSceneName: MainMenu
   tutorialSceneName: Tutorial
+  introCutscene: Intro
   levelSceneNames:
   - Level1
   - Level2
