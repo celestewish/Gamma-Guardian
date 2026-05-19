@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Sequence = DG.Tweening.Sequence;
+using UnityEngine.IO;
 
 public enum TutorialPhase { Movement = 1, Gammas = 2, Bacteria = 3, Mixed = 4 }
 
@@ -80,7 +81,7 @@ public class TutorialManager : MonoBehaviour
     };
 
     private string[] immuneCellDialogue = {
-        "Nice work! This is an immune cell. They fight invaders. They are <b>green</b> on the map.",
+        /*"Nice work!*/ "This is an immune cell. They fight invaders. They are <b>green</b> on the map.",
         "They call cytokines for backup, but too many cause chaos."
     };
 
@@ -121,6 +122,14 @@ public class TutorialManager : MonoBehaviour
         "The medicine button is the square on the right."
     };
 
+    //Cam Movement stuff
+    private Transform playerCam;
+    private Vector3 targetDir; //direction to move camera
+    private bool isCameraMoving = false;
+    private float camMoveDist = 0;
+    private float timeDelta;
+
+
     // --- Start ---
 
     void Start()
@@ -140,6 +149,11 @@ public class TutorialManager : MonoBehaviour
         dialogueManager.SetDialogueLines(welcomeDialogue);
         dialogueManager.StartDialogue();
         dialogueManager.onDialogueEnd.AddListener(OnWelcomeEnd);
+
+        playerCam = GameObject.FindGameObjectWithTag("MainCamera").transform;
+        timeDelta = Time.fixedDeltaTime;
+
+        Debug.Log("camPos: " + playerCam.position);
     }
 
     // --- Update ---
@@ -150,17 +164,51 @@ public class TutorialManager : MonoBehaviour
             CheckMovement();
         else if (tutorialStep == 6)
             CheckImmuneCellApproach();
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
         if ((Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
                      || (Gamepad.current != null && Gamepad.current.startButton.wasPressedThisFrame))
         {
             TogglePause();
         }
+<<<<<<< Updated upstream
+=======
+
+        //Camera movement
+        if (isCameraMoving)
+        {
+            if (camMoveDist >= targetDir.magnitude)
+            {
+                isCameraMoving = false;
+                return;
+            }
+
+            if (camMoveDist < .6f * targetDir.magnitude)
+            {
+                playerCam.position += targetDir * 1.25f * timeDelta; //2.5
+                camMoveDist += targetDir.magnitude * 1.25f * timeDelta;
+            }
+            else if (camMoveDist < .9f * targetDir.magnitude)
+            {
+                playerCam.position += targetDir * .75f * timeDelta; //1.75
+                camMoveDist += targetDir.magnitude * .75f * timeDelta;
+            }
+            else
+            {
+                playerCam.position += targetDir * .25f * timeDelta; //.5
+                camMoveDist += targetDir.magnitude * .25f * timeDelta;
+            }
+        }
+>>>>>>> Stashed changes
     }
 
     // --- Phase 1: Movement ---
 
     void OnWelcomeEnd()
     {
+        Debug.Log("OnWelcomeEnd test");
         tutorialStep = 1;
         dialogueManager.onDialogueEnd.RemoveListener(OnWelcomeEnd);
 #if UNITY_ANDROID || UNITY_IOS
@@ -173,6 +221,11 @@ public class TutorialManager : MonoBehaviour
 
     void CheckMovement()
     {
+<<<<<<< Updated upstream
+=======
+        player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        //Debug.Log("CheckMovement test");
+>>>>>>> Stashed changes
         Vector3 currentPos = player.position;
         if (Vector3.Distance(initialPlayerPos, currentPos) > detectionDistance)
         {
@@ -190,17 +243,53 @@ public class TutorialManager : MonoBehaviour
 
     void SpawnImmuneCellApproach()
     {
+        StartCoroutine(MoveCamToObj(immuneCellPrefab));
+
+        Debug.Log("SpawnImmuneCellApproach test");
         tutorialStep = 6;
         immuneCellPrefab.SetActive(true);
-        dialogueManager.SetDialogueLines(new string[] { "Follow the arrow back towards the center." });
+        //dialogueManager.SetDialogueLines(new string[] { "Follow the arrow back towards the center." });
         dialogueManager.StartDialogue();
         dialogueManager.onDialogueEnd.AddListener(OnImmuneApproachDialogueEnd);
     }
 
-    void OnImmuneApproachDialogueEnd() { }
+    IEnumerator MoveCamToObj(GameObject obj)
+    {
+        Vector3 immunePos = obj.transform.position;
+        targetDir = new Vector3(immunePos.x, immunePos.y, playerCam.position.z) - playerCam.position;
+        SetMovement(false);
+        isCameraMoving = true;
+        camMoveDist = 0;
+
+        //yield return new WaitForSeconds(1f);
+        dialogueManager.SetDialogueLines(new string[] { "Okay, now please return to the center." }); //"Follow the arrow back towards the center."
+        yield return new WaitForSeconds(2f);
+
+        //immunePos = immuneCellPrefab.transform.position;
+        targetDir = -targetDir; //playerCam.position - new Vector3(immunePos.x, immunePos.y, playerCam.position.z);
+        isCameraMoving = true;
+        camMoveDist = 0;
+        yield return new WaitForSeconds(1f);
+
+        SetMovement(true);
+    }
+
+    void SetMovement(bool moving)
+    {
+        RigidbodyConstraints2D rbCon = (moving) ? RigidbodyConstraints2D.FreezeRotation : 
+            (RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation);
+
+        Rigidbody2D playerRB = GameObject.Find("Player").GetComponent<Rigidbody2D>();
+        playerRB.constraints = rbCon;
+        immuneCellPrefab.GetComponent<Rigidbody2D>().constraints = rbCon;
+        cytokine.GetComponent<Rigidbody2D>().constraints = rbCon;
+    }
+
+    void OnImmuneApproachDialogueEnd() { Debug.Log("OnImmuneApproachDialogueEnd test"); }
 
     void CheckImmuneCellApproach()
     {
+        //Debug.Log("CheckImmuneCellApproach test");
         float dist = Vector3.Distance(player.position, immuneCellPrefab.transform.position);
         if (dist <= immuneCellApproachDistance)
             OnImmuneCellReached();
@@ -208,6 +297,7 @@ public class TutorialManager : MonoBehaviour
 
     void OnImmuneCellReached()
     {
+        Debug.Log("OnImmuneCellReached test");
         tutorialStep = 0;
         dialogueManager.onDialogueEnd.RemoveAllListeners();
         map.SetActive(true);
@@ -221,10 +311,14 @@ public class TutorialManager : MonoBehaviour
 
     void StartGammaPhase()
     {
+        Debug.Log("StartGammaPhase test");
         dialogueManager.onDialogueEnd.RemoveAllListeners();
         phase = TutorialPhase.Gammas;
         phaseKills = 0;
         cytokine.SetActive(true);
+
+        StartCoroutine(MoveCamToObj(cytokine));
+
         medicineButton.SetActive(true);
         FlashUIColor(medicineButton);
 
@@ -239,6 +333,7 @@ public class TutorialManager : MonoBehaviour
 
     void OnGammaDialogueEnd()
     {
+        Debug.Log("OnGammaDialogueEnd test");
         dialogueManager.onDialogueEnd.RemoveListener(OnGammaDialogueEnd);
         StartCoroutine(BarDemo(() =>
         {
@@ -253,6 +348,8 @@ public class TutorialManager : MonoBehaviour
 
     IEnumerator BarDemo(System.Action onComplete)
     {
+        Debug.Log("BarDemo test");
+
         InflammationBar barScript = completionBarFill.GetComponent<InflammationBar>();
         barScript.SetInflammation(0.1f);
         yield return new WaitForSeconds(0.5f);
@@ -265,6 +362,8 @@ public class TutorialManager : MonoBehaviour
 
     public void OnGammaCalmed()
     {
+        Debug.Log("OnGammaCalmed test");
+
         if (phase != TutorialPhase.Gammas && phase != TutorialPhase.Mixed) return;
         OnEnemyKilled();
 
@@ -282,6 +381,8 @@ public class TutorialManager : MonoBehaviour
 
     void StartBacteriaPhase()
     {
+        Debug.Log("StartBacteriaPhase test");
+
         phase = TutorialPhase.Bacteria;
         phaseKills = 0;
         killCounterUI.text = "Bacteria Defeated: 0/3";
@@ -294,12 +395,16 @@ public class TutorialManager : MonoBehaviour
 
     void OnBacteriaDialogueEnd()
     {
+        Debug.Log("OnBacteriaDialogueEnd test");
+
         dialogueManager.onDialogueEnd.RemoveListener(OnBacteriaDialogueEnd);
         SpawnEnemies("bacteria", 1);
     }
 
     public void OnBacteriaDefeated()
     {
+        Debug.Log("OnBacteriaDefeated test");
+
         if (phase != TutorialPhase.Bacteria && phase != TutorialPhase.Mixed) return;
         OnEnemyKilled();
 
@@ -311,6 +416,8 @@ public class TutorialManager : MonoBehaviour
 
     void StartMixedPhase()
     {
+        Debug.Log("StartMixedPhase test");
+
         phase = TutorialPhase.Mixed;
         phaseKills = 0;
         killCounterUI.text = $"Total Kills: {totalKills}/9";
@@ -323,6 +430,8 @@ public class TutorialManager : MonoBehaviour
 
     void OnMixedDialogueEnd()
     {
+        Debug.Log("StartMixedPhase test");
+
         dialogueManager.onDialogueEnd.RemoveListener(OnMixedDialogueEnd);
         SpawnEnemies("gamma", 2);
         SpawnEnemies("bacteria", 2);
@@ -332,6 +441,8 @@ public class TutorialManager : MonoBehaviour
 
     void OnEnemyKilled()
     {
+        Debug.Log("OnEnemyKilled test");
+
         phaseKills++;
         totalKills++;
         if (starEffect != null) starEffect.Play();
@@ -341,6 +452,8 @@ public class TutorialManager : MonoBehaviour
 
     void UpdateKillCounter()
     {
+        Debug.Log("UpdateKillCounter test");
+
         if (phase == TutorialPhase.Gammas)
             killCounterUI.text = $"Gammas Calmed: {phaseKills}/2";
         else if (phase == TutorialPhase.Bacteria)
@@ -351,6 +464,8 @@ public class TutorialManager : MonoBehaviour
 
     void CheckPhaseComplete()
     {
+        Debug.Log("CheckPhaseComplete test");
+
         if (phase == TutorialPhase.Gammas && phaseKills >= 2)
             StartBacteriaPhase();
         else if (phase == TutorialPhase.Bacteria && phaseKills >= 3)
@@ -363,6 +478,8 @@ public class TutorialManager : MonoBehaviour
 
     void SpawnEnemies(string type, int count)
     {
+        Debug.Log("SpawnEnemies test");
+
         GameObject prefab = type == "gamma" ? gammaPrefab : bacteriaPrefab;
         for (int i = 0; i < count; i++)
         {
@@ -375,6 +492,8 @@ public class TutorialManager : MonoBehaviour
 
     void FlashUIColor(GameObject uiElement)
     {
+        Debug.Log("FlashUIColor test");
+
         Graphic[] graphics = uiElement.GetComponentsInChildren<Graphic>();
         Sequence flashSeq = DOTween.Sequence();
         foreach (Graphic g in graphics)
@@ -390,6 +509,8 @@ public class TutorialManager : MonoBehaviour
 
     void Victory()
     {
+        Debug.Log("Victory test");
+
         dialogueManager.onDialogueEnd.RemoveAllListeners();
         dialogueManager.SetDialogueLines(endingDialogue);
         dialogueManager.StartDialogue();
