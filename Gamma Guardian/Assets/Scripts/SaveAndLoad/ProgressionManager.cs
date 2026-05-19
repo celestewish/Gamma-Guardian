@@ -19,6 +19,7 @@ public class ProgressionManager : MonoBehaviour
     public string[] levelSceneNames = { "Level1", "Level2", "Level3", "Level4", "Level5" };
     public bool IntroSeen => PlayerPrefs.GetInt(IntroSeenKey, 0) == 1;
     public bool TutorialCompleted => PlayerPrefs.GetInt(TutorialCompletedKey, 0) == 1;
+    public bool HasCompletedTutorialBefore { get; private set; }
     public int CurrentLevel => PlayerPrefs.GetInt(CurrentLevelKey, 1);
     public int HighestUnlockedLevel => PlayerPrefs.GetInt(HighestUnlockedLevelKey, 1);
     public int MaxLevelCount => levelSceneNames.Length;
@@ -61,13 +62,12 @@ public class ProgressionManager : MonoBehaviour
 
     public void MarkTutorialCompleted()
     {
-        PlayerPrefs.SetInt(TutorialCompletedKey, 1);
-        PlayerPrefs.SetInt(CurrentLevelKey, 1);
-
-        if (HighestUnlockedLevel < 1)
-            PlayerPrefs.SetInt(HighestUnlockedLevelKey, 1);
-
-        PlayerPrefs.Save();
+        if (!HasCompletedTutorialBefore)
+        {
+            HasCompletedTutorialBefore = true;
+            PlayerPrefs.SetInt("TutorialCompleted", 1);
+            PlayerPrefs.Save();
+        }
     }
 
     public void MarkLevelCompleted(int completedLevel)
@@ -124,6 +124,10 @@ public class ProgressionManager : MonoBehaviour
             return;
 
         SceneManager.LoadScene(GetLevelScene(levelIndex));
+    }
+    public void LoadProgress()
+    {
+        HasCompletedTutorialBefore = PlayerPrefs.GetInt("TutorialCompleted", 0) == 1;
     }
 
     public void ResetProgress()

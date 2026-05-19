@@ -27,6 +27,7 @@ public class MenuManager : MonoBehaviour
 
     [Header("Level Select Menu")]
     public GameObject levelSelectCanvas;
+    public Button tutorialButton;
     public Button[] levelButtons = new Button[5];
     public Button levelSelectCloseButton;
 
@@ -100,6 +101,7 @@ public class MenuManager : MonoBehaviour
         if (continueButton != null) continueButton.onClick.AddListener(OnContinuePressed);
         if (restartButton != null) restartButton.onClick.AddListener(OnRestartPressed);
         if (levelSelectButton != null) levelSelectButton.onClick.AddListener(OnLevelSelectPressed);
+        if (tutorialButton != null) tutorialButton.onClick.AddListener(OnTutorialPressed);
         if (playMenuCloseButton != null) playMenuCloseButton.onClick.AddListener(ClosePlayMenu);
 
         if (levelSelectCloseButton != null) levelSelectCloseButton.onClick.AddListener(CloseLevelSelect);
@@ -388,6 +390,12 @@ public class MenuManager : MonoBehaviour
 
         if (settingsCanvas != null)
             settingsCanvas.SetActive(false);
+    }
+
+    void OnTutorialPressed()
+    {
+        PlayClickFeedback(tutorialButton != null ? tutorialButton.transform : null, false);
+        StartCoroutine(LoadLevelCoroutine("Tutorial"));
     }
 
     private IEnumerator LoadLevelCoroutine(string levelName)
