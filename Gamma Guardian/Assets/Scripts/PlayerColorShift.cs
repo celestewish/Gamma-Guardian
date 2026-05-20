@@ -18,7 +18,19 @@ public class PlayerColorShift : MonoBehaviour
     void Start()
     {
         mat = obj.GetComponent<Image>().material;
-        target = mat.GetFloat("_Hue");
+
+        if (PlayerPrefs.HasKey("GuardianHue"))
+        {
+            target = PlayerPrefs.GetFloat("GuardianHue");
+            mat.SetFloat("_Hue", target);
+        }
+        else
+        {
+            target = 0f;
+            mat.SetFloat("_Hue", target);
+            PlayerPrefs.SetFloat("GuardianHue", target);
+        }
+
         Debug.Log("hue shift: "+target);
 
         diff = dir = 0;
@@ -47,6 +59,7 @@ public class PlayerColorShift : MonoBehaviour
             {
                 Debug.Log("diff: " + diffTemp);
                 mat.SetFloat("_Hue", (int)target);
+                PlayerPrefs.SetFloat("GuardianHue", mat.GetFloat("_Hue"));
             }
 
             //resets hue val to be with 0-360

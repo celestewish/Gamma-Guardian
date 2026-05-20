@@ -164,17 +164,11 @@ public class TutorialManager : MonoBehaviour
             CheckMovement();
         else if (tutorialStep == 6)
             CheckImmuneCellApproach();
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
         if ((Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
                      || (Gamepad.current != null && Gamepad.current.startButton.wasPressedThisFrame))
         {
             TogglePause();
         }
-<<<<<<< Updated upstream
-=======
 
         //Camera movement
         if (isCameraMoving)
@@ -201,7 +195,6 @@ public class TutorialManager : MonoBehaviour
                 camMoveDist += targetDir.magnitude * .25f * timeDelta;
             }
         }
->>>>>>> Stashed changes
     }
 
     // --- Phase 1: Movement ---
@@ -221,11 +214,8 @@ public class TutorialManager : MonoBehaviour
 
     void CheckMovement()
     {
-<<<<<<< Updated upstream
-=======
         player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         //Debug.Log("CheckMovement test");
->>>>>>> Stashed changes
         Vector3 currentPos = player.position;
         if (Vector3.Distance(initialPlayerPos, currentPos) > detectionDistance)
         {
