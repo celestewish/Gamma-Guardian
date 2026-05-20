@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class NewPlayerAbilityTest : MonoBehaviour
+public class NewPlayerAbilityTest1 : MonoBehaviour
 {
     Transform[] connectPoints;
     bool isActive = false;
@@ -12,22 +12,15 @@ public class NewPlayerAbilityTest : MonoBehaviour
 
     public float forceVal;
 
-    public AbilityMode mode;
-    private AbilityMode currentMode;
-    public int pulseCount = 3;
-    private float pulseDelay;
-    private float pulseTime=0f;
-
-    public enum AbilityMode {Force, PulseTethered /*, Pulse*/};
-
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         countdown = 0;
     }
 
-    void FixedUpdate()
+    // Update is called once per frame
+    void Update()
     {
-        //Force Handling
         if (isActive)
         {
             if (Input.GetKeyDown(KeyCode.E))
@@ -38,37 +31,17 @@ public class NewPlayerAbilityTest : MonoBehaviour
                 return;
             }
 
-            string pMsg = "Pulses:";
-            if(currentMode == AbilityMode.PulseTethered)
-            {
-                pulseTime += Time.deltaTime;
-            }
-
+            string vMsg = "Vectors: ";
             foreach(Transform tr in connectPoints)
             {
                 if(tr != null)
                 {
                     Vector3 vec = tr.position - transform.position;
                     Debug.DrawRay(transform.position, vec, Color.blue);
-                    Debug.Log("magn: " + vec.magnitude);
-                    Rigidbody2D rb = tr.gameObject.GetComponent<Rigidbody2D>();
+                    vMsg+="\nvec: " + vec + " | " + vec.magnitude;
 
-                    switch (currentMode)
-                    {
-                        case AbilityMode.Force:
-                            rb.linearVelocity = new Vector2(0f, 0f);
-                            rb.AddForce(-vec.normalized * forceVal * 4, ForceMode2D.Force);
-                            break;
-                        case AbilityMode.PulseTethered:
-                            if (pulseTime >= pulseDelay)
-                            {
-                                rb.linearVelocity = new Vector2(0f, 0f);
-                                float mult = (rb.gameObject.tag == "Cytokines")? .2f : 1.25f;
-                                rb.AddForce(-vec.normalized * forceVal * mult, ForceMode2D.Impulse);
-                                pMsg += "\npulsed | " + pulseTime;
-                            }
-                            break;
-                    }
+                    Rigidbody2D rb = tr.gameObject.GetComponent<Rigidbody2D>();
+                    rb.AddForce(-vec.normalized * forceVal);
                     Debug.DrawRay(tr.position, -vec.normalized, Color.orange);
 
                     Vector2 aPos = new Vector2(transform.position.x, transform.position.y);
@@ -78,20 +51,9 @@ public class NewPlayerAbilityTest : MonoBehaviour
                     DebugDrawPolygon(point, .6f, 8, Color.cyan);
                 }
             }
+            Debug.Log(vMsg);
 
-            if(currentMode == AbilityMode.PulseTethered)
-            {
-
-                //Debug.Log("pulseTime: " + pulseTime);
-
-                if (pulseTime >= pulseDelay)
-                    pulseTime -= pulseDelay;
-
-                if(pMsg != "Pulses:")
-                    Debug.Log(pMsg);
-            }
-
-            countdown -=Time.deltaTime;
+            countdown-=Time.deltaTime;
 
             if (countdown <= 0)
             {
@@ -99,33 +61,16 @@ public class NewPlayerAbilityTest : MonoBehaviour
                 Debug.Log("Ability countdown is over");
             }
         }
-        //End of Force Handling
 
-        //Ability Input
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (!isActive)
             {
-                string msg = "Hit Ability button (E)";
-
-                currentMode = mode;
-                if(currentMode == AbilityMode.PulseTethered)
-                {
-                    pulseDelay = abilityTime / pulseCount;
-                    pulseTime = pulseDelay;
-                }
-
-                msg += "\nMode: " + currentMode;
-
+                Debug.Log("Hit E");
                 if (GetClosest())
                 {
                     countdown = abilityTime;
                     isActive = true;
-                    msg += $"\nRange: {abilityRange} | Duration: {abilityTime}";
-                    if (currentMode == AbilityMode.PulseTethered)
-                        msg += $" | Pulse Count: {pulseCount} --> delay of {pulseDelay}\n";
-
-                    Debug.Log(msg);
                 }
                 else
                 {
