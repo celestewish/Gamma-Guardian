@@ -608,13 +608,13 @@ public class GameManager : MonoBehaviour
     }
     public void StartFailDialogue()
     {
+        onGameplayEnd?.Invoke();
         if (dialogueManager == null)
             dialogueManager = FindFirstObjectByType<DialogueManager>();
 
         if (dialogueManager != null)
         {
             waitingForFailDialogue = true;
-
             dialogueManager.onDialogueEnd.RemoveListener(BeginGameplay);
             dialogueManager.onDialogueEnd.RemoveListener(HandleEndDialogueFinished);
             dialogueManager.onDialogueEnd.RemoveListener(HandleFailDialogueFinished);
