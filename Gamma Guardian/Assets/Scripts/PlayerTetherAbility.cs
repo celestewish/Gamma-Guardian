@@ -2,39 +2,44 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class NewPlayerAbilityTest : MonoBehaviour
+public class PlayerTetherAbility : MonoBehaviour
 {
+    [Header("Active Controlling")]
     bool isActive = false;
-    public float abilityTime = 5f;
-    float countdown;
-    public float abilityRange = 10f;
+    public float abilityTime = 3f; //ability uptime
+    float countdown; //keeps track of uptime
+    public float cooldownTime; //base cooldown time
+    float cooldown;
+    public float abilityRange = 7f;
+    public float forceVal = 45;
+    public int maxTetherCount = 3;
 
-    public float forceVal;
+        /* Variables for alt mode with repeated pulse effect; currently unused */
+    //public enum AbilityMode { Force, PulseTethered /*, Pulse*/};
+    //public AbilityMode mode;
+    //private AbilityMode currentMode;
+    //public int pulseCount = 3;
+    //private float pulseDelay;
+    //private float pulseTime=0f;
 
-    public AbilityMode mode;
-    private AbilityMode currentMode;
-    public int pulseCount = 3;
-    private float pulseDelay;
-    private float pulseTime=0f;
-
-    public enum AbilityMode {Force, PulseTethered /*, Pulse*/};
-
+    [Header("Tether VFX")]
+    List<Transform> connectPoints; //transforms for tethered enemies
+    LineRenderer[] beams; //vfx for tethers
+    public GameObject sprite; //prefab for animated "pulse" effect
+    GameObject[] sprites; //
     public Material lineMat;
-
-    Transform[] connectPoints;
-    LineRenderer[] beams;
-    public GameObject sprite;
-    GameObject[] sprites;
 
     void Start()
     {
         countdown = 0;
+        cooldown = 0;
     }
 
+    //initializes the tether vfx
     void MakeTetherLines()
     {
-        beams = new LineRenderer[3];
-        for (int i = 0; i < 3; i++)
+        beams = new LineRenderer[maxTetherCount];
+        for (int i = 0; i < maxTetherCount; i++)
         {
             if (connectPoints[i] == null) break;
 
@@ -48,17 +53,19 @@ public class NewPlayerAbilityTest : MonoBehaviour
             beams[i].endColor = new Color32(25, 106, 220, 200);
         }
 
-        sprites = new GameObject[3];
-        for (int i = 0; i < 3; i++)
+        sprites = new GameObject[maxTetherCount];
+        for (int i = 0; i < maxTetherCount; i++)
         {
             sprites[i] = Instantiate(sprite);
         }
     }
-
-    void EndForceAbility()
+    
+    //reset after ability is over
+    void EndForceAbility(bool canceled)
     {
         isActive = false;
         countdown = 0;
+        cooldown = cooldownTime; //(canceled)? cooldownTime/2f: cooldownTime;
 
         int c = 0;
         string msg = "";
@@ -71,55 +78,53 @@ public class NewPlayerAbilityTest : MonoBehaviour
             msg += (++c) + " ";
         }
 
-        for(int i = 0; i<3; i++)
+        for(int i = 0; i<maxTetherCount; i++)
         {
             Destroy(sprites[i]);
         }
-
-        Debug.Log("first line: " + ((beams[0] == null) ? "Null" : "Not Null"));
     }
 
     void FixedUpdate()
     {
-        //Force Handling
+        //Ability Handling
         if (isActive)
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                EndForceAbility();
+                EndForceAbility(true);
                 Debug.Log("Ability was shut off.");
                 return;
             }
 
-            string pMsg = "Pulses:";
-            if(currentMode == AbilityMode.PulseTethered)
-            {
-                pulseTime += Time.deltaTime;
-            }
-
-            for(int i = 0; i<3; i++)
+            //Handles the physics for each tethered object and vfx for the tethers
+            for(int i = 0; i<maxTetherCount; i++)
             {
                 Transform tr = connectPoints[i];
 
                 if (tr != null)
                 {
+                    //set endpoints for the tether
                     beams[i].SetPosition(0, transform.position);
                     beams[i].SetPosition(1, tr.position);
 
-                    Vector3 vec = tr.position - transform.position;
-                    Debug.DrawRay(transform.position, vec, Color.purple);
-                    //Debug.Log("magn: " + vec.magnitude);
+                    Vector3 vec = tr.position - transform.position; //direction of force
                     Rigidbody2D rb = tr.gameObject.GetComponent<Rigidbody2D>();
 
-                    float distMult;
+                    float distMult; //greater force for greater distance
 
                     if (vec.magnitude > abilityRange)
                         distMult = 2.5f;
+                    else if (vec.magnitude > abilityRange * .75f)
+                        distMult = 2f;
                     else if (vec.magnitude > abilityRange * .5f)
                         distMult = 1.5f;
                     else
-                        distMult = .5f;
+                        distMult = 1f;
+                    
+                    rb.linearVelocity = new Vector2(0f, 0f);
+                    rb.AddForce(-vec.normalized * forceVal * 5f * distMult, ForceMode2D.Force);
 
+                    /*
                     switch (currentMode)
                     {
                         case AbilityMode.Force:
@@ -136,66 +141,74 @@ public class NewPlayerAbilityTest : MonoBehaviour
                             }
                             break;
                     }
-                    Debug.DrawRay(tr.position, -vec.normalized, Color.orange);
+                    //*/
+                    //Debug.DrawRay(tr.position, -vec.normalized, Color.orange);
 
                     Vector2 aPos = new Vector2(transform.position.x, transform.position.y);
                     Vector2 bPos = new Vector2(tr.position.x, tr.position.y);
-                    float outOfOne = (countdown % .5f) / (.5f);
-                    Vector2 point = aPos * (1f - outOfOne) + bPos * outOfOne;
-                    DebugDrawPolygon(point, .6f, 8, Color.magenta);
-
-                    //Vector3 loc = spot.position * temp + transform.position * (1 - temp);
                     float outOftwo = (countdown % .25f) / (.25f);
-                    Vector2 point2 = aPos * (1f - outOftwo) + bPos * outOftwo;
+                    Vector2 point2 = aPos * (1f - outOftwo) + bPos * outOftwo; //weighted midpoint, iterates over time
                     sprites[i].transform.position = point2;
                 }
             }
 
+            /*
             if(currentMode == AbilityMode.PulseTethered)
             {
-
-                //Debug.Log("pulseTime: " + pulseTime);
-
                 if (pulseTime >= pulseDelay)
                     pulseTime -= pulseDelay;
 
                 if(pMsg != "Pulses:")
                     Debug.Log(pMsg);
             }
+            //*/
 
             countdown -=Time.deltaTime;
 
             if (countdown <= 0)
             {
-                EndForceAbility();
-                Debug.Log("Ability countdown is over");
+                EndForceAbility(false);
+                Debug.Log("Ability is over");
             }
         }
-        //End of Force Handling
+        else if(cooldown > 0)
+        {
+            cooldown -= Time.deltaTime;
+        }
+        //End of Ability Handling
 
         //Ability Input
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (!isActive)
             {
+                if(cooldown > 0)
+                {
+                    Debug.Log("Still cooling down");
+                    return;
+                }
+
                 string msg = "Hit Ability button (E)";
 
-                currentMode = mode;
+                //currentMode = mode;
+
+                /*
                 if(currentMode == AbilityMode.PulseTethered)
                 {
                     pulseDelay = abilityTime / pulseCount;
                     pulseTime = pulseDelay;
                 }
+                //*/
 
-                msg += "\nMode: " + currentMode;
+                msg += "\nMode: Force";
 
                 if (GetClosest())
                 {
                     countdown = abilityTime;
                     isActive = true;
-                    msg += $"\nRange: {abilityRange} | Duration: {abilityTime}";
-                    if (currentMode == AbilityMode.PulseTethered)
-                        msg += $" | Pulse Count: {pulseCount} --> delay of {pulseDelay}\n";
+                    msg += $"\nForce: {forceVal} | Range: {abilityRange} | Duration: {abilityTime}";
+                    //if (currentMode == AbilityMode.PulseTethered)
+                    //msg += $" | Pulse Count: {pulseCount} --> delay of {pulseDelay}\n";
 
                     Debug.Log(msg);
                 }
@@ -206,10 +219,13 @@ public class NewPlayerAbilityTest : MonoBehaviour
             }
         }
 
-        Vector2 pos = new Vector2(transform.position.x, transform.position.y);
+        //Vector2 pos = new Vector2(transform.position.x, transform.position.y);
         //DebugDrawPolygon(pos, abilityRange, (int)20, Color.cyan);
     }
 
+    /* Gets all cytokines and bacteria within {abilityRange} and keeps up to the closest {maxTetherCount} of them; 
+     * Returns false if nothing is within range.
+     */
     bool GetClosest()
     {
         GameObject[] cytokines = GameObject.FindGameObjectsWithTag("Cytokines");
@@ -234,34 +250,35 @@ public class NewPlayerAbilityTest : MonoBehaviour
             }
         }
 
-        if(objList.Count == 0)
+        if (objList.Count == 0)
         {
             return false;
         }
 
-        connectPoints = new Transform[3];
-        float[] temp = new float[3];
-        for (int i = 0; i < 3; i++)
-            temp[i] = 999f;
+        connectPoints = new List<Transform>();
+        List<float> temp = new List<float>();
+
+        for (int i = 0; i < maxTetherCount; i++)
+        {
+            temp.Add(999f);
+            connectPoints.Add(null);
+        }
 
         foreach(GameObject obj in objList)
         {
             float dist = Vector3.Distance(transform.position, obj.transform.position);
-            if (dist <= temp[0])
-            {
-                temp[2] = temp[1]; connectPoints[2] = connectPoints[1];
-                temp[1] = temp[0]; connectPoints[1] = connectPoints[0];
-                temp[0] = dist; connectPoints[0] = obj.transform;
-            }
-            else if (dist <= temp[1])
-            {
-                temp[2] = temp[1]; connectPoints[2] = connectPoints[1];
-                temp[1] = dist; connectPoints[1] = obj.transform;
-            }
-            else if (dist < temp[2])
-            {
-                temp[2] = dist; connectPoints[2] = obj.transform;
-            }
+            if (dist >= temp[maxTetherCount - 1]) 
+                continue;
+
+            int index = temp.BinarySearch(dist);
+            if (index < 0) index = ~index;
+
+            Debug.Log(obj.name + " at "+index);
+
+            temp.Insert(index, dist); 
+            temp.RemoveAt(maxTetherCount);
+            connectPoints.Insert(index, obj.transform); 
+            connectPoints.RemoveAt(maxTetherCount);
         }
 
         MakeTetherLines();
@@ -269,32 +286,27 @@ public class NewPlayerAbilityTest : MonoBehaviour
         return true;
     }
 
+    //Helper method for debugging
     //https://docs.unity3d.com/ScriptReference/Mathf.Cos.html
+    /*
     void DebugDrawPolygon(Vector2 center, float radius, int numSides, Color clr)
     {
-        // The corner that is used to start the polygon (parallel to the X axis).
         Vector2 startCorner = new Vector2(radius, 0) + center;
 
-        // The "previous" corner point, initialised to the starting corner.
         Vector2 previousCorner = startCorner;
 
-        // For each corner after the starting corner...
         for (int i = 1; i < numSides; i++)
         {
-            // Calculate the angle of the corner in radians.
             float cornerAngle = 2f * Mathf.PI / (float)numSides * i;
 
-            // Get the X and Y coordinates of the corner point.
             Vector2 currentCorner = new Vector2(Mathf.Cos(cornerAngle) * radius, Mathf.Sin(cornerAngle) * radius) + center;
 
-            // Draw a side of the polygon by connecting the current corner to the previous one.
             Debug.DrawLine(currentCorner, previousCorner, clr);
 
-            // Having used the current corner, it now becomes the previous corner.
             previousCorner = currentCorner;
         }
 
-        // Draw the final side by connecting the last corner to the starting corner.
         Debug.DrawLine(startCorner, previousCorner, clr);
     }
+    //*/
 }
