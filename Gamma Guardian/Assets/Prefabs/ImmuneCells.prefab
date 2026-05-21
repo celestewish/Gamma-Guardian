@@ -110,7 +110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   moveSpeed: 3
   nearRadius: 1.5
-  spawnTime: 3
+  spawnTime: 10
   ICCheckRadius: 2
   cytokines: {fileID: 8881689545613706198, guid: 5ab802797b40e1d4bacdd19d4e47252b, type: 3}
   wanderSpeed: 1.5

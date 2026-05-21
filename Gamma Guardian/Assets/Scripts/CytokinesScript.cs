@@ -72,8 +72,6 @@ public class CytokinesScript : MonoBehaviour
             if (!deactivated)
                 Instantiate(immuneCell, transform.position, Quaternion.identity);
             Instantiate(burst, transform.position, Quaternion.identity);
-            gameObject.BroadcastMessage("RemoveMeFromInfo");
-            Destroy(gameObject);
         }
         float distToPlayer = Vector2.Distance(transform.position, player.position);
         bool shouldPulse = distToPlayer < pulseRange && distToPlayer > 2;  // Between pulseRange & nearRadius
@@ -93,6 +91,8 @@ public class CytokinesScript : MonoBehaviour
             pulseEffect?.SetPulseActive(false);
             Instantiate(healEffect, transform.position, Quaternion.identity);
             deactivated = true;
+            gameObject.BroadcastMessage("RemoveMeFromInfo");
+            Destroy(gameObject, 1f);
             InflammationManager.Instance?.ReduceInflammation(inflammationReduction);
         }
     }
