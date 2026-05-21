@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class NewPlayerAbilityTest : MonoBehaviour
 {
-    Transform[] connectPoints;
     bool isActive = false;
     public float abilityTime = 5f;
     float countdown;
@@ -20,9 +19,64 @@ public class NewPlayerAbilityTest : MonoBehaviour
 
     public enum AbilityMode {Force, PulseTethered /*, Pulse*/};
 
+    public Material lineMat;
+
+    Transform[] connectPoints;
+    LineRenderer[] beams;
+    public GameObject sprite;
+    GameObject[] sprites;
+
     void Start()
     {
         countdown = 0;
+    }
+
+    void MakeTetherLines()
+    {
+        beams = new LineRenderer[3];
+        for (int i = 0; i < 3; i++)
+        {
+            if (connectPoints[i] == null) break;
+
+            connectPoints[i].gameObject.AddComponent<LineRenderer>();
+            beams[i] = connectPoints[i].gameObject.GetComponent<LineRenderer>();
+            beams[i].material = lineMat;
+            beams[i].positionCount = 2;
+            beams[i].startWidth = .25f;
+            beams[i].endWidth = .1f;
+            beams[i].startColor = new Color32(81, 202, 255, 255);
+            beams[i].endColor = new Color32(25, 106, 220, 200);
+        }
+
+        sprites = new GameObject[3];
+        for (int i = 0; i < 3; i++)
+        {
+            sprites[i] = Instantiate(sprite);
+        }
+    }
+
+    void EndForceAbility()
+    {
+        isActive = false;
+        countdown = 0;
+
+        int c = 0;
+        string msg = "";
+
+        foreach (Transform tf in connectPoints)
+        {
+            if(tf == null) break;
+
+            Destroy(tf.gameObject.GetComponent<LineRenderer>());
+            msg += (++c) + " ";
+        }
+
+        for(int i = 0; i<3; i++)
+        {
+            Destroy(sprites[i]);
+        }
+
+        Debug.Log("first line: " + ((beams[0] == null) ? "Null" : "Not Null"));
     }
 
     void FixedUpdate()
@@ -32,9 +86,8 @@ public class NewPlayerAbilityTest : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                countdown = 0;
-                isActive = false;
-                Debug.Log("Ability was shut off");
+                EndForceAbility();
+                Debug.Log("Ability was shut off.");
                 return;
             }
 
@@ -44,27 +97,41 @@ public class NewPlayerAbilityTest : MonoBehaviour
                 pulseTime += Time.deltaTime;
             }
 
-            foreach(Transform tr in connectPoints)
+            for(int i = 0; i<3; i++)
             {
-                if(tr != null)
+                Transform tr = connectPoints[i];
+
+                if (tr != null)
                 {
+                    beams[i].SetPosition(0, transform.position);
+                    beams[i].SetPosition(1, tr.position);
+
                     Vector3 vec = tr.position - transform.position;
-                    Debug.DrawRay(transform.position, vec, Color.blue);
-                    Debug.Log("magn: " + vec.magnitude);
+                    Debug.DrawRay(transform.position, vec, Color.purple);
+                    //Debug.Log("magn: " + vec.magnitude);
                     Rigidbody2D rb = tr.gameObject.GetComponent<Rigidbody2D>();
+
+                    float distMult;
+
+                    if (vec.magnitude > abilityRange)
+                        distMult = 2.5f;
+                    else if (vec.magnitude > abilityRange * .5f)
+                        distMult = 1.5f;
+                    else
+                        distMult = .5f;
 
                     switch (currentMode)
                     {
                         case AbilityMode.Force:
                             rb.linearVelocity = new Vector2(0f, 0f);
-                            rb.AddForce(-vec.normalized * forceVal * 4, ForceMode2D.Force);
+                            rb.AddForce(-vec.normalized * forceVal * 5f * distMult, ForceMode2D.Force);
                             break;
                         case AbilityMode.PulseTethered:
                             if (pulseTime >= pulseDelay)
                             {
                                 rb.linearVelocity = new Vector2(0f, 0f);
-                                float mult = (rb.gameObject.tag == "Cytokines")? .2f : 1.25f;
-                                rb.AddForce(-vec.normalized * forceVal * mult, ForceMode2D.Impulse);
+                                float typeMult = (rb.gameObject.tag == "Cytokines") ? .2f : 1.25f;
+                                rb.AddForce(-vec.normalized * forceVal * typeMult * distMult, ForceMode2D.Impulse);
                                 pMsg += "\npulsed | " + pulseTime;
                             }
                             break;
@@ -73,9 +140,14 @@ public class NewPlayerAbilityTest : MonoBehaviour
 
                     Vector2 aPos = new Vector2(transform.position.x, transform.position.y);
                     Vector2 bPos = new Vector2(tr.position.x, tr.position.y);
-                    float outOfOne = (countdown % .5f)/(.5f);
-                    Vector2 point = aPos*(1-outOfOne) + bPos*(outOfOne);
-                    DebugDrawPolygon(point, .6f, 8, Color.cyan);
+                    float outOfOne = (countdown % .5f) / (.5f);
+                    Vector2 point = aPos * (1f - outOfOne) + bPos * outOfOne;
+                    DebugDrawPolygon(point, .6f, 8, Color.magenta);
+
+                    //Vector3 loc = spot.position * temp + transform.position * (1 - temp);
+                    float outOftwo = (countdown % .25f) / (.25f);
+                    Vector2 point2 = aPos * (1f - outOftwo) + bPos * outOftwo;
+                    sprites[i].transform.position = point2;
                 }
             }
 
@@ -95,7 +167,7 @@ public class NewPlayerAbilityTest : MonoBehaviour
 
             if (countdown <= 0)
             {
-                isActive = false;
+                EndForceAbility();
                 Debug.Log("Ability countdown is over");
             }
         }
@@ -135,7 +207,7 @@ public class NewPlayerAbilityTest : MonoBehaviour
         }
 
         Vector2 pos = new Vector2(transform.position.x, transform.position.y);
-        DebugDrawPolygon(pos, abilityRange, (int)20, Color.yellow);
+        //DebugDrawPolygon(pos, abilityRange, (int)20, Color.cyan);
     }
 
     bool GetClosest()
@@ -191,6 +263,8 @@ public class NewPlayerAbilityTest : MonoBehaviour
                 temp[2] = dist; connectPoints[2] = obj.transform;
             }
         }
+
+        MakeTetherLines();
 
         return true;
     }
