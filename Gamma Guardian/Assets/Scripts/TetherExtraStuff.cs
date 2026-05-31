@@ -12,11 +12,9 @@ public class TetherExtraStuff : MonoBehaviour
     Color cooldownFlashColor;
     public Color failedColor;
 
-    public Color color1;
-    public Color color2;
-
     bool inSequence=false;
-    public float cooldownTest;
+    [HideInInspector]
+    public float cldwn;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -30,32 +28,10 @@ public class TetherExtraStuff : MonoBehaviour
         cooldownColor = Color.HSVToRGB(H, S, V);
         cooldownColor.a = originalColor.a * .8f;
 
-        cooldownFlashColor = cooldownColor*.7f + originalColor * .3f;
+        cooldownFlashColor = cooldownColor*.5f + originalColor * .5f;
         cooldownFlashColor.a *= 1.2f;
 
         //SetActive(true);
-    }
-
-    float stopwatch = 0f;
-
-    void Update()
-    {
-        if(!inSequence && Input.GetKeyDown(KeyCode.P))
-        {
-            inSequence = true;
-            StartCooldown(cooldownTest);
-        }
-
-        if (inSequence)
-        {
-            stopwatch += Time.deltaTime;
-        }
-        else
-        {
-            if(stopwatch > 0f)
-                Debug.Log("stopwatch: "+stopwatch);
-            stopwatch = 0f;
-        }
     }
 
     /*
@@ -68,31 +44,28 @@ public class TetherExtraStuff : MonoBehaviour
     }
     //*/
 
+    IEnumerator ActiveTransition(Color start, Color end, float dur)
+    {
+        float clock = dur;
+
+        while (clock > 0f)
+        {
+            float prog = (clock / dur);
+            Color temp = prog * start + (1 - prog) * end;
+            circle.color = temp;
+            clock -= Time.deltaTime;
+            yield return null;
+        }
+    }
+
     public void SetActive(bool active)
     {
         if (active)
             StartCoroutine(ActiveTransition(originalColor, activeColor, .2f));
         else
-            StartCoroutine(ActiveTransition(activeColor, originalColor, .2f));
-    }
-
-    IEnumerator ActiveTransition(Color start, Color end, float dur)
-    {
-        float clock = dur;
-
-        while(clock > 0f)
         {
-            float prog = (clock / dur);
-            Color temp = prog * start + (1 - prog) * end;
-            circle.color = temp;
-            clock-=Time.deltaTime;
-            yield return null;
+            StartCoroutine(CooldownSequence(cldwn));
         }
-    }
-
-    public void StartCooldown(float cooldown)
-    {
-        StartCoroutine(CooldownSequence(cooldown));
     }
 
     IEnumerator CooldownSequence(float cooldown)
@@ -103,7 +76,7 @@ public class TetherExtraStuff : MonoBehaviour
         float half = cooldown / 2f;
         float temp = 0f;
 
-        yield return StartCoroutine(ActiveTransition(originalColor, cooldownColor, ends));
+        yield return StartCoroutine(ActiveTransition(activeColor, cooldownColor, ends));
         cooldown -= ends;
 
         while (cooldown > 0)
@@ -114,12 +87,9 @@ public class TetherExtraStuff : MonoBehaviour
                 temp -= Time.deltaTime;
                 if (temp <= 0)
                 {
-                    float st = stopwatch;
                     yield return StartCoroutine(ActiveTransition(cooldownColor, cooldownFlashColor, .2f));
-                    Debug.Log($"(EE) before: {st} -> after: {stopwatch} | {stopwatch - st} ");
                     yield return new WaitForSeconds(.2f);
                     yield return StartCoroutine(ActiveTransition(cooldownFlashColor, cooldownColor, .2f));
-                    Debug.Log($"(I) before: {st} -> after: {stopwatch} | {stopwatch - st} ");
 
                     cooldown -= .6f;
                     temp += .4f;
@@ -130,10 +100,10 @@ public class TetherExtraStuff : MonoBehaviour
             yield return null;
         }
 
-        float last = stopwatch;
         yield return StartCoroutine(ActiveTransition(circle.color, originalColor, ends));
-        Debug.Log($"(II) before: {last} -> after: {stopwatch} | {stopwatch-last} ");
+        //Debug.Log($"(II) before: {last} -> after: {stopwatch} | {stopwatch-last} ");
 
         inSequence = false;
     }
+
 }

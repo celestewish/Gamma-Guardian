@@ -29,10 +29,15 @@ public class PlayerTetherAbility : MonoBehaviour
     GameObject[] sprites; //
     public Material lineMat;
 
+    TetherExtraStuff tetherVFX;
+
     void Start()
     {
         countdown = 0;
         cooldown = 0;
+
+        tetherVFX = GetComponent<TetherExtraStuff>();
+        tetherVFX.cldwn = cooldownTime;
     }
 
     //initializes the tether vfx
@@ -82,6 +87,8 @@ public class PlayerTetherAbility : MonoBehaviour
         {
             Destroy(sprites[i]);
         }
+
+        tetherVFX.SetActive(false);
     }
 
     void FixedUpdate()
@@ -206,6 +213,7 @@ public class PlayerTetherAbility : MonoBehaviour
                 {
                     countdown = abilityTime;
                     isActive = true;
+                    tetherVFX.SetActive(true);
                     msg += $"\nForce: {forceVal} | Range: {abilityRange} | Duration: {abilityTime}";
                     //if (currentMode == AbilityMode.PulseTethered)
                     //msg += $" | Pulse Count: {pulseCount} --> delay of {pulseDelay}\n";
