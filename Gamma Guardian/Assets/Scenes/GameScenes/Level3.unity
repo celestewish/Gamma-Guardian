@@ -1450,11 +1450,6 @@ Transform:
   - {fileID: 369618919}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &455920506 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4429506477127064806, guid: f69ad9d59989db4478746abe1b885c3f, type: 3}
-  m_PrefabInstance: {fileID: 1402058223}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &459074141
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5669,20 +5664,14 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7230516569306459849, guid: f69ad9d59989db4478746abe1b885c3f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2119876830}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4429506477127064806, guid: f69ad9d59989db4478746abe1b885c3f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1675282112}
-    - targetCorrespondingSourceObject: {fileID: 4429506477127064806, guid: f69ad9d59989db4478746abe1b885c3f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1675282111}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f69ad9d59989db4478746abe1b885c3f, type: 3}
 --- !u!114 &1402058224 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7146601134386753264, guid: f69ad9d59989db4478746abe1b885c3f, type: 3}
   m_PrefabInstance: {fileID: 1402058223}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 455920506}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1fae63fcdf2e4b543a46ba4c977ad93f, type: 3}
@@ -5693,7 +5682,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5887741873894603475, guid: f69ad9d59989db4478746abe1b885c3f, type: 3}
   m_PrefabInstance: {fileID: 1402058223}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 455920506}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e8c548430bcf974784b2c1a0b755ceb, type: 3}
@@ -7152,41 +7141,6 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 4680105713450864381, guid: f69ad9d59989db4478746abe1b885c3f, type: 3}
   m_PrefabInstance: {fileID: 1402058223}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1675282111
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 455920506}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cb28faea6a595b4cb974a09e54d741c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TetherExtraStuff
-  circle: {fileID: 2119876831}
-  activeColor: {r: 0.60784316, g: 0.86454934, b: 0.90588236, a: 0.627451}
-  failedColor: {r: 0.78616345, g: 0.096416175, b: 0.096416175, a: 0.5529412}
-  cldwn: 0
---- !u!114 &1675282112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 455920506}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64900a0c8b3ef0f41b36f479fb8f0439, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerTetherAbility
-  abilityTime: 3
-  cooldownTime: 5
-  abilityRange: 7.25
-  forceVal: 45
-  maxTetherCount: 3
-  sprite: {fileID: 8588307694251332757, guid: e411fa3457e19c447b162e29daff48d2, type: 3}
-  lineMat: {fileID: 2100000, guid: 1661f2631bb7e0141b388cd9b2090d20, type: 2}
 --- !u!1001 &1687529346
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8704,8 +8658,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2119876830}
   - component: {fileID: 2119876831}
+  - component: {fileID: 2119876835}
+  - component: {fileID: 2119876833}
+  - component: {fileID: 2119876834}
   m_Layer: 9
-  m_Name: Circle
+  m_Name: TetherCircleObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8721,7 +8678,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 28, y: 28, z: 2}
+  m_LocalScale: {x: 28, y: 28, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1252784720}
@@ -8776,7 +8733,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.588782, g: 0.81761, b: 0.75159574, a: 0.47058824}
+  m_Color: {r: 0.5921569, g: 0.78431374, b: 0.74980295, a: 0.47058824}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -8785,6 +8742,82 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!58 &2119876833
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119876829}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 512
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.49999997
+--- !u!114 &2119876834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119876829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cb28faea6a595b4cb974a09e54d741c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TetherExtraStuff
+  activeColor: {r: 0.55248994, g: 0.88576496, b: 0.9496855, a: 0.50980395}
+--- !u!114 &2119876835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119876829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64900a0c8b3ef0f41b36f479fb8f0439, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerTetherAbility
+  abilityTime: 3
+  countdown: 0
+  cooldownTime: 5
+  cooldown: 0
+  abilityRange: 6
+  forceVal: 60
+  maxTetherCount: 2
+  includeTags:
+  - Bacteria
+  - Cytokines
+  sprite: {fileID: 8588307694251332757, guid: e411fa3457e19c447b162e29daff48d2, type: 3}
+  lineMat: {fileID: 2100000, guid: 1661f2631bb7e0141b388cd9b2090d20, type: 2}
+  connectPoints: []
+  beams: []
+  sprites: []
 --- !u!1001 &2124716878
 PrefabInstance:
   m_ObjectHideFlags: 0

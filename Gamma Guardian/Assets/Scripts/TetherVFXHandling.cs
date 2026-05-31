@@ -2,48 +2,60 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class TetherExtraStuff : MonoBehaviour
+public class TetherVFXHandling : MonoBehaviour
 {
-    public SpriteRenderer circle;
+    SpriteRenderer circle;
 
     Color originalColor;
+    Color defaultColor;
     public Color activeColor;
     Color cooldownColor;
     Color cooldownFlashColor;
-    public Color failedColor;
 
-    bool inSequence=false;
-    [HideInInspector]
-    public float cldwn;
+    bool inSequence;
+    float cldwn;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        circle = GetComponent<SpriteRenderer>();
+
         originalColor = circle.color;
         
         float H, S, V;
         Color.RGBToHSV(originalColor, out H, out S, out V);
-        S *= .3f;
-        V *= .8f;
-        cooldownColor = Color.HSVToRGB(H, S, V);
-        cooldownColor.a = originalColor.a * .8f;
+        S *= .7f;
+        V *= .9f;
+        defaultColor = Color.HSVToRGB(H, S, V);
+        defaultColor.a = originalColor.a * .8f;
 
-        cooldownFlashColor = cooldownColor*.5f + originalColor * .5f;
+        Color.RGBToHSV(originalColor, out H, out S, out V);
+        H *= .8f;
+        S *= .15f;
+        V *= .6f;
+        cooldownColor = Color.HSVToRGB(H, S, V);
+        cooldownColor.a = originalColor.a * .7f;
+
+        cooldownFlashColor = cooldownColor*.6f + originalColor * .4f;
         cooldownFlashColor.a *= 1.2f;
 
-        //SetActive(true);
+        circle.color = defaultColor;
+        
+        inSequence = false;
     }
 
-    /*
-    IEnumerator Wait()
+    public void SetCircle(float rad)
     {
-        yield return new WaitForSeconds(1f);
-        SetActive(true);
-        yield return new WaitForSeconds(1f);
-        SetActive(false);
+        Vector3 newScale = new Vector3(rad * 4, rad * 4, 1f);
+        gameObject.transform.localScale = newScale;
     }
-    //*/
 
+    public void SetCooldown(float cool)
+    {
+        cldwn = cool;
+    }
+    
+    //helper method for color transitions
     IEnumerator ActiveTransition(Color start, Color end, float dur)
     {
         float clock = dur;
@@ -58,16 +70,34 @@ public class TetherExtraStuff : MonoBehaviour
         }
     }
 
+    public void SetHasInRange(bool anyInRange)
+    {
+        string msg = $"in seq {inSequence}";
+        if (!inSequence)
+        {
+            msg += $" | in range {anyInRange}";
+
+            Color target = (anyInRange) ? originalColor : defaultColor;
+
+            StartCoroutine(ActiveTransition(circle.color, target, .15f));
+        }
+
+        Debug.Log(msg);
+    }
+
     public void SetActive(bool active)
     {
         if (active)
-            StartCoroutine(ActiveTransition(originalColor, activeColor, .2f));
+        {
+            inSequence = true;
+            StartCoroutine(ActiveTransition(circle.color, activeColor, .2f));
+        }
         else
         {
             StartCoroutine(CooldownSequence(cldwn));
         }
     }
-
+    
     IEnumerator CooldownSequence(float cooldown)
     {
         float ends = .5f;
@@ -84,6 +114,7 @@ public class TetherExtraStuff : MonoBehaviour
             cooldown -= Time.deltaTime;
             if (cooldown <= half)
             {
+                //begins flashing with half time left
                 temp -= Time.deltaTime;
                 if (temp <= 0)
                 {
@@ -93,14 +124,12 @@ public class TetherExtraStuff : MonoBehaviour
 
                     cooldown -= .6f;
                     temp += .4f;
-                    //yield return null;
-                    //continue;
                 }
             }
             yield return null;
         }
 
-        yield return StartCoroutine(ActiveTransition(circle.color, originalColor, ends));
+        yield return StartCoroutine(ActiveTransition(circle.color, defaultColor, ends));
         //Debug.Log($"(II) before: {last} -> after: {stopwatch} | {stopwatch-last} ");
 
         inSequence = false;

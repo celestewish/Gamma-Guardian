@@ -7,14 +7,17 @@ public class PlayerTetherAbility : MonoBehaviour
     [Header("Active Controlling")]
     bool isActive = false;
     public float abilityTime = 3f; //ability uptime
-    float countdown; //keeps track of uptime
-    public float cooldownTime; //base cooldown time
-    float cooldown;
+    [HideInInspector] public float countdown; //keeps track of uptime
+    public float cooldownTime = 3f; //base cooldown time
+    [HideInInspector] public float cooldown;
     public float abilityRange = 7f;
-    public float forceVal = 45;
+    public float forceVal = 50f;
     public int maxTetherCount = 3;
+    public List<string> includeTags;
+    
+    List<GameObject> objList;
 
-        /* Variables for alt mode with repeated pulse effect; currently unused */
+    /* Variables for alt mode with repeated pulse effect; currently unused */
     //public enum AbilityMode { Force, PulseTethered /*, Pulse*/};
     //public AbilityMode mode;
     //private AbilityMode currentMode;
@@ -23,21 +26,21 @@ public class PlayerTetherAbility : MonoBehaviour
     //private float pulseTime=0f;
 
     [Header("Tether VFX")]
-    List<Transform> connectPoints; //transforms for tethered enemies
-    LineRenderer[] beams; //vfx for tethers
     public GameObject sprite; //prefab for animated "pulse" effect
-    GameObject[] sprites; //
     public Material lineMat;
 
-    TetherExtraStuff tetherVFX;
+    [HideInInspector] public List<Transform> connectPoints; //transforms for tethered enemies
+    [HideInInspector] public LineRenderer[] beams; //vfx for tethers
+    [HideInInspector] public GameObject[] sprites; //circle objects that animate along the tethers
 
     void Start()
     {
         countdown = 0;
         cooldown = 0;
 
-        tetherVFX = GetComponent<TetherExtraStuff>();
-        tetherVFX.cldwn = cooldownTime;
+        gameObject.SendMessage("SetCircle", abilityRange);
+        gameObject.SendMessage("SetCooldown", cooldownTime);
+        objList = new List<GameObject>();
     }
 
     //initializes the tether vfx
@@ -88,7 +91,7 @@ public class PlayerTetherAbility : MonoBehaviour
             Destroy(sprites[i]);
         }
 
-        tetherVFX.SetActive(false);
+        gameObject.SendMessage("SetActive", false);
     }
 
     void FixedUpdate()
@@ -122,7 +125,7 @@ public class PlayerTetherAbility : MonoBehaviour
                     if (vec.magnitude > abilityRange)
                         distMult = 2.5f;
                     else if (vec.magnitude > abilityRange * .75f)
-                        distMult = 2f;
+                        distMult = 2.25f;
                     else if (vec.magnitude > abilityRange * .5f)
                         distMult = 1.5f;
                     else
@@ -213,7 +216,7 @@ public class PlayerTetherAbility : MonoBehaviour
                 {
                     countdown = abilityTime;
                     isActive = true;
-                    tetherVFX.SetActive(true);
+                    gameObject.SendMessage("SetActive", true);
                     msg += $"\nForce: {forceVal} | Range: {abilityRange} | Duration: {abilityTime}";
                     //if (currentMode == AbilityMode.PulseTethered)
                     //msg += $" | Pulse Count: {pulseCount} --> delay of {pulseDelay}\n";
@@ -226,45 +229,21 @@ public class PlayerTetherAbility : MonoBehaviour
                 }
             }
         }
-
-        //Vector2 pos = new Vector2(transform.position.x, transform.position.y);
-        //DebugDrawPolygon(pos, abilityRange, (int)20, Color.cyan);
     }
 
-    /* Gets all cytokines and bacteria within {abilityRange} and keeps up to the closest {maxTetherCount} of them; 
-     * Returns false if nothing is within range.
+    /* Gets up to the closest {maxTetherCount} of bacteria and cytokines objects and triggers the tether making; 
+     * Returns true if there are enemies within range; if not, prematurely returns false 
      */
     bool GetClosest()
     {
-        GameObject[] cytokines = GameObject.FindGameObjectsWithTag("Cytokines");
-        GameObject[] bacterias = GameObject.FindGameObjectsWithTag("Bacteria");
-
-        List<GameObject> objList = new List<GameObject>();
-
-        foreach(GameObject cyto in cytokines)
-        {
-            float distance = Vector3.Distance(transform.position, cyto.transform.position);
-            if (distance <= abilityRange)
-            {
-                objList.Add(cyto);
-            }
-        }
-        foreach(GameObject bact in bacterias)
-        {
-            float distance = Vector3.Distance(transform.position, bact.transform.position);
-            if (distance <= abilityRange)
-            {
-                objList.Add(bact);
-            }
-        }
-
+        Debug.Log("Trying GetClosest | count in range: "+objList.Count);
         if (objList.Count == 0)
         {
             return false;
         }
 
         connectPoints = new List<Transform>();
-        List<float> temp = new List<float>();
+        List<float> temp = new List<float>(); //keeps track of distances to be compared to
 
         for (int i = 0; i < maxTetherCount; i++)
         {
@@ -275,14 +254,13 @@ public class PlayerTetherAbility : MonoBehaviour
         foreach(GameObject obj in objList)
         {
             float dist = Vector3.Distance(transform.position, obj.transform.position);
-            if (dist >= temp[maxTetherCount - 1]) 
+            if (dist >= temp[maxTetherCount - 1]) //if dist is more than the greatest currently stored distance
                 continue;
 
             int index = temp.BinarySearch(dist);
             if (index < 0) index = ~index;
 
-            Debug.Log(obj.name + " at "+index);
-
+            //inserts the new object appropriately and cuts off the end
             temp.Insert(index, dist); 
             temp.RemoveAt(maxTetherCount);
             connectPoints.Insert(index, obj.transform); 
@@ -294,27 +272,25 @@ public class PlayerTetherAbility : MonoBehaviour
         return true;
     }
 
-    //Helper method for debugging
-    //https://docs.unity3d.com/ScriptReference/Mathf.Cos.html
-    /*
-    void DebugDrawPolygon(Vector2 center, float radius, int numSides, Color clr)
+    /* Maintains the list of enemies within the range*/
+    void OnTriggerEnter2D(Collider2D coll)
     {
-        Vector2 startCorner = new Vector2(radius, 0) + center;
+        GameObject go = coll.gameObject;
+        if (!includeTags.Contains(go.tag)) return;
 
-        Vector2 previousCorner = startCorner;
-
-        for (int i = 1; i < numSides; i++)
-        {
-            float cornerAngle = 2f * Mathf.PI / (float)numSides * i;
-
-            Vector2 currentCorner = new Vector2(Mathf.Cos(cornerAngle) * radius, Mathf.Sin(cornerAngle) * radius) + center;
-
-            Debug.DrawLine(currentCorner, previousCorner, clr);
-
-            previousCorner = currentCorner;
-        }
-
-        Debug.DrawLine(startCorner, previousCorner, clr);
+        objList.Add(go);
+        //Debug.Log($"{go.name} entered | count = {objList.Count}");
+        if (objList.Count == 1)
+            this.gameObject.SendMessage("SetHasInRange", true);
     }
-    //*/
+    void OnTriggerExit2D(Collider2D coll)
+    {
+        GameObject go = coll.gameObject;
+        if (!includeTags.Contains(go.tag)) return;
+
+        objList.Remove(go);
+        //Debug.Log($"{go.name} exited | count = {objList.Count}");
+        if (objList.Count == 0)
+            this.gameObject.SendMessage("SetHasInRange", false);
+    }
 }
