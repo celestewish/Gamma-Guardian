@@ -8,12 +8,12 @@ public class PlayerTetherAbility : MonoBehaviour
     bool isActive = false;
     public float abilityTime = 3f; //ability uptime
     [HideInInspector] public float countdown; //keeps track of uptime
-    public float cooldownTime = 3f; //base cooldown time
+    public float cooldownTime = 5f; //base cooldown time
     [HideInInspector] public float cooldown;
     public float abilityRange = 7f;
     public float forceVal = 50f;
     public int maxTetherCount = 3;
-    public List<string> includeTags;
+    public List<string> includeTags; //tags of objects to include in trigger
     
     List<GameObject> objList;
 
@@ -22,7 +22,7 @@ public class PlayerTetherAbility : MonoBehaviour
     //public AbilityMode mode;
     //private AbilityMode currentMode;
     //public int pulseCount = 3;
-    //private float pulseDelay;
+    //private float pulseDelay;;
     //private float pulseTime=0f;
 
     [Header("Tether VFX")]
@@ -33,14 +33,20 @@ public class PlayerTetherAbility : MonoBehaviour
     [HideInInspector] public LineRenderer[] beams; //vfx for tethers
     [HideInInspector] public GameObject[] sprites; //circle objects that animate along the tethers
 
+    AudioSource AS;
+    float soundTime;
+
     void Start()
     {
         countdown = 0;
         cooldown = 0;
+        soundTime = 0;
 
         gameObject.SendMessage("SetCircle", abilityRange);
         gameObject.SendMessage("SetCooldown", cooldownTime);
         objList = new List<GameObject>();
+
+        AS = GetComponent<AudioSource>();
     }
 
     //initializes the tether vfx
@@ -74,6 +80,8 @@ public class PlayerTetherAbility : MonoBehaviour
         isActive = false;
         countdown = 0;
         cooldown = cooldownTime; //(canceled)? cooldownTime/2f: cooldownTime;
+        soundTime = 0;
+        AS.Stop();
 
         int c = 0;
         string msg = "";
@@ -106,8 +114,15 @@ public class PlayerTetherAbility : MonoBehaviour
                 return;
             }
 
+            if (soundTime <= 0)
+            {
+                AS.Play();
+                soundTime = .25f;
+            }
+            soundTime -= Time.deltaTime;
+
             //Handles the physics for each tethered object and vfx for the tethers
-            for(int i = 0; i<maxTetherCount; i++)
+            for (int i = 0; i<maxTetherCount; i++)
             {
                 Transform tr = connectPoints[i];
 
@@ -121,7 +136,6 @@ public class PlayerTetherAbility : MonoBehaviour
                     Rigidbody2D rb = tr.gameObject.GetComponent<Rigidbody2D>();
 
                     float distMult; //greater force for greater distance
-
                     if (vec.magnitude > abilityRange)
                         distMult = 2.5f;
                     else if (vec.magnitude > abilityRange * .75f)
@@ -232,7 +246,7 @@ public class PlayerTetherAbility : MonoBehaviour
     }
 
     /* Gets up to the closest {maxTetherCount} of bacteria and cytokines objects and triggers the tether making; 
-     * Returns true if there are enemies within range; if not, prematurely returns false 
+     * Returns true if there are enemies within range; if not, prematurely returns false.
      */
     bool GetClosest()
     {
