@@ -9933,6 +9933,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4208735913195690093, guid: a5f90e7cd8a595942b52f5330d70a2be, type: 3}
+      propertyPath: m_Color.a
+      value: 0.39215687
+      objectReference: {fileID: 0}
     - target: {fileID: 5292301064277488973, guid: a5f90e7cd8a595942b52f5330d70a2be, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

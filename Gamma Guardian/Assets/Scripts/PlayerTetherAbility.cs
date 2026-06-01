@@ -107,13 +107,6 @@ public class PlayerTetherAbility : MonoBehaviour
         //Ability Handling
         if (isActive)
         {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                EndForceAbility(true);
-                Debug.Log("Ability was shut off.");
-                return;
-            }
-
             if (soundTime <= 0)
             {
                 AS.Play();
@@ -204,46 +197,57 @@ public class PlayerTetherAbility : MonoBehaviour
         //Ability Input
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (!isActive)
-            {
-                if(cooldown > 0)
-                {
-                    Debug.Log("Still cooling down");
-                    return;
-                }
-
-                string msg = "Hit Ability button (E)";
-
-                //currentMode = mode;
-
-                /*
-                if(currentMode == AbilityMode.PulseTethered)
-                {
-                    pulseDelay = abilityTime / pulseCount;
-                    pulseTime = pulseDelay;
-                }
-                //*/
-
-                msg += "\nMode: Force";
-
-                if (GetClosest())
-                {
-                    countdown = abilityTime;
-                    isActive = true;
-                    gameObject.SendMessage("SetActive", true);
-                    msg += $"\nForce: {forceVal} | Range: {abilityRange} | Duration: {abilityTime}";
-                    //if (currentMode == AbilityMode.PulseTethered)
-                    //msg += $" | Pulse Count: {pulseCount} --> delay of {pulseDelay}\n";
-
-                    Debug.Log(msg);
-                }
-                else
-                {
-                    Debug.Log("No Objects within range");
-                }
-            }
+            OnAbility();
         }
     }
+
+    public void OnAbility()
+    {
+        if (!isActive)
+        {
+            if (cooldown > 0)
+            {
+                Debug.Log("Still cooling down");
+                return;
+            }
+
+            string msg = "Hit Ability button (E)";
+
+            //currentMode = mode;
+
+            /*
+            if(currentMode == AbilityMode.PulseTethered)
+            {
+                pulseDelay = abilityTime / pulseCount;
+                pulseTime = pulseDelay;
+            }
+            //*/
+
+            msg += "\nMode: Force";
+
+            if (GetClosest())
+            {
+                countdown = abilityTime;
+                isActive = true;
+                gameObject.SendMessage("SetActive", true);
+                msg += $"\nForce: {forceVal} | Range: {abilityRange} | Duration: {abilityTime}";
+                //if (currentMode == AbilityMode.PulseTethered)
+                //msg += $" | Pulse Count: {pulseCount} --> delay of {pulseDelay}\n";
+
+                Debug.Log(msg);
+            }
+            else
+            {
+                Debug.Log("No Objects within range");
+            }
+        }
+        else
+        {
+            EndForceAbility(true);
+            Debug.Log("Ability was shut off.");
+        }
+    }
+
 
     /* Gets up to the closest {maxTetherCount} of bacteria and cytokines objects and triggers the tether making; 
      * Returns true if there are enemies within range; if not, prematurely returns false.
@@ -295,7 +299,7 @@ public class PlayerTetherAbility : MonoBehaviour
         objList.Add(go);
         //Debug.Log($"{go.name} entered | count = {objList.Count}");
         if (objList.Count == 1)
-            this.gameObject.SendMessage("SetHasInRange", true);
+            gameObject.SendMessage("SetHasInRange", true);
     }
     void OnTriggerExit2D(Collider2D coll)
     {
@@ -305,6 +309,6 @@ public class PlayerTetherAbility : MonoBehaviour
         objList.Remove(go);
         //Debug.Log($"{go.name} exited | count = {objList.Count}");
         if (objList.Count == 0)
-            this.gameObject.SendMessage("SetHasInRange", false);
+            gameObject.SendMessage("SetHasInRange", false);
     }
 }
