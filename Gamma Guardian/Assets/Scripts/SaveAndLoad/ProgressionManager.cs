@@ -9,6 +9,7 @@ public class ProgressionManager : MonoBehaviour
     private const string TutorialCompletedKey = "TutorialCompleted";
     private const string CurrentLevelKey = "CurrentLevel";
     private const string HighestUnlockedLevelKey = "HighestUnlockedLevel";
+    private const string OutroSeenKey = "OutroSeen";
 
     [Header("Scene Names")]
     public string mainMenuSceneName = "MainMenu";
@@ -23,6 +24,7 @@ public class ProgressionManager : MonoBehaviour
     public int CurrentLevel => PlayerPrefs.GetInt(CurrentLevelKey, 1);
     public int HighestUnlockedLevel => PlayerPrefs.GetInt(HighestUnlockedLevelKey, 1);
     public int MaxLevelCount => levelSceneNames.Length;
+    public bool OutroSeen => PlayerPrefs.GetInt(OutroSeenKey, 0) == 1;
 
     private void Awake()
     {
@@ -51,6 +53,9 @@ public class ProgressionManager : MonoBehaviour
         if (!PlayerPrefs.HasKey(HighestUnlockedLevelKey))
             PlayerPrefs.SetInt(HighestUnlockedLevelKey, 1);
 
+        if (!PlayerPrefs.HasKey(OutroSeenKey))
+            PlayerPrefs.SetInt(OutroSeenKey, 0);
+
         PlayerPrefs.Save();
     }
 
@@ -78,6 +83,12 @@ public class ProgressionManager : MonoBehaviour
 
         PlayerPrefs.SetInt(CurrentLevelKey, nextLevel);
         PlayerPrefs.SetInt(HighestUnlockedLevelKey, newHighestUnlocked);
+        PlayerPrefs.Save();
+    }
+
+    public void MarkOutroSeen()
+    {
+        PlayerPrefs.SetInt(OutroSeenKey, 1);
         PlayerPrefs.Save();
     }
 
@@ -136,6 +147,7 @@ public class ProgressionManager : MonoBehaviour
         PlayerPrefs.SetInt(TutorialCompletedKey, 0);
         PlayerPrefs.SetInt(CurrentLevelKey, 1);
         PlayerPrefs.SetInt(HighestUnlockedLevelKey, 1);
+        PlayerPrefs.SetInt(OutroSeenKey, 0);
         PlayerPrefs.Save();
     }
 

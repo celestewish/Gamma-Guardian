@@ -7,6 +7,9 @@ using UnityEngine.InputSystem;
 
 public class ComicPageSlider : MonoBehaviour
 {
+    [Header("Mode")]
+    [SerializeField] private bool isOutro = false;
+
     [Header("Comic Page")]
     [SerializeField] private RectTransform comicImage;
     [SerializeField] private Vector2[] panelPositions;
@@ -139,12 +142,11 @@ public class ComicPageSlider : MonoBehaviour
     public void OnNextClicked()
     {
         if (isSliding) return;
-
-        ResetIdleTimer();  // user interacted
+        ResetIdleTimer();
 
         if (currentIndex >= panelPositions.Length - 1)
         {
-            FadeToTutorial();
+            FadeToNextScene(); // was FadeToTutorial()
             return;
         }
 
@@ -165,28 +167,33 @@ public class ComicPageSlider : MonoBehaviour
         UpdateButtons();
     }
 
-    private void FadeToTutorial()
+    private void FadeToNextScene()
     {
         if (fadeController == null)
         {
             Debug.LogWarning("FadeController not set on ComicPageSlider.");
+            HandleSceneTransition();
             return;
         }
 
         Tween t = fadeController.FadeIn();
         if (t != null)
+            t.OnComplete(HandleSceneTransition);
+        else
+            HandleSceneTransition();
+    }
+
+    private void HandleSceneTransition()
+    {
+        if (isOutro)
         {
-            t.OnComplete(() =>
-            {
-                ProgressionManager.Instance.MarkIntroSeen();
-                SceneManager.LoadScene("Tutorial");
-            });
+            ProgressionManager.Instance.MarkOutroSeen();
+            SceneManager.LoadScene("MainMenu");
         }
         else
         {
             ProgressionManager.Instance.MarkIntroSeen();
             SceneManager.LoadScene("Tutorial");
-            Debug.Log("Tutorial started (no fade tween).");
         }
     }
 

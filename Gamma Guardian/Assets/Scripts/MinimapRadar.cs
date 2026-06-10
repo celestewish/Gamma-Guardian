@@ -1,176 +1,99 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
 public class MinimapRadar : MonoBehaviour
 {
-    [Header("UI Dots")]
-    public Image playerDot;
-
-    [Tooltip("Prefab used for bacteria dots")]
+    [Header("Dot Prefabs (World Space, MinimapOnly layer)")]
     public GameObject bacteriaDotPrefab;
-
-    [Tooltip("Prefab used for cytokine dots")]
     public GameObject cytokineDotPrefab;
-
-    [Tooltip("Prefab used for immune cell dots")]
     public GameObject immuneCellDotPrefab;
+    public GameObject playerDotPrefab;
 
+    [Header("Tracking")]
     public Transform player;
 
-    [Header("Radar")]
-    public float radarRadius = 100f;
-    public float uiScale = 0.3f;
+    [Header("Dot Height")]
+    [SerializeField] private float dotZ = 0f; // Z position for all dots
 
-    private RectTransform rectTransform;
-    private Camera uiCam;
+    private GameObject playerDotInstance;
 
-    // Pools
-    private BacteriaDot[] bacteriaDots = new BacteriaDot[10];
-    private BacteriaDot[] cytokineDots = new BacteriaDot[10];
-    private BacteriaDot[] immuneCellDots = new BacteriaDot[10];
+    // Tracked pairs: world object → minimap dot
+    private Dictionary<Transform, GameObject> bacteriaTracked = new Dictionary<Transform, GameObject>();
+    private Dictionary<Transform, GameObject> cytokineTracked = new Dictionary<Transform, GameObject>();
+    private Dictionary<Transform, GameObject> immuneTracked = new Dictionary<Transform, GameObject>();
 
-    private int activeBacteriaDotCount = 0;
-    private int activeCytokineDotCount = 0;
-    private int activeImmuneDotCount = 0;
-
-    void Awake()
-    {
-        rectTransform = GetComponent<RectTransform>();
-        uiCam = rectTransform.GetComponentInParent<Canvas>().worldCamera;
-    }
+    private int minimapLayer;
 
     void Start()
     {
-        // Bacteria pool
-        for (int i = 0; i < bacteriaDots.Length; i++)
-        {
-            GameObject dot = Instantiate(bacteriaDotPrefab, transform);
-            bacteriaDots[i] = dot.GetComponent<BacteriaDot>();
-            bacteriaDots[i].gameObject.SetActive(false);
-        }
+        minimapLayer = LayerMask.NameToLayer("MinimapOnly");
 
-        // Cytokine pool
-        for (int i = 0; i < cytokineDots.Length; i++)
+        if (playerDotPrefab != null && player != null)
         {
-            GameObject dot = Instantiate(cytokineDotPrefab, transform);
-            cytokineDots[i] = dot.GetComponent<BacteriaDot>();
-            cytokineDots[i].gameObject.SetActive(false);
-        }
-
-        // Immune cell pool
-        for (int i = 0; i < immuneCellDots.Length; i++)
-        {
-            GameObject dot = Instantiate(immuneCellDotPrefab, transform);
-            immuneCellDots[i] = dot.GetComponent<BacteriaDot>();
-            immuneCellDots[i].gameObject.SetActive(false);
-        }
-
-        if (playerDot != null)
-        {
-            playerDot.gameObject.SetActive(true);
-            playerDot.color = Color.white;
-            playerDot.rectTransform.anchoredPosition = Vector2.zero;
-            playerDot.rectTransform.localScale = Vector3.one;
+            playerDotInstance = Instantiate(playerDotPrefab);
+            SetLayerRecursively(playerDotInstance, minimapLayer);
         }
     }
 
     void Update()
     {
-        UpdateBacteriaDots();
-        UpdateCytokineDots();
-        UpdateImmuneCellDots();
+        TrackObjects<BacteriaAI>(bacteriaTracked, bacteriaDotPrefab);
+        TrackObjects<TutorialBacteria>(bacteriaTracked, bacteriaDotPrefab);
+        TrackObjects<CytokinesScript>(cytokineTracked, cytokineDotPrefab);
+        TrackObjects<TutorialCytokine>(cytokineTracked, cytokineDotPrefab);
+        TrackObjects<ImmuneCellScript>(immuneTracked, immuneCellDotPrefab);
+
+        // Move player dot
+        if (playerDotInstance != null && player != null)
+            playerDotInstance.transform.position = new Vector3(player.position.x, player.position.y, dotZ);
+
+        // Clean up destroyed tracked objects
+        CleanDestroyed(bacteriaTracked);
+        CleanDestroyed(cytokineTracked);
+        CleanDestroyed(immuneTracked);
     }
 
-    void UpdateBacteriaDots()
+    private void TrackObjects<T>(Dictionary<Transform, GameObject> dict, GameObject prefab) where T : MonoBehaviour
     {
-        activeBacteriaDotCount = 0;
+        T[] found = Object.FindObjectsByType<T>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
 
-        BacteriaAI[] bacteria = Object.FindObjectsByType<BacteriaAI>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
-        TutorialBacteria[] tutorialBacteria = Object.FindObjectsByType<TutorialBacteria>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
-
-        List<Vector3> allPositions = new List<Vector3>();
-        foreach (var b in bacteria) allPositions.Add(b.transform.position);
-        foreach (var t in tutorialBacteria) allPositions.Add(t.transform.position);
-
-        foreach (var pos in allPositions)
+        foreach (var obj in found)
         {
-            if (activeBacteriaDotCount >= bacteriaDots.Length) break;
+            if (dict.ContainsKey(obj.transform)) continue;
 
-            Vector2 relativePos2D = pos - player.position;
-            if (relativePos2D.magnitude > radarRadius) continue;
-
-            Vector2 uiPos = relativePos2D * uiScale;
-            bacteriaDots[activeBacteriaDotCount].SetPosition(uiPos);
-            bacteriaDots[activeBacteriaDotCount].gameObject.SetActive(true);
-            activeBacteriaDotCount++;
+            GameObject dot = Instantiate(prefab);
+            SetLayerRecursively(dot, minimapLayer);
+            dot.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y, dotZ);
+            dict[obj.transform] = dot;
         }
 
-        for (int i = activeBacteriaDotCount; i < bacteriaDots.Length; i++)
+        // Update positions
+        foreach (var kvp in dict)
         {
-            if (bacteriaDots[i].gameObject.activeSelf)
-                bacteriaDots[i].gameObject.SetActive(false);
-        }
-    }
-
-    void UpdateCytokineDots()
-    {
-        activeCytokineDotCount = 0;
-
-        TutorialCytokine[] tutorialCytokines =
-            Object.FindObjectsByType<TutorialCytokine>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
-        CytokinesScript[] cytokines =
-            Object.FindObjectsByType<CytokinesScript>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
-
-        List<Vector3> allPositions = new List<Vector3>();
-        foreach (var c in tutorialCytokines) allPositions.Add(c.transform.position);
-        foreach (var c in cytokines) allPositions.Add(c.transform.position);
-
-        foreach (var pos in allPositions)
-        {
-            if (activeCytokineDotCount >= cytokineDots.Length) break;
-
-            Vector2 relativePos2D = pos - player.position;
-            if (relativePos2D.magnitude > radarRadius) continue;
-
-            Vector2 uiPos = relativePos2D * uiScale;
-            cytokineDots[activeCytokineDotCount].SetPosition(uiPos);
-            cytokineDots[activeCytokineDotCount].gameObject.SetActive(true);
-            activeCytokineDotCount++;
-        }
-
-        for (int i = activeCytokineDotCount; i < cytokineDots.Length; i++)
-        {
-            if (cytokineDots[i].gameObject.activeSelf)
-                cytokineDots[i].gameObject.SetActive(false);
+            if (kvp.Key != null && kvp.Value != null)
+                kvp.Value.transform.position = new Vector3(kvp.Key.position.x, kvp.Key.position.y, dotZ);
         }
     }
 
-    void UpdateImmuneCellDots()
+    private void CleanDestroyed(Dictionary<Transform, GameObject> dict)
     {
-        activeImmuneDotCount = 0;
-
-        ImmuneCellScript[] immuneCells =
-            Object.FindObjectsByType<ImmuneCellScript>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
-
-        foreach (var cell in immuneCells)
+        List<Transform> toRemove = new List<Transform>();
+        foreach (var kvp in dict)
         {
-            if (activeImmuneDotCount >= immuneCellDots.Length) break;
-
-            Vector2 relativePos2D = cell.transform.position - player.position;
-            if (relativePos2D.magnitude > radarRadius) continue;
-
-            Vector2 uiPos = relativePos2D * uiScale;
-            immuneCellDots[activeImmuneDotCount].SetPosition(uiPos);
-            immuneCellDots[activeImmuneDotCount].gameObject.SetActive(true);
-            activeImmuneDotCount++;
+            if (kvp.Key == null)
+            {
+                if (kvp.Value != null) Destroy(kvp.Value);
+                toRemove.Add(kvp.Key);
+            }
         }
+        foreach (var key in toRemove)
+            dict.Remove(key);
+    }
 
-        for (int i = activeImmuneDotCount; i < immuneCellDots.Length; i++)
-        {
-            if (immuneCellDots[i].gameObject.activeSelf)
-                immuneCellDots[i].gameObject.SetActive(false);
-        }
+    private void SetLayerRecursively(GameObject obj, int layer)
+    {
+        obj.layer = layer;
+        foreach (Transform child in obj.transform)
+            SetLayerRecursively(child.gameObject, layer);
     }
 }

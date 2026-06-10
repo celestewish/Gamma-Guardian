@@ -22,7 +22,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private string tutorialScene = "Tutorial";
     [SerializeField] private string glossaryScene = "Glossary";
     [SerializeField] private string introCutsceneScene = "Intro";
-    [SerializeField] private string outroCutsceneScene = "OutroCutscene";
+    [SerializeField] private string outroCutsceneScene = "Ending";
 
     [Header("Level Scenes")]
     [SerializeField] private string[] levelScenes;

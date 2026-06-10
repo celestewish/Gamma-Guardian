@@ -1463,7 +1463,7 @@ MonoBehaviour:
   tutorialScene: Tutorial
   glossaryScene: Glossary
   introCutsceneScene: Intro
-  outroCutsceneScene: OutroCutscene
+  outroCutsceneScene: Ending
   levelScenes:
   - Level1
   - Level2
@@ -1479,7 +1479,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 80d9f3045e64db349900bb97d678d3ca, type: 3}
   - {fileID: 8300000, guid: c7d805e835c39d844a3d05b107d142f9, type: 3}
   introCutsceneTrack: {fileID: 8300000, guid: bd60c55ac3aac154080c8a4edf4a0081, type: 3}
-  outroCutsceneTrack: {fileID: 0}
+  outroCutsceneTrack: {fileID: 8300000, guid: bd60c55ac3aac154080c8a4edf4a0081, type: 3}
   tutorialTrack: {fileID: 8300000, guid: 029d324d808840445ae280ed5cd688cc, type: 3}
   glossaryTrack: {fileID: 8300000, guid: 4be8fc00fc4d4c34490066379f3d04cd, type: 3}
   musicVolume: 0.5
