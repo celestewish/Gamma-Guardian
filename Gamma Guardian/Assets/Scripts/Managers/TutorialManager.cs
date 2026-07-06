@@ -67,60 +67,75 @@ public class TutorialManager : MonoBehaviour
         "Your goal is to help the immune system defeat the infection.",
         "This will allow us to defend the body against these invaders."
     };
+    [SerializeField] private AudioClip[] welcome_clips;
 
     private string[] movementDialogueAndroid = {
         "First, learn to move: try forwards, backwards, up, and down.",
-        "Use the joystick to move around!",
-        "Try flying in a circle!"
+        "Use the joystick to move around. " +
+            "Try flying in a circle!"
     };
+    [SerializeField] private AudioClip[] movement_clips_android;
 
     private string[] movementDialoguePC = {
         "First, learn to move: try forwards, backwards, up, and down.",
-        "Use W for up, A for left, D for right, and S for down.",
-        "Try flying in a circle!"
+        "Use W for up, A for left, D for right, and S for down. " +
+            "Try flying in a circle!"
     };
+    [SerializeField] private AudioClip[] movement_clips_pc;
 
     private string[] immuneCellDialogue = {
-        /*"Nice work!*/ "This is an immune cell. They fight invaders. They are <b>green</b> on the map.",
+        /*"Nice work!*/ "Nice work! This is an immune cell. They fight invaders. They are <b>green</b> on the map.",
         "They call cytokines for backup, but too many cause chaos."
     };
+    [SerializeField] private AudioClip[] immunecell_clips;
 
     private string[] gammaPhaseDialogue = {
         "This is an interferon gamma - a cytokine that excites immune cells.",
         "Too many and the cells go haywire! Calm them with the medicine button.",
         "Watch the <b>inflammation bar</b> - it rises with inflammation!"
     };
+    [SerializeField] private AudioClip[] gamma_phase_clips;
 
     private string[] gammaCalmedDialogue = {
         "Nice! Find the next cytokine! They are <b>blue</b> on the map."
     };
+    [SerializeField] private AudioClip[] gamma_calmed_clips;
 
     private string[] bacteriaPhaseDialogue = {
         "Bacteria incoming! Immune cells need your help.",
         "Check the <b>map</b>! <b>Red dots</b> show bacteria locations.",
         "Fly to each red dot and use the medicine button to defeat them!"
     };
+    [SerializeField] private AudioClip[] bacteria_phase_clips;
 
     private string[] mixedPhaseDialogue = {
         "Final test: gammas AND bacteria at once!",
         "Balance calming cytokines and defeating bacteria.",
         "You've got this, Guardian Explorer!"
     };
+    [SerializeField] private AudioClip[] mixed_phase_clips;
 
     private string[] endingDialogue = {
         "<b>Hunt red dots, watch the bar, and don't miss any bacteria!</b>",
         "Good luck Guardian! Only you can save the body!"
     };
+    [SerializeField] private AudioClip[] ending_clips;
 
     private string[] calmGammaDialogueAndroid = {
         "To calm the gamma, fly up to it and press the medicine button.",
         "The medicine button is the square on the right."
     };
+    [SerializeField] private AudioClip[] gamma_clips_android;
 
     private string[] calmGammaDialoguePC = {
         "To calm the gamma, fly up to it and press the medicine button or press space.",
         "The medicine button is the square on the right."
     };
+    [SerializeField] private AudioClip[] gamma_clips_pc;
+
+    AudioClip[] currentClips;
+    AudioSource VO_source;
+    int clipIndex;
 
     //Cam Movement stuff
     private Transform playerCam;
@@ -146,14 +161,27 @@ public class TutorialManager : MonoBehaviour
         if (pauseMenu != null)
             pauseMenu.SetActive(false);
 
+        GameObject temp = GameObject.Find("AudioManager");
+        if (temp != null)
+            VO_source = temp.transform.Find("VoiceOver").GetComponent<AudioSource>();
+        else
+            VO_source = GameObject.Find("VoiceOver").GetComponent<AudioSource>();
+        clipIndex = 0;
+
         dialogueManager.SetDialogueLines(welcomeDialogue);
         dialogueManager.StartDialogue();
+        currentClips = welcome_clips;
+        StartVO();
         dialogueManager.onDialogueEnd.AddListener(OnWelcomeEnd);
+
+        
 
         playerCam = GameObject.FindGameObjectWithTag("MainCamera").transform;
         timeDelta = Time.fixedDeltaTime;
 
         Debug.Log("camPos: " + playerCam.position);
+
+        StartVO();
     }
 
     // --- Update ---
@@ -206,10 +234,13 @@ public class TutorialManager : MonoBehaviour
         dialogueManager.onDialogueEnd.RemoveListener(OnWelcomeEnd);
 #if UNITY_ANDROID || UNITY_IOS
         dialogueManager.SetDialogueLines(movementDialogueAndroid);
+        currentClips = movement_clips_android;
 #else
         dialogueManager.SetDialogueLines(movementDialoguePC);
+        currentClips = movement_clips_pc;
 #endif
         dialogueManager.StartDialogue();
+        StartVO();
     }
 
     void CheckMovement()
@@ -253,6 +284,8 @@ public class TutorialManager : MonoBehaviour
 
         //yield return new WaitForSeconds(1f);
         dialogueManager.SetDialogueLines(new string[] { "Okay, now please return to the center." }); //"Follow the arrow back towards the center."
+        //currentClips = return_clips;
+        //StartVO();
         yield return new WaitForSeconds(2f);
 
         //immunePos = immuneCellPrefab.transform.position;
@@ -294,6 +327,8 @@ public class TutorialManager : MonoBehaviour
         FlashUIColor(map);
         dialogueManager.SetDialogueLines(immuneCellDialogue);
         dialogueManager.StartDialogue();
+        currentClips = immunecell_clips;
+        StartVO();
         dialogueManager.onDialogueEnd.AddListener(StartGammaPhase);
     }
 
@@ -318,6 +353,8 @@ public class TutorialManager : MonoBehaviour
 
         dialogueManager.SetDialogueLines(gammaPhaseDialogue);
         dialogueManager.StartDialogue();
+        currentClips = gamma_phase_clips;
+        StartVO();
         dialogueManager.onDialogueEnd.AddListener(OnGammaDialogueEnd);
     }
 
@@ -329,10 +366,13 @@ public class TutorialManager : MonoBehaviour
         {
 #if UNITY_ANDROID || UNITY_IOS
             dialogueManager.SetDialogueLines(calmGammaDialogueAndroid);
+            currentClips = gamma_clips_android;
 #else
             dialogueManager.SetDialogueLines(calmGammaDialoguePC);
+            currentClips = gamma_clips_pc;
 #endif
             dialogueManager.StartDialogue();
+            StartVO();
         }));
     }
 
@@ -361,6 +401,8 @@ public class TutorialManager : MonoBehaviour
         {
             dialogueManager.SetDialogueLines(gammaCalmedDialogue);
             dialogueManager.StartDialogue();
+            currentClips = gamma_calmed_clips;
+            StartVO();
 
             if (phaseKills < 2)
                 SpawnEnemies("gamma", 1);
@@ -380,6 +422,8 @@ public class TutorialManager : MonoBehaviour
         dialogueManager.onDialogueEnd.RemoveAllListeners();
         dialogueManager.SetDialogueLines(bacteriaPhaseDialogue);
         dialogueManager.StartDialogue();
+        currentClips = bacteria_phase_clips;
+        StartVO();
         dialogueManager.onDialogueEnd.AddListener(OnBacteriaDialogueEnd);
     }
 
@@ -415,6 +459,8 @@ public class TutorialManager : MonoBehaviour
         dialogueManager.onDialogueEnd.RemoveAllListeners();
         dialogueManager.SetDialogueLines(mixedPhaseDialogue);
         dialogueManager.StartDialogue();
+        currentClips = mixed_phase_clips;
+            StartVO();
         dialogueManager.onDialogueEnd.AddListener(OnMixedDialogueEnd);
     }
 
@@ -500,10 +546,13 @@ public class TutorialManager : MonoBehaviour
     void Victory()
     {
         Debug.Log("Victory test");
+        ClearVO();
 
         dialogueManager.onDialogueEnd.RemoveAllListeners();
         dialogueManager.SetDialogueLines(endingDialogue);
         dialogueManager.StartDialogue();
+        currentClips = ending_clips;
+            StartVO();
         dialogueManager.onDialogueEnd.AddListener(LoadLevel);
     }
 
@@ -511,6 +560,7 @@ public class TutorialManager : MonoBehaviour
     {
         dialogueManager.SetDialogueLines(new string[] { "" });
         dialogueManager.StartDialogue();
+        ClearVO();
         StartCoroutine(LoadLevelCoroutine());
     }
 
@@ -558,5 +608,36 @@ public class TutorialManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
+    }
+
+    //Voice Over Handling
+    public void StartVO()
+    {
+        VO_source.clip = currentClips[clipIndex = 0];
+        VO_source.Play();
+    }
+    public void NextLine()
+    {
+        VO_source.Stop();
+
+        if (clipIndex + 1 >= currentClips.Length) return;
+
+        VO_source.clip = currentClips[++clipIndex];
+        VO_source.Play();
+    }
+    public void PrevLine()
+    {
+        VO_source.Stop();
+
+        if (clipIndex - 1 < 0) return;
+
+        VO_source.clip = currentClips[--clipIndex];
+        VO_source.Play();
+    }
+    public void ClearVO()
+    {
+        VO_source.Stop();
+        VO_source.clip = null;
+        clipIndex = 0;
     }
 }

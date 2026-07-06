@@ -34,7 +34,7 @@ public class PlayerMove : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        canMove = false;
+        //canMove = false;
 
         string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
         if (sceneName == "Tutorial")
@@ -330,7 +330,7 @@ public class PlayerMove : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        Debug.Log("hit");
+        //Debug.Log("hit");
         if (coll.gameObject.tag == "Wall")
         {
             Debug.Log("wall");

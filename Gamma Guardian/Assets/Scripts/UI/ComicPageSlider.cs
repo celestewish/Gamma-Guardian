@@ -150,6 +150,8 @@ public class ComicPageSlider : MonoBehaviour
             return;
         }
 
+        gameObject.SendMessage("NextLine");
+
         currentIndex++;
         GoToPanel(currentIndex, instant: false);
         UpdateButtons();
@@ -161,6 +163,8 @@ public class ComicPageSlider : MonoBehaviour
         if (currentIndex <= 0) return;
 
         ResetIdleTimer();  // user interacted
+
+        gameObject.SendMessage("PrevLine");
 
         currentIndex--;
         GoToPanel(currentIndex, instant: false);
@@ -175,6 +179,8 @@ public class ComicPageSlider : MonoBehaviour
             HandleSceneTransition();
             return;
         }
+
+        gameObject.SendMessage("ClearVO");
 
         Tween t = fadeController.FadeIn();
         if (t != null)

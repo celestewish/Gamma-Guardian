@@ -111,6 +111,9 @@ public class GameManager : MonoBehaviour
     "Guardian, this next region is much larger than the others.",
     "The infection has spread across two separate paths.",
     "You will need to explore both routes before this area can be fully cleared.",
+    "To help with this, you can now drag bacteria and cytokines along with you.",
+    "When either are in range, you can press the new tether button and tie the enemies to your ship.",
+    "Hopefully this new ability will come in handy.",
     "Stay alert, cover the whole level, and don't leave either path unchecked."
 };
 
