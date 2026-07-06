@@ -45,8 +45,12 @@ public class InfoManager : MonoBehaviour
         if (bgCover == null)
             bgCover = GameObject.FindGameObjectWithTag("InfoMask");
 
+        if (bgCover == null) yield break;
+
+        Debug.Log("TESTING LATE-START");
+
         bgSortingLayer = bgCover.GetComponent<Renderer>().sortingLayerName;
-        if (bgCover != null && bgCover.activeSelf)
+        if (bgCover.activeSelf)
             bgCover.SetActive(false);
     }
 

@@ -1450,6 +1450,7 @@ GameObject:
   - component: {fileID: 1875177207}
   - component: {fileID: 1875177211}
   - component: {fileID: 1875177212}
+  - component: {fileID: 1875177213}
   m_Layer: 5
   m_Name: ComicCanvas
   m_TagString: Untagged
@@ -1572,6 +1573,10 @@ MonoBehaviour:
   playButton: {fileID: 592483293}
   playerInput: {fileID: 1875177212}
   fadeController: {fileID: 1299402377}
+  idleTimeBeforeFlash: 3
+  flashDuration: 0.3
+  flashLoops: 4
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &1875177212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1714,6 +1719,24 @@ MonoBehaviour:
   m_DefaultActionMap: 
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1875177213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875177206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a97a274a70228f748aa9e1530c0e807b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  vo_clips:
+  - {fileID: 8300000, guid: 04336ff1d2c9957469bb127275753848, type: 3}
+  - {fileID: 8300000, guid: 3fe2b74b365c2af4a98dc1622f2ed2cb, type: 3}
+  - {fileID: 8300000, guid: dc8748c8032ec314cb027ad526bb3073, type: 3}
+  - {fileID: 8300000, guid: 7efd6e114a08e354bb40cc0a9a61b868, type: 3}
+  - {fileID: 8300000, guid: a80dbb157170d314ab435fcbd15b002e, type: 3}
 --- !u!1 &2121237753
 GameObject:
   m_ObjectHideFlags: 0

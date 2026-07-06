@@ -6869,6 +6869,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 302416861923675950, guid: 609c06aae54e4ca4e876b8821af39f2c, type: 3}
+      propertyPath: vo_clips.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 302416861923675950, guid: 609c06aae54e4ca4e876b8821af39f2c, type: 3}
+      propertyPath: 'vo_clips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 6199d9a1807e69442a90eaa237dd278a, type: 3}
+    - target: {fileID: 302416861923675950, guid: 609c06aae54e4ca4e876b8821af39f2c, type: 3}
+      propertyPath: 'vo_clips.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8300000, guid: b43f13d867614fe498202c7934c9ab16, type: 3}
+    - target: {fileID: 302416861923675950, guid: 609c06aae54e4ca4e876b8821af39f2c, type: 3}
+      propertyPath: 'vo_clips.Array.data[2]'
+      value: 
+      objectReference: {fileID: 8300000, guid: c67a75aa472790c4da90e92bb5543428, type: 3}
+    - target: {fileID: 302416861923675950, guid: 609c06aae54e4ca4e876b8821af39f2c, type: 3}
+      propertyPath: 'vo_clips.Array.data[3]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 1f838764e51f0024fbcce1bbc50ab368, type: 3}
+    - target: {fileID: 302416861923675950, guid: 609c06aae54e4ca4e876b8821af39f2c, type: 3}
+      propertyPath: 'vo_clips.Array.data[4]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 6b650d279eb045c4089d70491042ddda, type: 3}
     - target: {fileID: 843440749239824006, guid: 609c06aae54e4ca4e876b8821af39f2c, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0.5

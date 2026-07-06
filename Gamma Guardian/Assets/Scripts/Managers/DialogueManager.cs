@@ -26,6 +26,9 @@ public class DialogueManager : MonoBehaviour
     private Coroutine typeCoroutine;
     private bool isTyping = false;
 
+
+    private GameObject tutorial;
+
     void Start()
     {
         nextButton.onClick.AddListener(OnNextPressed);
@@ -34,6 +37,8 @@ public class DialogueManager : MonoBehaviour
         dialogueText.maxVisibleCharacters = 0;
         dialogueText.text = "";
         if (dialogueLines.Count > 0) StartDialogue();
+
+        tutorial = GameObject.Find("TutorialManager");
     }
 
     // Added public method for setting lines externally
@@ -118,6 +123,8 @@ public class DialogueManager : MonoBehaviour
         {
             currentLineIndex++;
             StartDialogue();
+            if (tutorial != null)
+                tutorial.SendMessage("NextLine");
         }
         else
         {
@@ -137,6 +144,8 @@ public class DialogueManager : MonoBehaviour
         {
             currentLineIndex--;
             StartDialogue();
+            if (tutorial != null)
+                tutorial.SendMessage("PrevLine");
         }
     }
 

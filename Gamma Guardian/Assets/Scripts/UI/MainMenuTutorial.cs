@@ -39,6 +39,11 @@ public class MainMenuTutorial : MonoBehaviour
     private int currentStep = 0;
     private Canvas rootCanvas;
 
+    [Header("Clips")]
+    [SerializeField] private AudioClip[] vo_clips;
+    AudioSource VO_source;
+    int clipIndex;
+
     private void Awake()
     {
         rootCanvas = GetComponentInParent<Canvas>();
@@ -51,6 +56,7 @@ public class MainMenuTutorial : MonoBehaviour
     private void Start()
     {
         bool alreadyShown = PlayerPrefs.GetInt(playerPrefsKey, 0) == 1;
+        VO_source = GameObject.Find("AudioManager").transform.Find("VoiceOver").GetComponent<AudioSource>();
 
         if (showOnlyFirstTime && alreadyShown)
         {
@@ -81,6 +87,9 @@ public class MainMenuTutorial : MonoBehaviour
 
         tutorialOverlay.SetActive(true);
         currentStep = 0;
+
+        StartVO();
+
         UpdateStep();
     }
 
@@ -94,6 +103,7 @@ public class MainMenuTutorial : MonoBehaviour
             return;
         }
 
+        NextLine();
         UpdateStep();
     }
 
@@ -104,6 +114,7 @@ public class MainMenuTutorial : MonoBehaviour
         if (currentStep < 0)
             currentStep = 0;
 
+        PrevLine();
         UpdateStep();
     }
 
@@ -114,6 +125,8 @@ public class MainMenuTutorial : MonoBehaviour
 
     private void EndTutorial()
     {
+        ClearVO();
+
         ClearHighlight();
         tutorialOverlay.SetActive(false);
         PlayerPrefs.SetInt(playerPrefsKey, 1);
@@ -189,5 +202,36 @@ public class MainMenuTutorial : MonoBehaviour
     {
         PlayerPrefs.DeleteKey(playerPrefsKey);
         PlayerPrefs.Save();
+    }
+
+    //Voice Over Handling
+    public void StartVO()
+    {
+        VO_source.clip = vo_clips[clipIndex = 0];
+        VO_source.Play();
+    }
+    public void NextLine()
+    {
+        VO_source.Stop();
+
+        if (clipIndex + 1 >= vo_clips.Length) return;
+
+        VO_source.clip = vo_clips[++clipIndex];
+        VO_source.Play();
+    }
+    public void PrevLine()
+    {
+        VO_source.Stop();
+
+        if (clipIndex - 1 < 0) return;
+
+        VO_source.clip = vo_clips[--clipIndex];
+        VO_source.Play();
+    }
+    public void ClearVO()
+    {
+        VO_source.Stop();
+        VO_source.clip = null;
+        clipIndex = 0;
     }
 }
