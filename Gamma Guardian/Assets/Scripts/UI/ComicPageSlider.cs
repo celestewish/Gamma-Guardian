@@ -180,25 +180,31 @@ public class ComicPageSlider : MonoBehaviour
             return;
         }
 
-        gameObject.SendMessage("ClearVO");
+        gameObject.SendMessage("ClearVO", SendMessageOptions.DontRequireReceiver);
 
         Tween t = fadeController.FadeIn();
         if (t != null)
-            t.OnComplete(HandleSceneTransition);
+            t.OnComplete(() => HandleSceneTransition());
         else
             HandleSceneTransition();
     }
 
     private void HandleSceneTransition()
     {
+        Time.timeScale = 1f;
+
         if (isOutro)
         {
-            ProgressionManager.Instance.MarkOutroSeen();
+            if (ProgressionManager.Instance != null)
+                ProgressionManager.Instance.MarkOutroSeen();
+
             SceneManager.LoadScene("MainMenu");
         }
         else
         {
-            ProgressionManager.Instance.MarkIntroSeen();
+            if (ProgressionManager.Instance != null)
+                ProgressionManager.Instance.MarkIntroSeen();
+
             SceneManager.LoadScene("Tutorial");
         }
     }
