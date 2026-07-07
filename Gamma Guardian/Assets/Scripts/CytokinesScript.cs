@@ -21,6 +21,7 @@ public class CytokinesScript : MonoBehaviour
 
     public bool isTutorialMode = false;
     public Transform tutorialTarget;
+    private bool hasReachedTarget = false;
 
 
     private NavMeshAgent agent;
@@ -48,7 +49,6 @@ public class CytokinesScript : MonoBehaviour
             Debug.LogWarning("CytokinesScript: No Spawn points found in scene.");
         }
         pulseEffect = GetComponentInChildren<PulseEffect>();
-        pulseEffect = GetComponentInChildren<PulseEffect>();
         if (pulseEffect != null)
             pulseEffect.SetPulseActive(false);
         if (player == null) player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -67,11 +67,15 @@ public class CytokinesScript : MonoBehaviour
         //transform.position = Vector2.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
         agent.SetDestination(target.position);
 
-        if (Vector2.Distance(transform.position, target.position) < 6)
+        if (!hasReachedTarget && Vector2.Distance(transform.position, target.position) < 6f)
         {
+            hasReachedTarget = true;
+
             if (!deactivated)
                 Instantiate(immuneCell, transform.position, Quaternion.identity);
+
             Instantiate(burst, transform.position, Quaternion.identity);
+            Destroy(gameObject);
         }
         float distToPlayer = Vector2.Distance(transform.position, player.position);
         bool shouldPulse = distToPlayer < pulseRange && distToPlayer > 2;  // Between pulseRange & nearRadius

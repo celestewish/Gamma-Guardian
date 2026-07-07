@@ -89,28 +89,8 @@ public class PlayerMove : MonoBehaviour
             move = Vector2.zero;
             return;
         }
-        Vector2 newMove = ip.Get<Vector2>();
-        /*bool isMoving = newMove.magnitude > 0.3f; // threshold to count as intentional
 
-        if (isMoving && !wasMoving) // only fires on rising edge
-        {
-            Vector2 newDir = newMove.normalized;
-            bool sameDirection = Vector2.Dot(newDir, lastTapDir.normalized) > 0.8f;
-            bool withinWindow = (Time.time - lastTapTime) < doubleTapWindow;
-
-            if (sameDirection && withinWindow)
-            {
-                dashEndTime = Time.time + dashDuration;
-                dashDirection = newDir;
-            }
-
-            lastTapTime = Time.time;
-            lastTapDir = newDir;
-        }
-
-        wasMoving = isMoving;
-        */
-        move = newMove;
+        move = ip.Get<Vector2>();
     }
 
     private bool wasMoving = false;
@@ -205,19 +185,13 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    private void Update()
+    void Update()
     {
         if (!canMove)
         {
-            move = Vector2.zero;
-            rb.linearVelocity = Vector2.zero;
             playerTrail.emitting = false;
-            return; // Skip all movement logic below
+            return;
         }
-        if (rb.linearVelocity.magnitude > 0.1f)
-            playerTrail.emitting = true;
-        else
-            playerTrail.emitting = false;
 
         if (move.x != 0)
         {
@@ -229,6 +203,14 @@ public class PlayerMove : MonoBehaviour
                 if (actionSprite != null) actionSprite.flipX = !isFacingRight;
             }
         }
+
+        playerTrail.emitting = rb.linearVelocity.magnitude > 0.1f;
+    }
+
+    void FixedUpdate()
+    {
+        if (!canMove) return;
+
         if (move.magnitude > 0)
         {
             rb.AddForce(move.normalized * speedMult);
@@ -239,18 +221,16 @@ public class PlayerMove : MonoBehaviour
         {
             if (rb.linearVelocity.magnitude > 1f)
             {
-                if ((int)foType == 0) rb.linearVelocity = rb.linearVelocity * (1 - foVal); //exponential fall-off
-                else rb.linearVelocity = rb.linearVelocity - (foVal * maxSpeed * rb.linearVelocity.normalized); //linear fall-off
+                if ((int)foType == 0) rb.linearVelocity = rb.linearVelocity * (1 - foVal);
+                else rb.linearVelocity = rb.linearVelocity - (foVal * maxSpeed * rb.linearVelocity.normalized);
             }
             else
-                rb.linearVelocity = new Vector2(0, 0);
+            {
+                rb.linearVelocity = Vector2.zero;
+            }
         }
-    }
 
-    void FixedUpdate()
-    {
-        playerAudio.SetPitch(1.4f * rb.linearVelocity.magnitude / maxSpeed); //calls SetPitch with values from 0 - 1.4
-        //Debug.Log("player speed: " + rb.linearVelocity.magnitude);
+        playerAudio.SetPitch(1.4f * rb.linearVelocity.magnitude / maxSpeed);
     }
 
     public void PlayerAction()

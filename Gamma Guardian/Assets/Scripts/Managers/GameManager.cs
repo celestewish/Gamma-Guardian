@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
     public float progress = 0f;
     public FadeController fadeController;
     private GameObject uiCanvas;
+    private Button tetherButton;
+    private PlayerTetherAbility tetherAbility;
 
     [Header("Pause")]
     public bool isPaused = false;
@@ -262,6 +264,8 @@ public class GameManager : MonoBehaviour
             resumeButton = GameObject.Find("Play")?.GetComponent<Button>();
             homeButton = GameObject.Find("Home")?.GetComponent<Button>();
             modeButton = GameObject.Find("mode")?.GetComponent<Button>();
+            tetherButton = GameObject.Find("Tether Variant")?.GetComponent<Button>();
+            tetherAbility = GameObject.Find("Tether Circle Object")?.GetComponent<PlayerTetherAbility>();
 
             if (pauseButton != null)
             {
@@ -285,6 +289,28 @@ public class GameManager : MonoBehaviour
             {
                 modeButton.onClick.RemoveAllListeners();
                 modeButton.onClick.AddListener(SwitchMode);
+            }
+            if (tetherButton != null)
+            {
+                tetherButton.onClick.RemoveAllListeners();
+
+                if (tetherAbility == null)
+                    tetherAbility = GameObject.Find("Tether Circle Object")?.GetComponent<PlayerTetherAbility>();
+
+                if (tetherAbility != null)
+                {
+                    tetherButton.onClick.RemoveListener(tetherAbility.OnAbility);
+                    tetherButton.onClick.AddListener(tetherAbility.OnAbility);
+                    Debug.Log("Tether button linked to PlayerTetherAbility.OnAbility()");
+                }
+                else
+                {
+                    Debug.LogWarning("Tether button found, but PlayerTetherAbility was not found on tether-circle-object.");
+                }
+            }
+            else
+            {
+                Debug.Log("No tether button found in this scene.");
             }
         }
 

@@ -3155,10 +3155,18 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5887741873894603475, guid: f69ad9d59989db4478746abe1b885c3f, type: 3}
+      propertyPath: sfxAudio
+      value: 
+      objectReference: {fileID: 1850834424}
+    - target: {fileID: 6556146285200341012, guid: f69ad9d59989db4478746abe1b885c3f, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: -3993245016419636914, guid: 1bf0ab5e1c72f45448ac14141dc43d25, type: 2}
     - target: {fileID: 7146601134386753264, guid: f69ad9d59989db4478746abe1b885c3f, type: 3}
       propertyPath: audioSource
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1850834423}
     - target: {fileID: 7230516569306459849, guid: f69ad9d59989db4478746abe1b885c3f, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -3227,7 +3235,8 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6556146285200341012, guid: f69ad9d59989db4478746abe1b885c3f, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -3248,6 +3257,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fae63fcdf2e4b543a46ba4c977ad93f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAbilitySFX
+--- !u!82 &1850834423 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 864577005591003410, guid: f69ad9d59989db4478746abe1b885c3f, type: 3}
+  m_PrefabInstance: {fileID: 1850834420}
+  m_PrefabAsset: {fileID: 0}
 --- !u!82 &1850834424 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 4680105713450864381, guid: f69ad9d59989db4478746abe1b885c3f, type: 3}

@@ -1,6 +1,7 @@
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerTetherAbility : MonoBehaviour
 {
@@ -47,6 +48,12 @@ public class PlayerTetherAbility : MonoBehaviour
         objList = new List<GameObject>();
 
         AS = GetComponent<AudioSource>();
+    }
+
+    public void OnTether(InputValue value)
+    {
+        if (!value.isPressed) return;
+        OnAbility();
     }
 
     //initializes the tether vfx
@@ -193,12 +200,6 @@ public class PlayerTetherAbility : MonoBehaviour
             cooldown -= Time.deltaTime;
         }
         //End of Ability Handling
-
-        //Ability Input
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            OnAbility();
-        }
     }
 
     public void OnAbility()
